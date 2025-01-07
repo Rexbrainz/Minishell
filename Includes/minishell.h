@@ -2,36 +2,50 @@
 # define MINISHELL_H
 
 //Includes
-#include <stdio.h>
-#include "../libft/libft.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include "../libft/libft.h"
 
-typedef struct s_file_node
+// Infile <, Outfile >, Append >>, Heredoc <<.
+typedef enum e_types
 {
-    char *filename;
-    int type;
-    struct s_file_node *next;
-}   t_file_node;
+	WORD,
+	BUILTIN,
+	PIPE,
+	INFILE,
+	OUTFILE,
+	APPEND,
+	HEREDOC
+}	t_types;
 
-typedef struct s_file_list
+typedef struct s_filelist
 {
-    t_file_node *head;
-    t_file_node *tail;
-    int         size;
-} t_file_list;
+	char				*filename;
+	int					type;
+	struct s_file_node	*next;
+}	t_filelist;
 
-typedef struct s_node
+typedef struct s_file
 {
-    char **cmd;
-    int type;
-    t_file_list *file_list;
-    struct s_node *next;
-} t_node;
+	t_file_node	*head;
+	t_file_node	*tail;
+	int			size;
+}	t_file;
 
-typedef struct s_command_list
+typedef struct s_commandlist
 {
-    t_file_node *head;
-    t_file_node *tail;
-    int         size;
-} t_command_list;
+	char			**cmd;
+	int				type;
+	t_file_list		*file_list;
+	struct s_node	*next;
+}	t_commandlist;
+
+typedef struct s_command
+{
+	t_file_node	*head;
+	t_file_node	*tail;
+	int			size;
+}	t_command;
 
 #endif
