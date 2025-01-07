@@ -23,7 +23,7 @@ typedef struct s_filelist
 {
 	char				*filename;
 	int					type;
-	struct s_file_node	*next;
+	struct s_filelist	*next;
 }	t_filelist;
 
 typedef struct s_file
@@ -35,10 +35,10 @@ typedef struct s_file
 
 typedef struct s_commandlist
 {
-	char			**cmd;
-	int				type;
-	t_file_list		*file_list;
-	struct s_node	*next;
+	char					**cmd;
+	int						type;
+	t_filelist				*file_list;
+	struct s_commandlist	*next;
 }	t_commandlist;
 
 typedef struct s_command
