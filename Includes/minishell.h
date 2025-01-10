@@ -28,9 +28,9 @@ typedef struct s_filelist
 
 typedef struct s_file
 {
-	t_file_node	*head;
-	t_file_node	*tail;
-	int			size;
+	t_file	*head;
+	t_file	*tail;
+	int		size;
 }	t_file;
 
 typedef struct s_commandlist
