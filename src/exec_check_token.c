@@ -2,8 +2,8 @@
 
 int	check_for_file(t_file *files)
 {
-	t_file	*current;
-	int		fd;
+	t_filelist	*current;
+	int			fd;
 
 	if (files->size <= 0)
 		return (0);
@@ -23,5 +23,14 @@ int	check_for_file(t_file *files)
 		}
 		current = current->next;
 	}
+	return (0);
+}
+
+int	lonely_builtin(t_command *cmds)
+{
+	if (cmds->size != 1)
+		return (1);
+	if (cmds->head->type != BUILTIN)
+		return (1);
 	return (0);
 }

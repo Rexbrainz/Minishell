@@ -28,8 +28,8 @@ typedef struct s_filelist
 
 typedef struct s_file
 {
-	t_file_node	*head;
-	t_file_node	*tail;
+	t_filelist	*head;
+	t_filelist	*tail;
 	int			size;
 }	t_file;
 
@@ -37,7 +37,7 @@ typedef struct s_commandlist
 {
 	char					**cmd;
 	int						type;
-	t_filelist				*file_list;
+	t_file					*files;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
