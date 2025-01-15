@@ -43,8 +43,8 @@ typedef struct s_commandlist
 
 typedef struct s_command
 {
-	t_file_node	*head;
-	t_file_node	*tail;
+	t_command	*head;
+	t_command	*tail;
 	int			size;
 }	t_command;
 
