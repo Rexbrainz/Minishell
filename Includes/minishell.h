@@ -38,7 +38,7 @@ typedef struct s_commandlist
 {
 	char					**cmd;
 	int						type;
-	t_filelist				*file_list;
+	t_filelist				*filelist;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
