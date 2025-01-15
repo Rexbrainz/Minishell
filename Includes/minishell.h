@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <readline/readline.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
 
@@ -38,7 +39,7 @@ typedef struct s_commandlist
 {
 	char					**cmd;
 	int						type;
-	t_filelist				*filelist;
+	t_file					*files;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
