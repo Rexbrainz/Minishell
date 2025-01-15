@@ -4,6 +4,7 @@
 //Includes
 # include <stdio.h>
 # include <fcntl.h>
+# include <readline/readline.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
 
@@ -43,9 +44,9 @@ typedef struct s_commandlist
 
 typedef struct s_command
 {
-	t_command	*head;
-	t_command	*tail;
-	int			size;
+	t_commandlist	*head;
+	t_commandlist	*tail;
+	int				size;
 }	t_command;
 
 #endif

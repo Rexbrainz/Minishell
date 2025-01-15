@@ -1,12 +1,33 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
+/*   Updated: 2025/01/15 11:58:32 by sudaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int main(void)
+#include "../Includes/minishell.h"
+
+static char	*prompt(void)
 {
-    char *res;
-    printf("TEST Minishell\n");
-    int x= 123456;
+	char	*user;
+	char	*line;
 
-    res = ft_itoa(x);
-    printf("Test Libft: %s\n", res);
-    return (0);
+	user = getenv("USER");
+	ft_printf("%s$ ", user);
+	return (readline(line));
+}
+
+int	main(void)
+{
+	while (1)
+	{
+		if (!prompt())
+			break ;
+	}
+	return (0);
 }
