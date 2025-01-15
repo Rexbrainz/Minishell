@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/15 11:58:32 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/15 12:18:30 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ static char	*prompt(void)
 
 int	main(void)
 {
+	char	*line;
+
 	while (1)
 	{
-		if (!prompt())
+		line = prompt();
+		if (!line)
 			break ;
+		parse_line(line);
+		ft_printf("%s\n", line);
 	}
 	return (0);
 }

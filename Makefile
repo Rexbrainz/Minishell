@@ -46,7 +46,7 @@ all: $(NAME)
 
 # Build push_swap with libft and object files
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME) -lreadline
 	@echo "\033[0;32mSuccessful Compilation of $(NAME)\033[0m"
 
 # Build checker with libft and object files
