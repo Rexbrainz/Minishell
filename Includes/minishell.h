@@ -4,6 +4,7 @@
 //Includes
 # include <stdio.h>
 # include <fcntl.h>
+# include <unistd.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
 
@@ -28,8 +29,8 @@ typedef struct s_filelist
 
 typedef struct s_file
 {
-	t_file_node	*head;
-	t_file_node	*tail;
+	t_filelist	*head;
+	t_filelist	*tail;
 	int			size;
 }	t_file;
 
@@ -43,9 +44,9 @@ typedef struct s_commandlist
 
 typedef struct s_command
 {
-	t_file_node	*head;
-	t_file_node	*tail;
-	int			size;
+	t_commandlist	*head;
+	t_commandlist	*tail;
+	int				size;
 }	t_command;
 
 #endif
