@@ -1,41 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/15 18:05:47 by sudaniel         ###   ########.fr       */
+/*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:01:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 #include "parse.h"
 
-static char	*prompt(void)
+t_toklist	*parse_line(char *line)
 {
-	char	*line;
-
-	ft_printf("minishell$ ");
-	return (readline(line));
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	char		*line;
 	t_toklist	*tokens;
 
-	(void)argv;
-	(void)argc;
-	(void)env;
-	while (1)
-	{
-		line = prompt();
-		if (!line)
-			break ;
-		tokens = parse_line(line);
-		ft_printf("%s\n", line);
-	}
-	return (0);
+	tokens = scan_line(line);
+	return (tokens);
 }
