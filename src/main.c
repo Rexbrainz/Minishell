@@ -6,11 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/15 12:18:30 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:48:15 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
+#include "parse.h"
 
 static char	*prompt(void)
 {
