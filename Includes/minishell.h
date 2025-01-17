@@ -7,7 +7,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <sys/wait.h>
-# include "../libft/libft.h"
+# include "../new_libft/libft.h"
 
 // Infile <, Outfile >, Append >>, Heredoc <<.
 typedef enum e_types

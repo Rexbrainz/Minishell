@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   scanner_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/17 10:06:08 by sudaniel         ###   ########.fr       */
+/*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
+/*   Updated: 2025/01/17 19:16:04 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
 #include "parser.h"
+#include "../Includes/minishell.h"
 
-t_tokens	*parse_line(t_tokens *tokens, char *line)
+int	get_rest_of_lexeme(char **c)
 {
-	char	*input;
+	char	*s;
 
-	input = ft_strtrim(line, "\t\n ");
-	if (!input)
+	s = *c;
+	while (ft_isspace(**c))
+		(*c)++;
+	while (**c && **c != ' ')
+		(*c)++;
+	return (*c - s);
+}
+
+char	*manage_before_prompt1(char **c)
+{
+	char	*s;
+	int		len;
+
+	len = ft_strlen(*c);
+	s = (char *)malloc(len + 1);
+	if (!s)
 		return (NULL);
-	init_tokens(tokens, input);
-	tokens->head = scan_line(tokens);
-	return (tokens);
+	ft_strlcpy(s, *c, len + 1);
+	return (s);
 }

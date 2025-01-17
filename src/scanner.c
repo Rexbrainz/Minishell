@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/16 17:54:56 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:21:02 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "parser.h"
 
 //t_toklist	*create_node(char *name)
-bool	add_token(t_tokens *tokens, t_type types, char *token)
+bool	add_token(t_tokens *tokens, t_type types, char *token, int pos)
 {
 	t_toklist	*new_node;
 
 	new_node = (t_toklist *)malloc(sizeof(t_toklist));
 	if (!new_node)
 		return (false);
-	new_node->name = ft_strdup(token);
+	new_node->lexeme = ft_strdup(token);
 	new_node->type = types;
-	new_node->position = token - tokens->user_input;
+	new_node->position = pos;
 	new_node->next = NULL;
 	if (!tokens->head)
 	{
@@ -39,12 +39,12 @@ bool	add_token(t_tokens *tokens, t_type types, char *token)
 	return (true);
 }
 
-static t_tokens	id_and_add_tokens(t_tokens *tokens, char **c)
+static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 {
 	t_tokens	types;
 
-	if (**c == '|')
-		add_pipe_or_op(tokens, c);
+	if (**c == '|' && !add_pipe_or_op(tokens, c))
+		return (false);
 	else if (**c == '\'')
 		s_quoting_state(tokens, c);
 	else if (**c == '"')
@@ -55,12 +55,12 @@ static t_tokens	id_and_add_tokens(t_tokens *tokens, char **c)
 		add_left_paren(tokens, c);
 	else if (**c == ')')
 		add_right_paren(tokens, c);
-	else if (**c == '<')
-		add_infile_or_heredoc(tokens, c);
-	else if (**c == '>')
-		add_outfile_or_append(tokens, c);
-	else if (**c == '*')
-		wild_state(tokens, c);
+	else if (**c == '<' && !add_infile_or_heredoc(tokens, c))
+		return (false);
+	else if (**c == '>' && !add_outfile_or_append(tokens, c))
+		return (false);
+	else if (**c == '*' && !wild_state(tokens, c))
+		return (false);
 	else if (**c == '&' && next_c == '&')
 		add_and(tokens, c);
 }
@@ -68,6 +68,8 @@ static t_tokens	id_and_add_tokens(t_tokens *tokens, char **c)
 t_toklist	*scan_line(t_tokens *tokens)
 {
 	char	*p;
+	int		start;
+	int		current;
 	t_type	type;
 
 	p = tokens->user_input;

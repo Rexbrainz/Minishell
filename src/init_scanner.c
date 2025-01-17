@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   init_scanner.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/17 10:06:08 by sudaniel         ###   ########.fr       */
+/*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
+/*   Updated: 2025/01/17 16:03:34 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
 #include "parser.h"
+#include "../Includes/minishell.h"
 
-t_tokens	*parse_line(t_tokens *tokens, char *line)
+/*
+ * TODO
+ * subject to change*/
+void	init_tokens(t_tokens *tokens, char *user_input)
 {
-	char	*input;
-
-	input = ft_strtrim(line, "\t\n ");
-	if (!input)
-		return (NULL);
-	init_tokens(tokens, input);
-	tokens->head = scan_line(tokens);
-	return (tokens);
+	tokens->head = NULL;
+	tokens->tail = NULL;
+	tokens->user_input = user_input;
+	tokens->lexemes_count = 0;
+	tokens->is_inside_dquote = false;
+	tokens->is_inside_squote = false;
+	tokens->size = 0;
 }

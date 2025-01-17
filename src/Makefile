@@ -9,7 +9,7 @@ NAME = parser
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-LIBFT_DIR = ../libft
+LIBFT_DIR = ../new_libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
