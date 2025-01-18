@@ -13,7 +13,7 @@ LIBFT_DIR = ../new_libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRC = main.c	parser.c	scanner.c
+SRC = main.c	init_tokens.c parser.c	scanner_utils.c
 # Object files
 OBJ = $(SRC:.c=.o)
 

@@ -5,42 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/16 17:09:38 by sudaniel         ###   ########.fr       */
+/*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
+/*   Updated: 2025/01/18 19:05:03 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
 #include "parser.h"
+#include "../Includes/minishell.h"
 
-void	init_tok_access(t_tok_access *tok_access, char *user_input)
+int	get_rest_of_lexeme(char **c, t_type type)
 {
-	tok_access->head = NULL;
-	tok_access->tail = NULL;
-	tok_access->user_input = user_input;
-	tok_access->lexemes_count = 0;
-	tok_access->is_inside_dquote = false;
-	tok_access->is_inside_squote = false;
-	tok_access->size = 0;
+	char	*s;
+
+	s = *c;
+	if (type == INFILES || type == HEREDOCS)
+	{
+		while (*s == '<' || ft_isspace(*s))
+			s++;
+		while (*s && *s != ' ')
+			s++;
+	}
+	else if (type == OUTFILES || type == APPENDS)
+	{
+		while (*s == '>' || ft_isspace(*s))
+			s++;
+		while (*s && *s != ' ')
+			s++;
+	}
+	return (s - *c);
 }
 
-bool	add_pipe_or_op(t_tok_access *tok_access, char **c)
+char	*manage_before_prompt1(char **c)
 {
-	if (c == next_char)
-		return (ORS);
-	return (PIPE);
+	char	*s;
+	int		len;
+
+	len = ft_strlen(*c);
+	s = (char *)malloc(len + 1);
+	if (!s)
+		return (NULL);
+	ft_strlcpy(s, *c, len + 1);
+	return (s);
 }
 
-bool	add_infile_or_heredoc(t_tok_access *tok_access, char **c)
+/*
+ * TODO: Still buggy, but close.
+ */
+void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 {
-	if (c == next_char)
-		return (HEREDOCS);
-	return (INFILES);
-}
+	char	c;
+	char	*p;
 
-bool	add_outfile_or_append(t_tok_access *tok_access, char **c)
-{
-	if (c == next_char)
-		return (APPENDS);
-	return (OUTFILES);
+	if (type == D_QUOTE)
+		c = '"';
+	else
+		c = '\'';
+	p = NULL;
+	while (true)
+	{
+		prompt1(tokens);
+		*s = tokens->user_input + len;
+		p = ft_strchr(*s + 1, c);
+		if (p && type == S_QUOTE)
+			break ;
+		else if (p && type == D_QUOTE)
+		{
+			if (*(p - 1) != '\\')
+				break ;
+			len += p - *s;
+		}
+	}
 }
