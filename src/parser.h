@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/18 17:44:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:21:21 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ typedef struct s_tokens
 	t_toklist	*tail;
 	char		*user_input;
 	char		*t_input;
-	int			lexemes_count;
-	bool		is_inside_quote;
+	int			lexeme_count;
+	bool		is_inside_squote;
+	bool		is_inside_dquote;
 	int			size;
 }	t_tokens;
 
@@ -76,6 +77,8 @@ bool		add_variable(t_tokens *tokens, char **c);
 bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
 bool		add_l_or_r_paren(t_tokens *tokens, char **c);
+bool		add_literal(t_tokens *tokens, char **c);
 void		handle_quoting(t_tokens *tokens, t_type type, int len, char **s);
+bool		is_builtin(char *lexeme);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/18 19:05:03 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:53:29 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ char	*manage_before_prompt1(char **c)
 	return (s);
 }
 
-/*
- * TODO: Still buggy, but close.
- */
 void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 {
 	char	c;
@@ -66,13 +63,33 @@ void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 		prompt1(tokens);
 		*s = tokens->user_input + len;
 		p = ft_strchr(*s + 1, c);
-		if (p && type == S_QUOTE)
+		if (p)
 			break ;
-		else if (p && type == D_QUOTE)
-		{
-			if (*(p - 1) != '\\')
-				break ;
-			len += p - *s;
-		}
 	}
+}
+
+bool	is_builtin(char *lexeme)
+{
+	int		i;
+	int		j;
+	char	*builtins[7];
+
+	builtins[0] = "echo";
+	builtins[1] = "cd";
+	builtins[2] = "pwd";
+	builtins[3] = "export";
+	builtins[4] = "unset";
+	builtins[5] = "env";
+	builtins[6] = "exit";
+	i = 0;
+	while (i < 7)
+	{
+		j = 0;
+		while (ft_tolower(lexeme[j]) == builtins[i][j])
+			j++;
+		if (!lexeme[j] && !builtins[i][j])
+			return (true);
+		i++;
+	}
+	return (false);
 }
