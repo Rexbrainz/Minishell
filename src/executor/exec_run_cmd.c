@@ -32,6 +32,9 @@ static void	set_input(t_commandlist *cmd, int *pipe_in_out, int *redirect)
 		current = current->next;
 	}
 	fd = open(current->filename, O_RDONLY);
+	ft_putstr_fd("taking input from ", 2);
+	ft_putstr_fd(current->filename, 2);
+	ft_putstr_fd("\n", 2);
 	if (fd == -1)
 		close_and_error(pipe_in_out);
 	if (dup2(pipe_in_out[1], STDOUT_FILENO) == -1)
@@ -49,19 +52,24 @@ static void	set_output(t_commandlist *cmd, int *pipe_in_out, int *redirect)
 	int			lc;
 	t_filelist	*current;
 
-	lc = 0;
-	current = cmd->files->head;
-	while (lc < redirect[1])
+	if (redirect[1] != NO_REDIRECTION)
 	{
-		lc++;
-		current = current->next;
+		lc = 0;
+		current = cmd->files->head;
+		while (lc < redirect[1])
+		{
+			lc++;
+			current = current->next;
+		}
+		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+			close_and_error(pipe_in_out);
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			close_and_error(pipe_in_out);
+		close(fd);
+		return ;
 	}
-	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		close_and_error(pipe_in_out);
 	if (dup2(pipe_in_out[0], STDIN_FILENO) == -1)
-		close_and_error(pipe_in_out);
-	if (dup2(fd, STDOUT_FILENO) == -1)
 		close_and_error(pipe_in_out);
 }
 
@@ -70,21 +78,30 @@ static void	set_output(t_commandlist *cmd, int *pipe_in_out, int *redirect)
 	we keep information what to open / create from redirect
 	making a choice between builtin or normal command
 */
-static int	child_proc(t_commandlist *cmd, char **env, int *pipe_in_out, int *redirect)
+static int	child_proc(t_commandlist *cmd, char **env,
+	int *pipe_in_out, int *redirect)
 {
 	char	*path;
 
-	if (redirect[0] != -1)
+	if (redirect[0] != NO_REDIRECTION)
 		set_input(cmd, pipe_in_out, redirect);
-	if (redirect[1] != -1)
+	if (redirect[2] == PIPE)
+		set_output(cmd, pipe_in_out, redirect);
+	if (redirect[1] != NO_REDIRECTION)
 		set_output(cmd, pipe_in_out, redirect);
 	if (cmd->type == BUILTIN)
 		built_in_table(cmd, env);
-	path = find_path(cmd->cmd[0], en);
+	path = find_path(cmd->cmd[0], env);
 	if (path == NULL)
-		close_and_error(pip_in_out);
-	execve(path, cmd->cmd, env);
-	return (EXIT_FAILURE)
+		close_and_error(pipe_in_out);
+	close(pipe_in_out[0]);
+	close(pipe_in_out[1]);
+	ft_putstr_fd("executing the command ", 2);
+	ft_putstr_fd(cmd->cmd[0], 2);
+	ft_putstr_fd("\n", 2);
+	if (execve(path, cmd->cmd, env) < 0)
+		close_and_error(pipe_in_out);
+	return (EXIT_FAILURE);
 }
 
 /*
@@ -97,12 +114,15 @@ int	run_cmd(t_commandlist *cmd, char **env, int *redirect)
 	pid_t	child;
 	int		status;
 
-	pipe(pipe_in_out);
+	if (redirect[0] != NO_REDIRECTION
+		|| redirect[1] != NO_REDIRECTION
+		|| redirect[2] != NO_REDIRECTION)
+		pipe(pipe_in_out);
 	child = fork();
 	if (child == -1)
 		close_and_error(pipe_in_out);
 	else if (child == 0)
-		if (child_proc(cmd, env, pip_in_out) < 0)
+		if (child_proc(cmd, env, pipe_in_out, redirect) < 0)
 			close_and_error(pipe_in_out);
 	close(pipe_in_out[0]);
 	close(pipe_in_out[1]);

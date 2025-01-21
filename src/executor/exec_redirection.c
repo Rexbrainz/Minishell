@@ -6,7 +6,7 @@
 */
 static int	count_input(t_commandlist *cmd)
 {
-	int			inputs
+	int			inputs;
 	t_filelist	*current;
 
 	inputs = 0;
@@ -17,7 +17,7 @@ static int	count_input(t_commandlist *cmd)
 			inputs++;
 		current = current->next;
 	}
-	return (inputs)
+	return (inputs);
 }
 
 /*
@@ -58,6 +58,9 @@ static int	setting_input_file(t_commandlist *cmd)
 */
 static int	count_output(t_commandlist *cmd)
 {
+	int			outputs;
+	t_filelist	*current;
+
 	outputs = 0;
 	current = cmd->files->head;
 	while (current != NULL)
@@ -66,7 +69,7 @@ static int	count_output(t_commandlist *cmd)
 			outputs++;
 		current = current->next;
 	}
-	return (inputs)
+	return (outputs);
 }
 
 /*
