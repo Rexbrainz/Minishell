@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/18 13:03:15 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:11:11 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 	else
 	{
 		len = get_rest_of_lexeme(c, INFILES);
-		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 1);
+		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);
 		if (!add_token(tokens, INFILES, lexeme, *c - tokens->t_input))
@@ -94,24 +94,22 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 
 bool	add_variable(t_tokens *tokens, char **c)
 {
-	char	*lexeme;
+	int		i;
 	char	*s;
 	t_type	type;
+	char	*lexeme;
 
 	if (*(*c + 1) == '(')
 		type = CMD_SUB;
 	else
 		type = DOLLAR;
 	s = *c;
-	while (*s != ' ')
-		s++;
+	i = 0;
+	while (*s && *s != ' ')
+		if (*s++ == '(')
+			i++;
 	if (type == CMD_SUB)
-	{
-		s = ft_strchr(s, ')');
-		if (!s)
-			return (false); //TODO => PROMPT AGAIN
-		++s;
-	}
+		find_last_r_paren(&s, &i);
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme)
 		return (false);

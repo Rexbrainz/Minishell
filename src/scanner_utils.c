@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/20 13:53:29 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:00:18 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	s = *c;
 	if (type == INFILES || type == HEREDOCS)
 	{
-		while (*s == '<' || ft_isspace(*s))
+		while (*s && (*s == '<' || ft_isspace(*s)))
 			s++;
 		while (*s && *s != ' ')
 			s++;
@@ -35,17 +35,16 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	return (s - *c);
 }
 
-char	*manage_before_prompt1(char **c)
+void	find_last_r_paren(char **s, int *i)
 {
-	char	*s;
-	int		len;
-
-	len = ft_strlen(*c);
-	s = (char *)malloc(len + 1);
-	if (!s)
-		return (NULL);
-	ft_strlcpy(s, *c, len + 1);
-	return (s);
+	while (**s && *i)
+	{
+		if (**s == '(')
+			(*i)++;
+		if (**s == ')')
+			(*i)--;
+		(*s)++;
+	}
 }
 
 void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
@@ -85,7 +84,7 @@ bool	is_builtin(char *lexeme)
 	while (i < 7)
 	{
 		j = 0;
-		while (ft_tolower(lexeme[j]) == builtins[i][j])
+		while (lexeme[j] && ft_tolower(lexeme[j]) == builtins[i][j])
 			j++;
 		if (!lexeme[j] && !builtins[i][j])
 			return (true);

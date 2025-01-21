@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/20 14:25:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:15:17 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,15 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		add_history(tokens.user_input);
 		parse_line(&tokens);
-		ft_printf("USER_INPUT-> [%s]\tLexeme count-> [%d]\n",
+		ft_printf("USER_INPUT-> [%s]\tLexeme count-> [%d]\n\n",
 			tokens.user_input, tokens.lexeme_count);
 		while (tokens.head)
 		{
-			ft_printf("lexeme-> [%s]\ttype-> [%d]\tPos-> [%d]\t",
-				tokens.head->lexeme);
+			ft_printf("lexeme-> [%s]\ttype-> [%d]\tPos-> [%d]\t\n",
+				tokens.head->lexeme, tokens.head->type, tokens.head->start_pos);
 			curr = tokens.head;
 			tokens.head = tokens.head->next;
+			free(curr->lexeme);
 			free(curr);
 		}
 	}

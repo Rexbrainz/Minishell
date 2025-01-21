@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/20 14:21:21 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:58:22 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_tokens
 	int			lexeme_count;
 	bool		is_inside_squote;
 	bool		is_inside_dquote;
+	bool		is_inside_parens;
 	int			size;
 }	t_tokens;
 
@@ -74,6 +75,7 @@ bool		add_infile_or_heredoc(t_tokens *tokens, char **c);
 bool		add_outfile_or_append(t_tokens *tokens, char **c);
 int			get_rest_of_lexeme(char **c, t_type type);
 bool		add_variable(t_tokens *tokens, char **c);
+void		find_last_r_paren(char **s, int *i);
 bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
 bool		add_l_or_r_paren(t_tokens *tokens, char **c);

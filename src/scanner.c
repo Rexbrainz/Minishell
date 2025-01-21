@@ -6,14 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/20 14:32:30 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:09:15 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 #include "parser.h"
 
-//t_toklist	*create_node(char *name)
 bool	add_token(t_tokens *tokens, t_type types, char *token, int s_pos)
 {
 	t_toklist	*new_node;
@@ -45,24 +44,23 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 	char	*p;
 
 	p = *c - 1;
-	if (**c == '|' && *p != '\\' && !add_pipe_or_op(tokens, c))
+	if (*p == '\\')
+		return (true);
+	if (**c == '|' && !add_pipe_or_op(tokens, c))
 		return (false);
-	else if ((**c == '\'' || **c == '"')
-		&& *p != '\\' && !add_literal(tokens, c))
+	else if ((**c == '\'' || **c == '"') && !add_literal(tokens, c))
 		return (false);
-	else if (**c == '$' && *p != '\\' && !add_variable(tokens, c))
+	else if (**c == '$' && !add_variable(tokens, c))
 		return (false);
-	else if ((**c == '(' || **c == ')')
-		&& *p != '\\' && !add_l_or_r_paren(tokens, c))
+	else if ((**c == '(' || **c == ')') && !add_l_or_r_paren(tokens, c))
 		return (false);
-	else if (**c == '<' && *p != '\\' && !add_infile_or_heredoc(tokens, c))
+	else if (**c == '<' && !add_infile_or_heredoc(tokens, c))
 		return (false);
-	else if (**c == '>' && *p != '\\' && !add_outfile_or_append(tokens, c))
+	else if (**c == '>' && !add_outfile_or_append(tokens, c))
 		return (false);
-	else if (**c == '*' && *p != '\\' && !wild_state(tokens, c))
+	else if (**c == '*' && !wild_state(tokens, c))
 		return (false);
-	else if (**c == '&' && *(*c + 1) == '&'
-		&& *p != '\\' && !add_and(tokens, c))
+	else if (**c == '&' && *(*c + 1) == '&' && !add_and(tokens, c))
 		return (false);
 	return (true);
 }
@@ -73,7 +71,8 @@ static bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	while (**c != ' ')
+	while (**c && (**c != ' ' && **c != ')' && **c
+			!= '(' && **c != '"' && **c != '\''))
 		(*c)++;
 	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
 	if (!lexeme)
