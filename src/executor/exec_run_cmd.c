@@ -32,12 +32,7 @@ static void	set_input(t_commandlist *cmd, int *pipe_in_out, int *redirect)
 		current = current->next;
 	}
 	fd = open(current->filename, O_RDONLY);
-	ft_putstr_fd("taking input from ", 2);
-	ft_putstr_fd(current->filename, 2);
-	ft_putstr_fd("\n", 2);
 	if (fd == -1)
-		close_and_error(pipe_in_out);
-	if (dup2(pipe_in_out[1], STDOUT_FILENO) == -1)
 		close_and_error(pipe_in_out);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		close_and_error(pipe_in_out);
@@ -52,25 +47,19 @@ static void	set_output(t_commandlist *cmd, int *pipe_in_out, int *redirect)
 	int			lc;
 	t_filelist	*current;
 
-	if (redirect[1] != NO_REDIRECTION)
+	lc = 0;
+	current = cmd->files->head;
+	while (lc < redirect[1])
 	{
-		lc = 0;
-		current = cmd->files->head;
-		while (lc < redirect[1])
-		{
-			lc++;
-			current = current->next;
-		}
-		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-			close_and_error(pipe_in_out);
-		if (dup2(fd, STDOUT_FILENO) == -1)
-			close_and_error(pipe_in_out);
-		close(fd);
-		return ;
+		lc++;
+		current = current->next;
 	}
-	if (dup2(pipe_in_out[0], STDIN_FILENO) == -1)
+	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
 		close_and_error(pipe_in_out);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		close_and_error(pipe_in_out);
+	close(fd);
 }
 
 /*
@@ -85,8 +74,6 @@ static int	child_proc(t_commandlist *cmd, char **env,
 
 	if (redirect[0] != NO_REDIRECTION)
 		set_input(cmd, pipe_in_out, redirect);
-	if (redirect[2] == PIPE)
-		set_output(cmd, pipe_in_out, redirect);
 	if (redirect[1] != NO_REDIRECTION)
 		set_output(cmd, pipe_in_out, redirect);
 	if (cmd->type == BUILTIN)
@@ -108,16 +95,12 @@ static int	child_proc(t_commandlist *cmd, char **env,
 	Reworked pipex to run single command
 	return status to check if we keep going
 */
-int	run_cmd(t_commandlist *cmd, char **env, int *redirect)
+int	run_cmd(t_commandlist *cmd, char **env,
+	int *redirect, int *pipe_in_out)
 {
-	int		pipe_in_out[2];
 	pid_t	child;
 	int		status;
 
-	if (redirect[0] != NO_REDIRECTION
-		|| redirect[1] != NO_REDIRECTION
-		|| redirect[2] != NO_REDIRECTION)
-		pipe(pipe_in_out);
 	child = fork();
 	if (child == -1)
 		close_and_error(pipe_in_out);

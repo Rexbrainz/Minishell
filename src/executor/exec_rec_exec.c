@@ -17,7 +17,11 @@ static int	find_leftmost(t_command *cmds, int start)
 	{
 		if (current->type == AND || current->type == OR
 			|| current->type == PIPE)
+		{
 			cpo++;
+			if (cpo == start - 1)
+				break ;
+		}
 		end++;
 		current = current->next;
 	}
@@ -53,9 +57,9 @@ static int	keep_going(t_command *cmds, int last_exit, int end)
 	we are also moving to command thats going to be executed
 	when all above went okay we are calling the executor
 */
-static int	check_execute(t_command *cmds, char **env, int start)
+static int	check_execute(t_command *cmds, int start, int *pipe_in_out)
 {
-	int				redirect[3];
+	int				redirect[2];
 	int				find_start;
 	t_commandlist	*current;
 
@@ -63,7 +67,6 @@ static int	check_execute(t_command *cmds, char **env, int start)
 	current = cmds->head;
 	redirect[0] = NO_REDIRECTION;
 	redirect[1] = NO_REDIRECTION;
-	redirect[2] = NO_REDIRECTION;
 	while (find_start < start && current != NULL)
 	{
 		find_start++;
@@ -74,12 +77,7 @@ static int	check_execute(t_command *cmds, char **env, int start)
 		redirect[0] = check_redirection(current, 0);
 		redirect[1] = check_redirection(current, 1);
 	}
-	if (current->next != NULL)
-	{
-		if (current->next->type == PIPE && redirect[1] == NO_REDIRECTION)
-			redirect[2] = PIPE;
-	}
-	return (run_cmd(current, env, redirect));
+	return (run_cmd(current, cmds->env, redirect, pipe_in_out));
 }
 
 /*
@@ -107,18 +105,20 @@ static int	c_pipes_operators(t_command *cmds)
 	- finding left most with highest priority (after PIPE/AND/OR)
 	- saving the exit code to the next part of (left most +1)
 	- returning the last exit code
+	- divided by two because we increment start + 2 and
+	for each OR / AND / PIPE we have to call execve + 1 times
 */
-int	rec_exec(t_command *cmds, char **env, int start)
+int	rec_exec(t_command *cmds, int start)
 {
 	int	last_exit;
-	int	end;	
+	int	pipe_in_out[2];
 
 	last_exit = 0;
-	end = find_leftmost(cmds, start);
-	last_exit = check_execute(cmds, env, start);
-	if (keep_going(cmds, last_exit, end) != 0)
+	looking_for_pipes(cmds->head, start, pipe_in_out);
+	if (keep_going(cmds, last_exit, find_leftmost(cmds, start)) != 0)
 		return (last_exit);
-	if (start < c_pipes_operators(cmds))
-		rec_exec(cmds, env, start + 2);
+	last_exit = check_execute(cmds, start, pipe_in_out);
+	if ((start / 2) < c_pipes_operators(cmds))
+		rec_exec(cmds, start + 2);
 	return (last_exit);
 }
