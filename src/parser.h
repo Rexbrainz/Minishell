@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/21 17:58:22 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:20:23 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 typedef enum e_tok_types
 {
 	WORDS,
+	OPTIONS,
 	BUILTINS,
 	PIPES,
 	INFILES,
@@ -54,15 +55,14 @@ typedef struct s_toklist
 
 typedef struct s_tokens
 {
-	t_toklist	*head;
+	t_type		l_t;
+	int			size;
 	t_toklist	*tail;
-	char		*user_input;
+	t_toklist	*head;
 	char		*t_input;
 	int			lexeme_count;
 	bool		is_inside_squote;
 	bool		is_inside_dquote;
-	bool		is_inside_parens;
-	int			size;
 }	t_tokens;
 
 char		*prompt1(t_tokens *tokens);
@@ -75,12 +75,14 @@ bool		add_infile_or_heredoc(t_tokens *tokens, char **c);
 bool		add_outfile_or_append(t_tokens *tokens, char **c);
 int			get_rest_of_lexeme(char **c, t_type type);
 bool		add_variable(t_tokens *tokens, char **c);
-void		find_last_r_paren(char **s, int *i);
+t_type		get_type(char *c);
+void		find_last_r_paren(char **c, char **s, int *i, t_tokens *tokens);
 bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
 bool		add_l_or_r_paren(t_tokens *tokens, char **c);
 bool		add_literal(t_tokens *tokens, char **c);
 void		handle_quoting(t_tokens *tokens, t_type type, int len, char **s);
 bool		is_builtin(char *lexeme);
+bool		add_options(t_tokens *tokens, char **c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/21 16:09:15 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:21:48 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 	p = *c - 1;
 	if (*p == '\\')
 		return (true);
+	if (**c == '-' && !add_options(tokens, c))
+		return (false);
 	if (**c == '|' && !add_pipe_or_op(tokens, c))
 		return (false);
 	else if ((**c == '\'' || **c == '"') && !add_literal(tokens, c))
@@ -72,7 +74,9 @@ static bool	add_word_or_builtin(t_tokens *tokens, char **c)
 
 	s = *c;
 	while (**c && (**c != ' ' && **c != ')' && **c
-			!= '(' && **c != '"' && **c != '\''))
+			!= '(' && **c != '"' && **c != '\'' && **c != '\''
+			&& **c != '|' && **c != '&' && **c != '$'
+			&& **c != '<' && **c != '>'))
 		(*c)++;
 	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
 	if (!lexeme)
@@ -81,20 +85,22 @@ static bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	{
 		if (!add_token(tokens, BUILTINS, lexeme, s - tokens->t_input))
 			return (false);
+		tokens->l_t = BUILTINS;
 	}
 	else
+	{
 		if (!add_token(tokens, WORDS, lexeme, s - tokens->t_input))
 			return (false);
+		tokens->l_t = WORDS;
+	}
 	return (true);
 }
 
 t_toklist	*scan_line(t_tokens *tokens)
 {
 	char	*s;
+	int		len;
 
-	tokens->t_input = ft_strtrim(tokens->user_input, " \t");
-	if (!tokens->t_input)
-		return (NULL);
 	s = tokens->t_input;
 	while (*s)
 	{
@@ -108,6 +114,13 @@ t_toklist	*scan_line(t_tokens *tokens)
 		}
 		if (!id_and_add_tokens(tokens, &s))
 			return (NULL);
+		if (!*s && (tokens->l_t == ANDS || tokens->l_t == ORS
+				|| tokens->l_t == PIPES))
+		{
+			len = ft_strlen(tokens->t_input);
+			prompt1(tokens);
+			s = tokens->t_input + len;
+		}
 	}
 	return (tokens->head);
 }

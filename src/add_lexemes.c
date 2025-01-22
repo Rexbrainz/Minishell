@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/21 18:11:11 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:35:13 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, ORS, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = ORS;
 		*c += 2;
 	}
 	else
@@ -33,6 +34,7 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, PIPES, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = PIPES;
 		*c += 1;
 	}
 	return (true);
@@ -51,6 +53,7 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, HEREDOCS, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = HEREDOCS;
 	}
 	else
 	{
@@ -60,6 +63,7 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, INFILES, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = INFILES;
 	}
 	*c += len;
 	return (true);
@@ -78,6 +82,7 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, APPENDS, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = APPENDS;
 	}
 	else
 	{
@@ -87,6 +92,7 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, OUTFILES, lexeme, *c - tokens->t_input))
 			return (false);
+		tokens->l_t = OUTFILES;
 	}
 	*c += len;
 	return (true);
@@ -99,22 +105,22 @@ bool	add_variable(t_tokens *tokens, char **c)
 	t_type	type;
 	char	*lexeme;
 
-	if (*(*c + 1) == '(')
-		type = CMD_SUB;
-	else
-		type = DOLLAR;
+	type = get_type(*c + 1);
 	s = *c;
 	i = 0;
 	while (*s && *s != ' ')
 		if (*s++ == '(')
 			i++;
-	if (type == CMD_SUB)
-		find_last_r_paren(&s, &i);
+	if (type == EXIT_STAT)
+		s = *c + 2;
+	else if (type == CMD_SUB)
+		find_last_r_paren(c, &s, &i, tokens);
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme)
 		return (false);
 	if (!add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
+	tokens->l_t = type;
 	*c = s;
 	return (true);
 }
@@ -134,5 +140,6 @@ bool	wild_state(t_tokens *tokens, char **c)
 		return (false);
 	if (!add_token(tokens, STAR, lexeme, s - tokens->t_input))
 		return (false);
+	tokens->l_t = STAR;
 	return (true);
 }

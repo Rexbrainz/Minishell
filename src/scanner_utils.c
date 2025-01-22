@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/21 18:00:18 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:14:16 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,29 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	return (s - *c);
 }
 
-void	find_last_r_paren(char **s, int *i)
+void	find_last_r_paren(char **c, char **s, int *i, t_tokens *tokens)
 {
-	while (**s && *i)
+	int	current_len;
+	int	start_of_token_len;
+
+	while (*i)
 	{
 		if (**s == '(')
 			(*i)++;
 		if (**s == ')')
 			(*i)--;
 		(*s)++;
+		if (!**s && *i)
+		{
+			ft_printf("%d\n", *i);
+			current_len = *s - tokens->t_input;
+			start_of_token_len = *c - tokens->t_input;
+			tokens->t_input = prompt1(tokens);
+			if (!tokens->t_input)
+				return ;
+			*s = tokens->t_input + current_len;
+			*c = tokens->t_input + start_of_token_len;
+		}
 	}
 }
 
@@ -60,7 +74,7 @@ void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 	while (true)
 	{
 		prompt1(tokens);
-		*s = tokens->user_input + len;
+		*s = tokens->t_input + len;
 		p = ft_strchr(*s + 1, c);
 		if (p)
 			break ;
@@ -91,4 +105,17 @@ bool	is_builtin(char *lexeme)
 		i++;
 	}
 	return (false);
+}
+
+t_type	get_type(char *c)
+{
+	t_type	type;
+
+	if (*c == '(')
+		type = CMD_SUB;
+	else if (*c == '?')
+		type = EXIT_STAT;
+	else
+		type = DOLLAR;
+	return (type);
 }

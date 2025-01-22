@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/21 11:20:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:37:51 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ bool	add_and(t_tokens *tokens, char **c)
 		return (false);
 	if (!add_token(tokens, STAR, lexeme, *c - tokens->t_input))
 		return (false);
+	tokens->l_t = ANDS;
 	*c += 2;
 	return (true);
 }
@@ -39,19 +40,14 @@ bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 	else
 		type = LEFT_PAREN;
 	if (type == RIGHT_PAREN)
-	{
-		tokens->is_inside_parens = false;
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 1);
-	}
 	else
-	{
-		tokens->is_inside_parens = true;
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 1);
-	}
 	if (!lexeme)
 		return (false);
 	if (!add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
+	tokens->l_t = type;
 	*c += 1;
 	return (true);
 }
@@ -80,6 +76,7 @@ bool	add_literal(t_tokens *tokens, char **c)
 	else
 		if (!process_dquote(tokens, c))
 			return (false);
+	tokens->l_t = type;
 	*c += 1;
 	return (true);
 }
