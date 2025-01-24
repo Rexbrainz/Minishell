@@ -41,17 +41,19 @@ static int	run_one(t_commandlist *one, char **env)
 	but it should be going to start from another place
 	- creating a wait overhere not in execution,
 	as of right now it isn't asynchronus
-	- PIPES ARE NOT WORKING EEEEEE
 */
-int	run_tokens(t_command *cmds, char **env)
+int	run_tokens(t_command *cmds)
 {
 	t_commandlist	*current;
+	int				starting_in_out[2];
 	int				exit_code;
 
 	current = cmds->head;
+	starting_in_out[0] = NO_REDIRECTION;
+	starting_in_out[1] = NO_REDIRECTION;
 	exit_code = 0;
 	if (lonely_builtin(cmds) == 0)
-		exit_code = run_one(current, env);
-	exit_code = rec_exec(cmds, env, 0);
+		exit_code = run_one(current, current->env);
+	exit_code = rec_exec(cmds, 0, starting_in_out);
 	return (exit_code);
 }
