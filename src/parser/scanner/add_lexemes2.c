@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/22 17:36:52 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:46:47 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
-#include "parser.h"
+#include "../../../Includes/minishell.h"
+#include "../scanner.h"
 
 bool	add_options(t_tokens *tokens, char **c)
 {

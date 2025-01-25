@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/22 14:35:13 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/25 14:51:06 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
-#include "parser.h"
+#include "../../../Includes/minishell.h"
+#include "../scanner.h"
 
 bool	add_pipe_or_op(t_tokens *tokens, char **c)
 {
@@ -49,9 +49,8 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 	{
 		len = get_rest_of_lexeme(c, HEREDOCS);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
-		if (!lexeme)
-			return (false);
-		if (!add_token(tokens, HEREDOCS, lexeme, *c - tokens->t_input))
+		if (!lexeme
+			|| !add_token(tokens, HEREDOCS, lexeme, *c - tokens->t_input))
 			return (false);
 		tokens->l_t = HEREDOCS;
 	}
@@ -100,25 +99,27 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 
 bool	add_variable(t_tokens *tokens, char **c)
 {
-	int		i;
 	char	*s;
 	t_type	type;
 	char	*lexeme;
 
 	type = get_type(*c + 1);
 	s = *c;
-	i = 0;
-	while (*s && *s != ' ')
-		if (*s++ == '(')
-			i++;
+	if (type == CMD_SUB)
+	{
+		find_last_r_paren(c, &s, tokens);
+		s++;
+	}
+	s++;
+	if (type == DOLLAR)
+		while (*s && (*s != ' ' && *s != '|' && *s != '<' && *s != '>'
+				&& *s != '"' && *s != '\'' && *s != '*' && *s != '&'
+				&& *s != '$'))
+			s++;
 	if (type == EXIT_STAT)
 		s = *c + 2;
-	else if (type == CMD_SUB)
-		find_last_r_paren(c, &s, &i, tokens);
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
-	if (!lexeme)
-		return (false);
-	if (!add_token(tokens, type, lexeme, *c - tokens->t_input))
+	if (!lexeme || !add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
 	tokens->l_t = type;
 	*c = s;
@@ -127,8 +128,8 @@ bool	add_variable(t_tokens *tokens, char **c)
 
 bool	wild_state(t_tokens *tokens, char **c)
 {
-	char	*lexeme;
 	char	*s;
+	char	*lexeme;
 
 	s = *c;
 	while (*s && *(s - 1) != ' ')

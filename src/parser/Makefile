@@ -9,13 +9,15 @@ NAME = parser
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-LIBFT_DIR = ../new_libft
+LIBFT_DIR = ../../new_libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRC = main.c	init_tokens.c	parser.c\
-  	  scanner_utils.c	scanner.c	add_lexemes.c\
-	  add_lexemes1.c	add_lexemes2.c
+SRC = main.c	scanner/init_tokens.c	parser.c\
+  	  scanner/scanner_utils.c	scanner/scanner.c	scanner/add_lexemes.c\
+	  scanner/add_lexemes1.c	scanner/add_lexemes2.c	scanner/scanner_utils1.c\
+	  expand_variables.c	prompt_heredoc.c
+
 # Object files
 OBJ = $(SRC:.c=.o)
 

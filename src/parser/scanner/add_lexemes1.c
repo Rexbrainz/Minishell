@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/22 14:37:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:45:28 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "../Includes/minishell.h"
+#include "../scanner.h"
+#include "../../../Includes/minishell.h"
 
 static int	get_strlen_without_escaped_newlines(char *c);
 static bool	process_dquote(t_tokens *tokens, char **c);
@@ -51,6 +51,9 @@ bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 	*c += 1;
 	return (true);
 }
+/*
+ 	TODO handle quoting when inside one.
+*/
 
 bool	add_literal(t_tokens *tokens, char **c)
 {
@@ -84,8 +87,8 @@ bool	add_literal(t_tokens *tokens, char **c)
 static bool	process_dquote(t_tokens *tokens, char **c)
 {
 	int		j;
-	int		len;
 	char	*s;
+	int		len;
 	char	*lexeme;
 
 	s = *c;
@@ -113,12 +116,16 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 static int	get_strlen_without_escaped_newlines(char *c)
 {
 	int	len;
-	int	i;
 
 	len = 0;
-	i = 0;
-	while (*c != '"' && *(c - 1) != '\\')
+	while (*c != '"')
 	{
+		if (*c == '\\' && *(c + 1) == '"')
+		{
+			c += 2;
+			len += 2;
+			continue ;
+		}
 		if (*c == '\\' && *(c + 1) == '\n')
 		{
 			c += 2;

@@ -6,50 +6,57 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/22 15:14:16 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/25 13:13:42 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "../Includes/minishell.h"
+#include "../scanner.h"
+#include "../../../Includes/minishell.h"
 
 int	get_rest_of_lexeme(char **c, t_type type)
 {
 	char	*s;
 
-	s = *c;
+	s = NULL;
 	if (type == INFILES || type == HEREDOCS)
 	{
-		while (*s && (*s == '<' || ft_isspace(*s)))
-			s++;
-		while (*s && *s != ' ')
+		while (**c && (**c == '<' || ft_isspace(**c)))
+			(*c)++;
+		s = *c;
+		while (*s && *s != ' ' && *s != '<' && *s != '>' && *s != '|'
+			&& *s != '&')
 			s++;
 	}
 	else if (type == OUTFILES || type == APPENDS)
 	{
-		while (*s == '>' || ft_isspace(*s))
-			s++;
-		while (*s && *s != ' ')
+		while (**c == '>' || ft_isspace(**c))
+			(*c)++;
+		s = *c;
+		while (*s && *s != ' ' && *s != '<' && *s != '>' && *s != '|'
+			&& *s != '&')
 			s++;
 	}
 	return (s - *c);
 }
 
-void	find_last_r_paren(char **c, char **s, int *i, t_tokens *tokens)
+void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 {
+	int	i;
 	int	current_len;
 	int	start_of_token_len;
 
-	while (*i)
+	i = 0;
+	while (**s)
 	{
 		if (**s == '(')
-			(*i)++;
-		if (**s == ')')
-			(*i)--;
+			i++;
+		else if (**s == ')')
+			i--;
+		if (**s == ')' && i == 0)
+			break ;
 		(*s)++;
-		if (!**s && *i)
+		if (!**s && i)
 		{
-			ft_printf("%d\n", *i);
 			current_len = *s - tokens->t_input;
 			start_of_token_len = *c - tokens->t_input;
 			tokens->t_input = prompt1(tokens);

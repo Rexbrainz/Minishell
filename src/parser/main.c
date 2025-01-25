@@ -6,37 +6,14 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/22 13:03:44 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:44:23 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
-#include "parser.h"
+#include "../../Includes/minishell.h"
+#include "scanner.h"
 /*
-static void	check_last_char(t_tokens *tokens)
-{
-	int		i;
-	char	*p;
-	char	*r_paren;
-	char	*lc;
-
-	i = 0;
-	while (true)
-	{
-		lc = &tokens->t_input[ft_strlen(tokens->t_input)];
-		p = lc - 1;
-		if (*p == '\\')
-			return ;
-		else if ((*p == '|' && *lc == '|') || (*p == '&' && *lc == '&')
-			|| *lc == '|' || *lc == '\\')
-			prompt1(tokens);
-		else
-			return ;
-	}
-}
-*/
-
-static void	quoting_state(t_tokens *tokens)
+void	quoting_state(t_tokens *tokens)
 {
 	char	*s;
 
@@ -60,7 +37,7 @@ static void	quoting_state(t_tokens *tokens)
 		s++;
 	}
 }
-
+*/
 static void	prompt(t_tokens *tokens)
 {
 	char	*back_slash;
@@ -77,7 +54,7 @@ static void	prompt(t_tokens *tokens)
 			return ;
 		back_slash = ft_strrchr(tokens->t_input, '\\');
 	}
-	quoting_state(tokens);
+//	quoting_state(tokens);
 }
 
 char	*prompt1(t_tokens *tokens)
