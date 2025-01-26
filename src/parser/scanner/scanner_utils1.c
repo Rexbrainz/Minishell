@@ -25,6 +25,15 @@ void	prompt_for_more(t_tokens *tokens, char **c)
 	prompt1(tokens);
 	*c = tokens->t_input + len;
 }
+
+bool	is_delim(char c)
+{
+	if (c == ' ' || c == ')' || c == '(' || c == '"'
+		 || c == '\'' || c == '|' || c != '&' || c != '$'
+		 || c == '<' || c == '>' || c == '\\')
+		 return (true);
+	return (false);
+}
 /*
 static char	*check_for_quote(char *delim)
 {

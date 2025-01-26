@@ -36,3 +36,15 @@ bool	add_options(t_tokens *tokens, char **c)
 	*c = s;
 	return (true);
 }
+
+bool	add_backslash(t_tokens *tokens, char **c)
+{
+	char	*lexeme;
+
+	lexeme = ft_strdup("\\");
+	if (!lexeme
+	 || !add_token(tokens, BACK_SLASH, lexeme, (*c)++ - tokens->t_input))
+	 	return (false);
+	tokens->l_t = BACK_SLASH;
+	return (true);
+}

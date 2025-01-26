@@ -13,7 +13,7 @@
 #include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
-static int	get_strlen_without_escaped_newlines(char *c);
+static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c);
 static bool	process_dquote(t_tokens *tokens, char **c);
 
 bool	add_and(t_tokens *tokens, char **c)
@@ -70,7 +70,8 @@ bool	add_literal(t_tokens *tokens, char **c)
 	{
 		(*c)++;
 		while (**c != *s)
-			(*c)++;
+			if (!*(*c)++)
+				prompt_for_more(tokens, c);
 		lexeme = ft_substr(tokens->t_input,
 				s + 1 - tokens->t_input, *c - (s + 1));
 		if (!lexeme || !add_token(tokens, S_QUOTE, lexeme, s - tokens->t_input))
@@ -92,8 +93,8 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	(*c)++;
-	len = get_strlen_without_escaped_newlines(*c);
+	len = get_strlen_without_escaped_newlines(tokens, c);
+	*c = s + 1;
 	lexeme = (char *)malloc(len + 1);
 	if (!lexeme)
 		return (false);
@@ -113,25 +114,27 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 	return (true);
 }
 
-static int	get_strlen_without_escaped_newlines(char *c)
+static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c)
 {
 	int	len;
 
 	len = 0;
-	while (*c != '"')
+	(*c)++;
+	while (**c != '"')
 	{
-		if (*c == '\\' && *(c + 1) == '"')
+		if (!**c)
+			prompt_for_more(tokens, c);
+		if (**c == '\\' && *(*c + 1) == '"')
 		{
-			c += 2;
-			len += 2;
+			(*c)++;
+			len++;
+		}
+		else if (**c == '\\' && *(*c + 1) == '\n')
+		{
+			*c += 2;
 			continue ;
 		}
-		if (*c == '\\' && *(c + 1) == '\n')
-		{
-			c += 2;
-			continue ;
-		}
-		c++;
+		(*c)++;
 		len++;
 	}
 	return (len);

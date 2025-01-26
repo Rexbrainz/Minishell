@@ -12,49 +12,23 @@
 
 #include "../../Includes/minishell.h"
 #include "scanner.h"
-/*
-void	quoting_state(t_tokens *tokens)
-{
-	char	*s;
 
-	s = tokens->t_input;
-	while (*s)
-	{
-		if (*s == '"' && *(s - 1) != '\\' && !tokens->is_inside_dquote
-			&& !tokens->is_inside_squote)
-			tokens->is_inside_dquote = true;
-		else if (*s == '"' && *(s - 1) != '\\' && tokens->is_inside_dquote)
-			tokens->is_inside_dquote = false;
-		if (*s == '\'' && !tokens->is_inside_squote
-			&& !tokens->is_inside_dquote)
-			tokens->is_inside_squote = true;
-		else if (*s == '\'' && tokens->is_inside_squote)
-			tokens->is_inside_squote = false;
-		if (!*(s + 1) && tokens->is_inside_dquote)
-			handle_quoting(tokens, D_QUOTE, s - tokens->t_input, &s);
-		if (!*(s + 1) && tokens->is_inside_squote)
-			handle_quoting(tokens, S_QUOTE, s - tokens->t_input, &s);
-		s++;
-	}
-}
-*/
 static void	prompt(t_tokens *tokens)
 {
-	char	*back_slash;
+	//char	*back_slash;
 
 	tokens->t_input = readline("minishell$ ");
 	if (!tokens->t_input)
 		return ;
-	back_slash = NULL;
-	back_slash = ft_strrchr(tokens->t_input, '\\');
-	while (back_slash && !*(back_slash + 1))
-	{
-		tokens->t_input = prompt1(tokens);
-		if (!tokens->t_input)
-			return ;
-		back_slash = ft_strrchr(tokens->t_input, '\\');
-	}
-//	quoting_state(tokens);
+	// back_slash = NULL;
+	// back_slash = ft_strrchr(tokens->t_input, '\\');
+	// while (back_slash && !*(back_slash + 1))
+	// {
+	// 	tokens->t_input = prompt1(tokens);
+	// 	if (!tokens->t_input)
+	// 		return ;
+	// 	back_slash = ft_strrchr(tokens->t_input, '\\');
+	// }
 }
 
 char	*prompt1(t_tokens *tokens)

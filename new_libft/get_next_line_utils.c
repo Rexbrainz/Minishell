@@ -44,12 +44,10 @@ char	*find_first_c(char *s, unsigned char c)
 
 char	*fetch_line(char *dst, const char *src, size_t dstsize)
 {
-	size_t	srclen;
 	size_t	index;
 
 	if (!dst || !src)
 		return (NULL);
-	srclen = my_strlen(src);
 	index = 0;
 	if (dstsize > 0)
 	{

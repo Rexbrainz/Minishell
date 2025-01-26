@@ -42,7 +42,8 @@ typedef enum e_tok_types
 	ANDS,
 	ORS,
 	CMD_SUB,
-	EXIT_STAT
+	EXIT_STAT,
+	BACK_SLASH
 }	t_type;
 
 typedef struct s_toklist
@@ -83,8 +84,11 @@ bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
 bool		add_l_or_r_paren(t_tokens *tokens, char **c);
 bool		add_literal(t_tokens *tokens, char **c);
-void		handle_quoting(t_tokens *tokens, t_type type, int len, char **s);
+//void		quoting_state(t_tokens *tokens, char **c);
+//void		handle_quoting(t_tokens *tokens, t_type type, int len, char **s);
 bool		is_builtin(char *lexeme);
 bool		add_options(t_tokens *tokens, char **c);
+bool		add_backslash(t_tokens *tokens, char **c);
 void		prompt_for_more(t_tokens *tokens, char **c);
+bool		is_delim(char c);
 #endif

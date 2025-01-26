@@ -42,14 +42,11 @@ bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 
 static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 {
-	char	*p;
-
-	p = *c - 1;
-	if (**c == '-' && !add_options(tokens, c))
+	if ((**c == '-') && !add_options(tokens, c))
 		return (false);
-	if (*p == '\\')
-		return (true);
-	if (**c == '|' && !add_pipe_or_op(tokens, c))
+	else if (**c == '\\' && !add_backslash(tokens, c))
+		return (false);
+	else if (**c == '|' && !add_pipe_or_op(tokens, c))
 		return (false);
 	else if ((**c == '\'' || **c == '"') && !add_literal(tokens, c))
 		return (false);
@@ -75,7 +72,7 @@ static bool	add_word_or_builtin(t_tokens *tokens, char **c)
 
 	s = *c;
 	while (**c && (**c != ' ' && **c != ')' && **c
-			!= '(' && **c != '"' && **c != '\'' && **c != '\''
+			!= '(' && **c != '"' && **c != '\'' && **c != '\\'
 			&& **c != '|' && **c != '&' && **c != '$'
 			&& **c != '<' && **c != '>'))
 		(*c)++;
@@ -117,8 +114,9 @@ t_toklist	*scan_line(t_tokens *tokens)
 			return (NULL);
 		if (!id_and_add_tokens(tokens, &s))
 			return (NULL);
-		if (!*s && (tokens->l_t == ANDS || tokens->l_t == ORS
-				|| tokens->l_t == PIPES))
+		if (!*s && (tokens->l_t == ANDS
+				 || tokens->l_t == ORS || tokens->l_t == PIPES
+				 || tokens->l_t == BACK_SLASH))
 			prompt_for_more(tokens, &s);
 	}
 	return (tokens->head);
