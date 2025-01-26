@@ -41,10 +41,11 @@ bool	add_backslash(t_tokens *tokens, char **c)
 {
 	char	*lexeme;
 
-	lexeme = ft_strdup("\\");
+	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 2);
 	if (!lexeme
-	 || !add_token(tokens, BACK_SLASH, lexeme, (*c)++ - tokens->t_input))
+	 || !add_token(tokens, BACK_SLASH, lexeme, *c - tokens->t_input))
 	 	return (false);
 	tokens->l_t = BACK_SLASH;
+	*c += 2;
 	return (true);
 }

@@ -58,8 +58,10 @@ t_tokens	*parse_line(t_tokens *tokens)
 {
 	t_type		t;
 	t_toklist	*current;
+	//t_toklist	*prev;
 
 	tokens->head = scan_line(tokens);
+	//prev = NULL;
 	current = tokens->head;
 	while (current)
 	{
@@ -67,7 +69,11 @@ t_tokens	*parse_line(t_tokens *tokens)
 		if (t == HEREDOCS)
 			current->lexeme = get_heredoc_input(current->lexeme);
 		else if (t == DOLLAR || t == D_QUOTE)
+		{
+			//if (prev && prev->type != BACK_SLASH)
 			current->lexeme = expand(current->lexeme);
+		}
+		//prev = current;
 		current = current->next;
 	}
 //	organize_cmds(tokens);
