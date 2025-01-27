@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 14:24:43 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 06:47:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_tokens(t_tokens *tokens)
 	tokens->lexeme_count = 0;
 	tokens->is_inside_squote = false;
 	tokens->is_inside_dquote = false;
-	tokens->is_heredoc_quote = false;
 	tokens->l_t = -1;
 	tokens->size = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 17:45:28 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 06:46:01 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 	*c += 1;
 	return (true);
 }
-/*
- 	TODO handle quoting when inside one.
-*/
 
 bool	add_literal(t_tokens *tokens, char **c)
 {
@@ -71,7 +68,7 @@ bool	add_literal(t_tokens *tokens, char **c)
 		(*c)++;
 		while (**c != *s)
 			if (!*(*c)++)
-				prompt_for_more(tokens, c);
+				prompt_for_more(tokens, c, &s);
 		lexeme = ft_substr(tokens->t_input,
 				s + 1 - tokens->t_input, *c - (s + 1));
 		if (!lexeme || !add_token(tokens, S_QUOTE, lexeme, s - tokens->t_input))
@@ -81,8 +78,7 @@ bool	add_literal(t_tokens *tokens, char **c)
 		if (!process_dquote(tokens, c))
 			return (false);
 	tokens->l_t = type;
-	*c += 1;
-	return (true);
+	return (*c += 1, true);
 }
 
 static bool	process_dquote(t_tokens *tokens, char **c)
@@ -123,7 +119,7 @@ static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c)
 	while (**c != '"')
 	{
 		if (!**c)
-			prompt_for_more(tokens, c);
+			prompt_for_more(tokens, c, NULL);
 		if (**c == '\\' && *(*c + 1) == '"')
 		{
 			(*c)++;

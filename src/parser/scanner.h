@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 17:48:03 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 06:47:06 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_tokens
 	int			lexeme_count;
 	bool		is_inside_squote;
 	bool		is_inside_dquote;
-	bool		is_heredoc_quote; //subject to removal
 }	t_tokens;
 
 char		*prompt1(t_tokens *tokens);
@@ -89,6 +88,6 @@ bool		add_literal(t_tokens *tokens, char **c);
 bool		is_builtin(char *lexeme);
 bool		add_options(t_tokens *tokens, char **c);
 bool		add_backslash(t_tokens *tokens, char **c);
-void		prompt_for_more(t_tokens *tokens, char **c);
+void		prompt_for_more(t_tokens *tokens, char **c, char **s);
 bool		is_delim(char c);
 #endif
