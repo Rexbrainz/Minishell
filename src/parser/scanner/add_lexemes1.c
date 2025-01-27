@@ -6,14 +6,15 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 06:46:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 07:36:48 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
-static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c);
+static int	
+get_strlen_without_escaped_newlines(t_tokens *tokens, char **c, char **s);
 static bool	process_dquote(t_tokens *tokens, char **c);
 
 bool	add_and(t_tokens *tokens, char **c)
@@ -89,7 +90,7 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	len = get_strlen_without_escaped_newlines(tokens, c);
+	len = get_strlen_without_escaped_newlines(tokens, c, &s);
 	*c = s + 1;
 	lexeme = (char *)malloc(len + 1);
 	if (!lexeme)
@@ -110,7 +111,8 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 	return (true);
 }
 
-static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c)
+static int
+	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c, char **s)
 {
 	int	len;
 
@@ -119,7 +121,7 @@ static int	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c)
 	while (**c != '"')
 	{
 		if (!**c)
-			prompt_for_more(tokens, c, NULL);
+			prompt_for_more(tokens, c, s);
 		if (**c == '\\' && *(*c + 1) == '"')
 		{
 			(*c)++;

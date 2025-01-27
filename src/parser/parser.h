@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:48:09 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 15:18:28 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:27:45 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ bool	add_cmd(t_cmd *cmd, char **cmd_args, t_type type, t_files *files);
 void	split_into_cmds(t_cmd *cmd, t_tokens *tokens);
 char	*expand(char *lexeme);
 char	*get_heredoc_input(char *delim);
+void	remove_escape_char(t_tokens *tokens);
 
 #endif

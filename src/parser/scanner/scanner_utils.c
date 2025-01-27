@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 13:13:42 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:14:04 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 			i++;
 		else if (**s == ')')
 			i--;
-		if (**s == ')' && i == 0)
+		if (**s == ')' && !i)
 			break ;
 		(*s)++;
 		if (!**s && i)

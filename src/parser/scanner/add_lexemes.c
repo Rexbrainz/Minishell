@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 14:51:06 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:15:35 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,15 @@ bool	add_variable(t_tokens *tokens, char **c)
 
 	type = get_type(*c + 1);
 	s = *c;
+	if (*(s + 1) == ' ' || !*(s + 1))
+		return (true);
 	if (type == CMD_SUB)
 	{
 		find_last_r_paren(c, &s, tokens);
 		s++;
 	}
-	s++;
 	if (type == DOLLAR)
-		while (*s && (*s != ' ' && *s != '|' && *s != '<' && *s != '>'
+		while (*s++ && (*s != ' ' && *s != '|' && *s != '<' && *s != '>'
 				&& *s != '"' && *s != '\'' && *s != '*' && *s != '&'
 				&& *s != '$'))
 			s++;
@@ -122,8 +123,7 @@ bool	add_variable(t_tokens *tokens, char **c)
 	if (!lexeme || !add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
 	tokens->l_t = type;
-	*c = s;
-	return (true);
+	return (*c = s, true);
 }
 
 bool	wild_state(t_tokens *tokens, char **c)

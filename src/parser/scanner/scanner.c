@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 06:41:40 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:41:47 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,35 +62,8 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 		return (false);
 	else if (**c == '&' && *(*c + 1) == '&' && !add_and(tokens, c))
 		return (false);
-	return (true);
-}
-
-static bool	add_word_or_builtin(t_tokens *tokens, char **c)
-{
-	char	*s;
-	char	*lexeme;
-
-	s = *c;
-	while (**c && (**c != ' ' && **c != ')' && **c
-			!= '(' && **c != '"' && **c != '\''
-			&& **c != '|' && **c != '&' && **c != '$'
-			&& **c != '<' && **c != '>'))
-		(*c)++;
-	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
-	if (!lexeme)
+	else if (!ft_isspace(**c) && **c && !add_word_or_builtin(tokens, c))
 		return (false);
-	if (is_builtin(lexeme))
-	{
-		if (!add_token(tokens, BUILTINS, lexeme, s - tokens->t_input))
-			return (false);
-		tokens->l_t = BUILTINS;
-	}
-	else
-	{
-		if (!add_token(tokens, WORDS, lexeme, s - tokens->t_input))
-			return (false);
-		tokens->l_t = WORDS;
-	}
 	return (true);
 }
 
@@ -103,15 +76,15 @@ t_toklist	*scan_line(t_tokens *tokens)
 	{
 		while (ft_isspace(*s))
 			s++;
-		if (ft_isalnum(*s))
-		{
-			if (!add_word_or_builtin(tokens, &s))
-				return (NULL);
-			continue ;
-		}
-		if (*s == '$' && (*(s + 1) == ' ' || !*(s + 1)) && !add_token(tokens,
-				WORDS, ft_strdup("$"), s++ - tokens->t_input))
-			return (NULL);
+//		if (ft_isalnum(*s))
+//		{
+//			if (!add_word_or_builtin(tokens, &s))
+//				return (NULL);
+//			continue ;
+//		}
+		//if (*s == '$' && (*(s + 1) == ' ' || !*(s + 1)) && !add_token(tokens,
+		//		WORDS, ft_strdup("$"), s++ - tokens->t_input))
+		//	return (NULL);
 		if (!id_and_add_tokens(tokens, &s))
 			return (NULL);
 		if (!*s && (tokens->l_t == ANDS

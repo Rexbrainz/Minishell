@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 06:47:06 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:52:12 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
 bool		add_l_or_r_paren(t_tokens *tokens, char **c);
 bool		add_literal(t_tokens *tokens, char **c);
+bool		add_word_or_builtin(t_tokens *tokens, char **c);
 //void		quoting_state(t_tokens *tokens, char **c);
 //void		handle_quoting(t_tokens *tokens, t_type type, int len, char **s);
 bool		is_builtin(char *lexeme);
