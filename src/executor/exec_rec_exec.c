@@ -120,8 +120,8 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out)
 	run_or_not = keep_going(cmds, last_exit, find_leftmost(cmds, start));
 	if (run_or_not != 0)
 	{
-		if (new_in_out[0] != NO_REDIRECTION)
-			close(new_in_out[0]);
+		if (prev_in_out[0] != NO_REDIRECTION)
+			close(prev_in_out[0]);
 		start = double_check(cmds, start, run_or_not);
 		if (start == 0)
 			return (waiting_for_everyone(), last_exit);
@@ -131,7 +131,7 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out)
 		last_exit = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
 		rec_exec(cmds, start + 2, new_in_out);
-	if (new_in_out[0] != NO_REDIRECTION)
-		close(new_in_out[0]);
+	if (prev_in_out[0] != NO_REDIRECTION)
+		close(prev_in_out[0]);
 	return (waiting_for_everyone(), last_exit);
 }
