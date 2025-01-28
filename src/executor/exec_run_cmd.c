@@ -19,7 +19,7 @@ static void	set_input(t_commandlist *cmd, int *redirect)
 	}
 	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
-		standard_error();
+		nofile_error(current);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		standard_error();
 	close(fd);
@@ -35,15 +35,19 @@ static void	set_output(t_commandlist *cmd, int *redirect)
 	t_filelist	*current;
 
 	lc = 0;
+	fd = 0;
 	current = cmd->files->head;
 	while (lc < redirect[1])
 	{
 		lc++;
 		current = current->next;
 	}
-	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (current->type == OUTFILE)
+		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (current->type == APPEND)
+		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644); 
 	if (fd == -1)
-		standard_error();
+		nofile_error(current);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		standard_error();
 	close(fd);
@@ -61,20 +65,18 @@ static void	dup_and_or_close(int *prev_in_out, int *new_in_out)
     {
         dup2(prev_in_out[0], STDIN_FILENO);
         close(prev_in_out[0]);
-        close(prev_in_out[1]);
     }
     if (new_in_out[1] != NO_REDIRECTION)
     {
         dup2(new_in_out[1], STDOUT_FILENO);
         close(new_in_out[1]);
-        close(new_in_out[0]);
     }
 	if (prev_in_out[0] != NO_REDIRECTION)
 		close(prev_in_out[0]);
     if (prev_in_out[1] != NO_REDIRECTION)
 		close(prev_in_out[1]);
     if (new_in_out[0] != NO_REDIRECTION)
-		close(new_in_out[0]);
+		close(new_in_out[0]);	
     if (new_in_out[1] != NO_REDIRECTION)
 		close(new_in_out[1]);
 }
@@ -98,7 +100,7 @@ static int	child_proc(t_commandlist *cmd, int *redirect, int *prev_in_out, int *
 		built_in_table(cmd, cmd->env);
 	path = find_path(cmd->cmd[0], cmd->env);
 	if (path == NULL)
-		standard_error();
+		path_error(cmd);
 	if (execve(path, cmd->cmd, cmd->env) < 0)
 		standard_error();
 	return (EXIT_FAILURE);
@@ -122,12 +124,9 @@ int	run_cmd(t_commandlist *cmd, int *redirect, int *prev_in_out, int *new_in_out
 		if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
 			standard_error();
 	}
-	else
-	{
-		if (prev_in_out[0] != NO_REDIRECTION)
-			close(prev_in_out[0]);
-		if (new_in_out[1] != NO_REDIRECTION)
-			close(new_in_out[1]);
-	}
+	if (prev_in_out[0] != NO_REDIRECTION)
+		close(prev_in_out[0]);
+	if (new_in_out[1] != NO_REDIRECTION)
+		close(new_in_out[1]);
 	return (WEXITSTATUS(status));
 }
