@@ -13,7 +13,7 @@ static int	find_leftmost(t_command *cmds, int start)
 	cpo = 0;
 	end = 0;
 	current = cmds->head;
-	while (current != NULL && current->next != NULL && cpo < start)	
+	while (current != NULL && current->next != NULL && cpo < start)
 	{
 		if (current->type == AND || current->type == OR
 			|| current->type == PIPE)
@@ -42,7 +42,7 @@ static int	keep_going(t_command *cmds, int last_exit, int end)
 	while (current != NULL && co < end)
 	{
 		co++;
-		current = current->next;	
+		current = current->next;
 	}
 	if (current->type == AND && last_exit != 0)
 		return (AND);
@@ -56,7 +56,8 @@ static int	keep_going(t_command *cmds, int last_exit, int end)
 	we are also moving to command thats going to be executed
 	when all above went okay we are calling the executor
 */
-static int	check_execute(t_command *cmds, int start, int *prev_in_out, int *new_in_out)
+static int	check_execute(t_command *cmds, int start,
+	int *prev_in_out, int *new_in_out)
 {
 	int				redirect[2];
 	int				find_start;

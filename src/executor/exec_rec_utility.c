@@ -21,6 +21,8 @@ void	looking_for_pipes(t_command *cmds, int start, int *new_in_out)
 
 /*
 	parent process waits for all the children
+	generate the exit code for the last one
+	TBD env as a list (make it easy)
 */
 void	waiting_for_everyone(void)
 {
@@ -44,7 +46,8 @@ void	waiting_for_everyone(void)
 	Finding the next opposite sign as start
 	for OR its AND and the other way around
 */
-static int find_opposite(t_commandlist *current, int find_start, int run_or_not)
+static int	find_opposite(t_commandlist *current,
+	int find_start, int run_or_not)
 {
 	if (run_or_not == AND)
 	{
@@ -70,6 +73,8 @@ static int find_opposite(t_commandlist *current, int find_start, int run_or_not)
 }
 
 /*
+	DOUBLE CHECK THIS CRAP
+	!!!!!!!	!!!!!!!!	!!!!!!!!	!!!!!!!!	
 	Making sure that the execution should end
 	for the case of cmd1 || cmd2 && cmd3
 	we should execute first one and last

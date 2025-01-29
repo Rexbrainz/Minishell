@@ -19,16 +19,20 @@ static int	lonely_builtin(t_command *cmds)
 */
 static int	run_one(t_commandlist *one, char **env)
 {
-	// int				redirect[2];
+	int				redirect[2];
 
-	// redirect[0] = -1;
-	// redirect[1] = -1;
-	// if (one->files != NULL)
-	// {
-	// 	redirect[0] = check_redirection(one, 0);
-	// 	redirect[1] = check_redirection(one, 1);
-	// }
-	built_in_table(one, env);
+	redirect[0] = NO_REDIRECTION;
+	redirect[1] = NO_REDIRECTION;
+	if (one->files != NULL)
+	{
+		redirect[0] = check_redirection(one, 0);
+		redirect[1] = check_redirection(one, 1);
+	}
+	if (redirect[0] != NO_REDIRECTION)
+		set_input(one, redirect);
+	if (redirect[1] != NO_REDIRECTION)
+		set_output(one, redirect);
+	built_in_table(one, env, 1);
 	return (EXIT_SUCCESS);
 }
 
