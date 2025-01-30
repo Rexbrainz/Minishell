@@ -6,22 +6,23 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 08:52:12 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 07:41:22 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCANNER_H
 # define SCANNER_H
 
-# include <stdio.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <stdbool.h>
-# include "../../new_libft/libft.h"
+//# include <stdio.h>
+//# include <unistd.h>
+//# include <readline/readline.h>
+//# include <readline/history.h>
+//# include <fcntl.h>
+//# include <sys/wait.h>
+//# include <stdbool.h>
+//# include "../../new_libft/libft.h"
 # include "../../Includes/minishell.h"
+//# include "parser.h"
 
 typedef enum e_tok_types
 {
@@ -68,7 +69,7 @@ typedef struct s_tokens
 }	t_tokens;
 
 char		*prompt1(t_tokens *tokens);
-t_tokens	*parse_line(t_tokens *tokens);
+//t_tokens	*parse_line(t_tokens *tokens);
 t_toklist	*scan_line(t_tokens *tokens);
 bool		add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos);
 void		init_tokens(t_tokens *tokens);
@@ -91,4 +92,8 @@ bool		add_options(t_tokens *tokens, char **c);
 bool		add_backslash(t_tokens *tokens, char **c);
 void		prompt_for_more(t_tokens *tokens, char **c, char **s);
 bool		is_delim(char c);
+char		*expand(char *lexeme);
+char		*get_heredoc_input(char *delim);
+void		remove_escape_char(t_tokens *tokens);
+
 #endif

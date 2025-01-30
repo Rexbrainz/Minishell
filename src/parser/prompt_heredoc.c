@@ -6,13 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 17:34:54 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:58:13 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-#include "scanner.h"
-#include "parser.h"
+//#include "scanner.h"
+//#include "parser.h"
 
 static char	*check_for_quote(char *delim, bool *quote)
 {
@@ -62,7 +62,7 @@ static char	*the_prompt(char *delim)
 	while (true)
 	{
 		line = readline("> ");
-		if (!ft_strncmp(delim, line, ft_strlen(delim)))
+		if (!ft_strncmp(delim, line, ft_strlen(line)))
 			break ;
 		if (!lexeme)
 			lexeme = ft_strdup(line);

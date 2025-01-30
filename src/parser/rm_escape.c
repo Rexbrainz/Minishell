@@ -6,13 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 07:39:09 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 12:36:43 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:58:56 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-#include "scanner.h"
-#include "parser.h"
+//#include "scanner.h"
+//#include "parser.h"
 
 static char	*rm_backslash(char *lexeme)
 {
@@ -75,7 +75,8 @@ void	remove_escape_char(t_tokens *tokens)
 	curr = tokens->head;
 	while (curr)
 	{
-		s = ft_strchr(curr->lexeme, '\\');
+		if (curr->type != S_QUOTE)
+			s = ft_strchr(curr->lexeme, '\\');
 		if (s)
 		{
 			lexeme = rm_backslash(curr->lexeme);

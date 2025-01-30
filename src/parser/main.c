@@ -6,29 +6,18 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 17:44:23 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 11:28:05 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-#include "scanner.h"
+//#include "scanner.h"
 
 static void	prompt(t_tokens *tokens)
 {
-	//char	*back_slash;
-
 	tokens->t_input = readline("minishell$ ");
 	if (!tokens->t_input)
 		return ;
-	// back_slash = NULL;
-	// back_slash = ft_strrchr(tokens->t_input, '\\');
-	// while (back_slash && !*(back_slash + 1))
-	// {
-	// 	tokens->t_input = prompt1(tokens);
-	// 	if (!tokens->t_input)
-	// 		return ;
-	// 	back_slash = ft_strrchr(tokens->t_input, '\\');
-	// }
 }
 
 char	*prompt1(t_tokens *tokens)
@@ -59,20 +48,24 @@ char	*prompt1(t_tokens *tokens)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_tokens	tokens;
-	t_toklist	*curr;
+	int				i;
+	t_command		cmd;
+	t_commandlist	*current;
+	t_tokens		tokens;
+	t_toklist		*curr;
 
 	(void)argv;
 	(void)argc;
 	(void)env;
 	init_tokens(&tokens);
+	init_commands(&cmd);
 	while (1)
 	{
 		prompt(&tokens);
 		if (!tokens.t_input)
 			break ;
 		add_history(tokens.t_input);
-		parse_line(&tokens);
+		parse_line(&cmd, &tokens);
 		ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
 			tokens.t_input, tokens.lexeme_count);
 		while (tokens.head)
@@ -85,6 +78,18 @@ int	main(int argc, char **argv, char **env)
 			free(curr);
 		}
 		free(tokens.t_input);
+		current = cmd.head;
+		while (cmd.head)
+		{
+			i = 0;
+			ft_printf("The command and arguments are: ");
+			while (*(cmd.head->cmd))
+				ft_printf("%d. [%s] ", i++, *(cmd.head->cmd)++);
+			ft_printf("\n");
+			current = cmd.head;
+			cmd.head = cmd.head->next;
+			free(current);
+		}
 	}
 	return (0);
 }

@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 13:15:35 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:07:44 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-#include "../scanner.h"
+//#include "../scanner.h"
 
 bool	add_pipe_or_op(t_tokens *tokens, char **c)
 {
@@ -113,10 +113,8 @@ bool	add_variable(t_tokens *tokens, char **c)
 		s++;
 	}
 	if (type == DOLLAR)
-		while (*s++ && (*s != ' ' && *s != '|' && *s != '<' && *s != '>'
-				&& *s != '"' && *s != '\'' && *s != '*' && *s != '&'
-				&& *s != '$'))
-			s++;
+		while (*s++ && !is_delim(*s) && *s != '$')
+			;
 	if (type == EXIT_STAT)
 		s = *c + 2;
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);

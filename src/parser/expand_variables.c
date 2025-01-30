@@ -6,13 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/25 15:18:50 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:15:40 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-#include "scanner.h"
-#include "parser.h"
+//#include "scanner.h"
+//#include "parser.h"
 
 static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 {

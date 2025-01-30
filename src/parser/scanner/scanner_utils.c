@@ -6,11 +6,11 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 13:14:04 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:56:28 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../scanner.h"
+//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 int	get_rest_of_lexeme(char **c, t_type type)

@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 14:04:24 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 10:38:07 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-#include "../scanner.h"
+//#include "../scanner.h"
 
 bool	add_word_or_builtin(t_tokens *tokens, char **c)
 {
@@ -21,10 +21,7 @@ bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	s = *c;
 	if (*s == '$')
 		(*c)++;
-	while (**c && (**c != ' ' && **c != ')' && **c
-			!= '(' && **c != '"' && **c != '\''
-			&& **c != '|' && **c != '&' && **c != '$'
-			&& **c != '<' && **c != '>'))
+	while (**c && !is_delim(**c) && **c != '$')
 		(*c)++;
 	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
 	if (!lexeme)
@@ -50,7 +47,7 @@ bool	add_options(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	while (*s)
+	while (*s && !is_delim(*s))
 	{
 		if (*s++ == ' ')
 		{

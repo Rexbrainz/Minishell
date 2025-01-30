@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 13:41:47 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 06:52:54 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-#include "../scanner.h"
+//#include "../scanner.h"
 
 bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 {
@@ -62,7 +62,7 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 		return (false);
 	else if (**c == '&' && *(*c + 1) == '&' && !add_and(tokens, c))
 		return (false);
-	else if (!ft_isspace(**c) && **c && !add_word_or_builtin(tokens, c))
+	else if (**c && !is_delim(**c) && !add_word_or_builtin(tokens, c))
 		return (false);
 	return (true);
 }
@@ -76,15 +76,12 @@ t_toklist	*scan_line(t_tokens *tokens)
 	{
 		while (ft_isspace(*s))
 			s++;
-//		if (ft_isalnum(*s))
-//		{
-//			if (!add_word_or_builtin(tokens, &s))
-//				return (NULL);
-//			continue ;
-//		}
-		//if (*s == '$' && (*(s + 1) == ' ' || !*(s + 1)) && !add_token(tokens,
-		//		WORDS, ft_strdup("$"), s++ - tokens->t_input))
-		//	return (NULL);
+		if (ft_isalnum(*s))
+		{
+			if (!add_word_or_builtin(tokens, &s))
+				return (NULL);
+			continue ;
+		}
 		if (!id_and_add_tokens(tokens, &s))
 			return (NULL);
 		if (!*s && (tokens->l_t == ANDS

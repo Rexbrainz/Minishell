@@ -6,13 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 08:28:55 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:11:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-#include "scanner.h"
-#include "parser.h"
+//#include "scanner.h"
+//#include "parser.h"
 /*
 bool	add_cmd(t_cmd *cmd, char **cmd_args, t_type type, t_files *files)
 {
@@ -54,7 +54,7 @@ static void	organize_cmds(t_tokens *tokens)
 //	return (&cmd);
 }
 */
-t_tokens	*parse_line(t_tokens *tokens)
+t_tokens	*parse_line(t_command *cmd, t_tokens *tokens)
 {
 	t_type		t;
 	t_toklist	*current;
@@ -75,6 +75,7 @@ t_tokens	*parse_line(t_tokens *tokens)
 		current = current->next;
 	}
 	remove_escape_char(tokens);
+	join_cmd_and_args(cmd, tokens->head);
 //	organize_cmds(tokens);
 	return (tokens);
 }

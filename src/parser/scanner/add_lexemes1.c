@@ -6,11 +6,11 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 07:36:48 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 11:39:33 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../scanner.h"
+//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 static int	
@@ -24,7 +24,7 @@ bool	add_and(t_tokens *tokens, char **c)
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 2);
 	if (!lexeme)
 		return (false);
-	if (!add_token(tokens, STAR, lexeme, *c - tokens->t_input))
+	if (!add_token(tokens, ANDS, lexeme, *c - tokens->t_input))
 		return (false);
 	tokens->l_t = ANDS;
 	*c += 2;

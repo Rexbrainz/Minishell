@@ -6,11 +6,11 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/27 06:47:31 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/29 07:20:28 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../scanner.h"
+//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 /*
@@ -26,4 +26,11 @@ void	init_tokens(t_tokens *tokens)
 	tokens->is_inside_dquote = false;
 	tokens->l_t = -1;
 	tokens->size = 0;
+}
+
+void	init_commands(t_command *cmd)
+{
+	cmd->head = NULL;
+	cmd->tail = NULL;
+	cmd->size = 0;
 }
