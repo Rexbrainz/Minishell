@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/30 07:41:45 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:11:26 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **env)
 				tokens.head->lexeme, tokens.head->type, tokens.head->start_pos);
 			curr = tokens.head;
 			tokens.head = tokens.head->next;
-			free(curr->lexeme);
+			//free(curr->lexeme);
 			free(curr);
 		}
 		free(tokens.t_input);
@@ -90,6 +90,16 @@ int	main(int argc, char **argv, char **env)
 				while (*(cmd.head->cmd))
 					ft_printf("%d. [%s] ", i++, *(cmd.head->cmd)++);
 			ft_printf("\n");
+			if (cmd.head->files)
+			{
+				int j = 0;
+				ft_printf("FILES\n");
+				while (cmd.head->files->head)
+				{
+					ft_printf("FILE[%d]-> %s\n", j++, cmd.head->files->head->filename);
+					cmd.head->files->head = cmd.head->files->head->next;
+				}
+			}
 			current = cmd.head;
 			cmd.head = cmd.head->next;
 			free(current);

@@ -16,7 +16,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = main.c	scanner/init_tokens.c	parser.c\
   	  scanner/scanner_utils.c	scanner/scanner.c	scanner/add_lexemes.c\
 	  scanner/add_lexemes1.c	scanner/add_lexemes2.c	scanner/scanner_utils1.c\
-	  expand_variables.c	prompt_heredoc.c	rm_escape.c		join_cmds.c
+	  expand_variables.c	prompt_heredoc.c	rm_escape.c		join_cmds.c\
+	  organize_file.c
 
 # Object files
 OBJ = $(SRC:.c=.o)

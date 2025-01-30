@@ -56,7 +56,8 @@ typedef struct s_command
 
 void		init_commands(t_command *cmd);
 t_tokens	*parse_line(t_command *cmd, t_tokens *tokens);
-void		join_cmd_and_args(t_command *cmd, t_toklist *head);
+void		join_cmd_and_args(t_command *cmd, t_toklist *tokens);
 bool		add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
+void		enter_filelist(t_command *cmd, t_toklist *tokens);
 
 #endif
