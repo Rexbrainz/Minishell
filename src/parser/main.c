@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/29 11:28:05 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/30 07:41:45 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,13 @@ int	main(int argc, char **argv, char **env)
 		while (cmd.head)
 		{
 			i = 0;
+			ft_printf("Node type: [%d]\t", cmd.head->type);
 			ft_printf("The command and arguments are: ");
-			while (*(cmd.head->cmd))
-				ft_printf("%d. [%s] ", i++, *(cmd.head->cmd)++);
+			if (!cmd.head->cmd[0])
+				ft_printf("NULL");
+			else
+				while (*(cmd.head->cmd))
+					ft_printf("%d. [%s] ", i++, *(cmd.head->cmd)++);
 			ft_printf("\n");
 			current = cmd.head;
 			cmd.head = cmd.head->next;

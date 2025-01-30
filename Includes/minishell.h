@@ -42,7 +42,7 @@ typedef struct s_file
 typedef struct s_commandlist
 {
 	char					**cmd;
-	int						type;
+	t_type					type;
 	t_file					*files;
 	struct s_commandlist	*next;
 }	t_commandlist;
