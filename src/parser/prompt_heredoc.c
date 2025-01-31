@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/28 16:58:13 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/31 08:12:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static char	*the_prompt(char *delim)
 	{
 		line = readline("> ");
 		if (!ft_strncmp(delim, line, ft_strlen(line)))
+		{
+			free(line);
 			break ;
+		}
 		if (!lexeme)
 			lexeme = ft_strdup(line);
 		else
@@ -71,6 +74,7 @@ static char	*the_prompt(char *delim)
 			temp = join_inputs(lexeme, line);
 			lexeme = temp;
 		}
+		free(line);
 	}
 	return (lexeme);
 }

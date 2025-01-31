@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:10:15 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/30 16:36:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/31 08:18:34 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_file	*get_filelist(t_toklist **tokens)
 				file = init_files();
 			if (!file)
 				return (NULL);
-			add_file(file, (*tokens)->lexeme, (*tokens)->type);
+			add_file(file, ft_strdup((*tokens)->lexeme), (*tokens)->type);
 		}
 		*tokens = (*tokens)->next;
 	}
@@ -80,11 +80,14 @@ void	enter_filelist(t_command *cmd, t_toklist *tokens)
 	cmdlist = cmd->head;
 	while (cmdlist)
 	{
-		cmd->head->files = get_filelist(&tokens);
-		if (cmd->head->files)
-			ft_printf("There is a file\n");
-		else
-			ft_printf("NONE\n");
+		if (cmdlist->type == PIPES || cmdlist->type == ANDS
+			|| cmdlist->type == ORS)
+		{
+			tokens = tokens->next;
+			cmdlist = cmdlist->next;
+			continue ;
+		}
+		cmdlist->files = get_filelist(&tokens);
 		if (tokens)
 			tokens = tokens->next;
 		cmdlist = cmdlist->next;

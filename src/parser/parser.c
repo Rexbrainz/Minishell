@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/30 16:56:14 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/31 07:13:26 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_tokens	*parse_line(t_command *cmd, t_tokens *tokens)
 	}
 	remove_escape_char(tokens);
 	join_cmd_and_args(cmd, tokens->head);
-//	enter_filelist(cmd, tokens->head);
+	enter_filelist(cmd, tokens->head);
 //	organize_cmds(tokens);
 	return (tokens);
 }

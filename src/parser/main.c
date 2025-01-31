@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/30 12:11:26 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/31 08:03:57 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **env)
 				tokens.head->lexeme, tokens.head->type, tokens.head->start_pos);
 			curr = tokens.head;
 			tokens.head = tokens.head->next;
-			//free(curr->lexeme);
+			free(curr->lexeme);
 			free(curr);
 		}
 		free(tokens.t_input);
@@ -84,7 +84,7 @@ int	main(int argc, char **argv, char **env)
 			i = 0;
 			ft_printf("Node type: [%d]\t", cmd.head->type);
 			ft_printf("The command and arguments are: ");
-			if (!cmd.head->cmd[0])
+			if (!cmd.head->cmd)
 				ft_printf("NULL");
 			else
 				while (*(cmd.head->cmd))

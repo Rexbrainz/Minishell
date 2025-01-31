@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/30 18:04:20 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/01/31 07:10:09 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	add_cmds(t_command *cmd, char **cmds, t_type type)
 	cmd->size++;
 }
 
-static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd)
+static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
+		, t_type *type)
 {
 	int			j;
 
@@ -56,6 +57,8 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd)
 			start = start->next;
 			continue ;
 		}
+		if (!j)
+			*type = start->type;
 		cmd[j++] = ft_strdup(start->lexeme);
 		start = start->next;
 	}
@@ -70,7 +73,6 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 	t_toklist	*start;
 
 	i = 0;
-	*type = (*curr)->type;
 	start = *curr;
 	while (*curr)
 	{
@@ -85,10 +87,12 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 		}
 		*curr = (*curr)->next;
 	}
+	if (!i)
+		return (NULL);
 	cmd = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!cmd)
 		return (NULL);
-	return (enter_cmd(start, curr, cmd));
+	return (enter_cmd(start, curr, cmd, type));
 }
 
 void	join_cmd_and_args(t_command *cmd, t_toklist *tokens)
@@ -102,9 +106,13 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens)
 	{
 		type = -10;
 		cmds_args = find_lexemes(&tokens, &type);
-		add_cmds(cmd, cmds_args, type);
+		if (cmds_args)
+			add_cmds(cmd, cmds_args, type);
 		if (tokens)
+		{
+			add_cmds(cmd, NULL, tokens->type);
 			tokens = tokens->next;
+		}
 	}
 	tokens = temp;
 }
