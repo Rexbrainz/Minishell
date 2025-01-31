@@ -10,8 +10,7 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include "../new_libft/libft.h"
-# include "../src/parser/scanner.h"
-//# include "../src/parser/parser.h"
+# include "../src/parser/parser.h"
 
 // Infile <, Outfile >, Append >>, Heredoc <<.
 typedef enum e_types
@@ -59,5 +58,7 @@ t_tokens	*parse_line(t_command *cmd, t_tokens *tokens);
 void		join_cmd_and_args(t_command *cmd, t_toklist *tokens);
 bool		add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void		enter_filelist(t_command *cmd, t_toklist *tokens);
+void		free_tokens_list(t_tokens *tokens);
+void		free_cmds_list(t_command *cmd);
 
 #endif
