@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 11:14:34 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:55:09 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	init_tokens(&tokens);
-	init_commands(&cmd);
 	while (1)
 	{
+		init_tokens(&tokens);
+		init_commands(&cmd);
 		prompt(&tokens);
 		if (!tokens.t_input)
 			break ;
 		add_history(tokens.t_input);
-		parse_line(&cmd, &tokens, env);
+		parse_tokens(&cmd, &tokens, env);
 		free_tokens_list(&tokens);
 		run_tokens(&cmd);
 		// tokens_print(&tokens);

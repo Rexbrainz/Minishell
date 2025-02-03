@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:07:11 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:55:13 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	process_tokens(t_toklist *current)
 	return (0);
 }
 
-t_tokens	*parse_line(t_command *cmd, t_tokens *tokens, char **env)
+t_tokens	*parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
 {
 	t_type		t;
 	t_toklist	*current;
