@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/29 16:07:44 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:09:32 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 2);
 		if (!lexeme)
 			return (false);
-		if (!add_token(tokens, ORS, lexeme, *c - tokens->t_input))
+		if (!add_token(tokens, OR, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = ORS;
+		tokens->l_t = OR;
 		*c += 2;
 	}
 	else
@@ -32,9 +32,9 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 1);
 		if (!lexeme)
 			return (false);
-		if (!add_token(tokens, PIPES, lexeme, *c - tokens->t_input))
+		if (!add_token(tokens, PIPE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = PIPES;
+		tokens->l_t = PIPE;
 		*c += 1;
 	}
 	return (true);
@@ -47,22 +47,22 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 
 	if (*(*c + 1) == '<')
 	{
-		len = get_rest_of_lexeme(c, HEREDOCS);
+		len = get_rest_of_lexeme(c, HEREDOC);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme
-			|| !add_token(tokens, HEREDOCS, lexeme, *c - tokens->t_input))
+			|| !add_token(tokens, HEREDOC, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = HEREDOCS;
+		tokens->l_t = HEREDOC;
 	}
 	else
 	{
-		len = get_rest_of_lexeme(c, INFILES);
+		len = get_rest_of_lexeme(c, INFILE);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);
-		if (!add_token(tokens, INFILES, lexeme, *c - tokens->t_input))
+		if (!add_token(tokens, INFILE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = INFILES;
+		tokens->l_t = INFILE;
 	}
 	*c += len;
 	return (true);
@@ -75,23 +75,23 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 
 	if (*(*c + 1) == '>')
 	{
-		len = get_rest_of_lexeme(c, APPENDS);
+		len = get_rest_of_lexeme(c, APPEND);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);
-		if (!add_token(tokens, APPENDS, lexeme, *c - tokens->t_input))
+		if (!add_token(tokens, APPEND, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = APPENDS;
+		tokens->l_t = APPEND;
 	}
 	else
 	{
-		len = get_rest_of_lexeme(c, OUTFILES);
+		len = get_rest_of_lexeme(c, OUTFILE);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);
-		if (!add_token(tokens, OUTFILES, lexeme, *c - tokens->t_input))
+		if (!add_token(tokens, OUTFILE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = OUTFILES;
+		tokens->l_t = OUTFILE;
 	}
 	*c += len;
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:10:15 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 11:13:23 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:06:04 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static t_file	*get_filelist(t_toklist **tokens)
 	file = NULL;
 	while (*tokens)
 	{
-		if ((*tokens)->type == PIPES || (*tokens)->type == ANDS
-			|| (*tokens)->type == ORS)
+		if ((*tokens)->type == PIPE || (*tokens)->type == AND
+			|| (*tokens)->type == OR)
 			break ;
-		if ((*tokens)->type == INFILES || (*tokens)->type == OUTFILES
-			|| (*tokens)->type == APPENDS || (*tokens)->type == HEREDOCS)
+		if ((*tokens)->type == INFILE || (*tokens)->type == OUTFILE
+			|| (*tokens)->type == APPEND || (*tokens)->type == HEREDOC)
 		{
 			if (!file)
 				file = init_files();
@@ -80,8 +80,8 @@ void	enter_filelist(t_command *cmd, t_toklist *tokens)
 	cmdlist = cmd->head;
 	while (cmdlist)
 	{
-		if (cmdlist->type == PIPES || cmdlist->type == ANDS
-			|| cmdlist->type == ORS)
+		if (cmdlist->type == PIPE || cmdlist->type == AND
+			|| cmdlist->type == OR)
 		{
 			tokens = tokens->next;
 			cmdlist = cmdlist->next;

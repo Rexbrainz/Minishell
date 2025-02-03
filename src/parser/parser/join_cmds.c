@@ -6,13 +6,11 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 11:12:17 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:03:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "parser.h"
-//#include "scanner.h"
 
 static void	add_cmds(t_command *cmd, char **cmds, t_type type, char **env)
 {
@@ -47,8 +45,8 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 	j = 0;
 	while (start != *end)
 	{
-		if (start->type == INFILES || start->type == OUTFILES
-			|| start->type == APPENDS || start->type == HEREDOCS)
+		if (start->type == INFILE || start->type == OUTFILE
+			|| start->type == APPEND || start->type == HEREDOC)
 		{
 			start = start->next;
 			continue ;
@@ -77,11 +75,11 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 	start = *curr;
 	while (*curr)
 	{
-		if ((*curr)->type == PIPES || (*curr)->type == ANDS
-			|| (*curr)->type == ORS)
+		if ((*curr)->type == PIPE || (*curr)->type == AND
+			|| (*curr)->type == OR)
 			break ;
-		if ((*curr)->type != INFILES && (*curr)->type != OUTFILES
-			&& (*curr)->type != APPENDS && (*curr)->type != HEREDOCS)
+		if ((*curr)->type != INFILE && (*curr)->type != OUTFILE
+			&& (*curr)->type != APPEND && (*curr)->type != HEREDOC)
 		{
 			if ((*curr)->type == D_QUOTE || *(*curr)->lexeme)
 				i++;

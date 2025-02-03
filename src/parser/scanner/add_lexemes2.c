@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/29 10:38:07 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:10:36 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ bool	add_word_or_builtin(t_tokens *tokens, char **c)
 		return (false);
 	if (is_builtin(lexeme))
 	{
-		if (!add_token(tokens, BUILTINS, lexeme, s - tokens->t_input))
+		if (!add_token(tokens, BUILTIN, lexeme, s - tokens->t_input))
 			return (false);
-		tokens->l_t = BUILTINS;
+		tokens->l_t = BUILTIN;
 	}
 	else
 	{
-		if (!add_token(tokens, WORDS, lexeme, s - tokens->t_input))
+		if (!add_token(tokens, WORD, lexeme, s - tokens->t_input))
 			return (false);
-		tokens->l_t = WORDS;
+		tokens->l_t = WORD;
 	}
 	return (true);
 }

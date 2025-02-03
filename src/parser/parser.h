@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 11:02:21 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:44:19 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //# include <sys/wait.h>
 //# include <stdbool.h>
 //# include "../../new_libft/libft.h"
-# include "../../Includes/minishell.h"
+//# include "../../Includes/minishell.h"
 //# include "parser.h"
 
 // typedef enum e_tok_types

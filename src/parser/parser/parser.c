@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 09:43:44 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:07:11 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	process_tokens(t_toklist *current)
 	static t_type	l_t = NOTHING;
 
 	c_t = current->type;
-	if ((c_t == PIPES || c_t == ANDS || c_t == ORS)
+	if ((c_t == PIPE || c_t == AND || c_t == OR)
 		&& (l_t == NOTHING || l_t == c_t))
 		return (258);
-	else if (c_t == HEREDOCS)
+	else if (c_t == HEREDOC)
 		current->lexeme = get_heredoc_input(current->lexeme);
 	else if (c_t == DOLLAR || c_t == D_QUOTE)
 		current->lexeme = expand(current->lexeme);
@@ -41,9 +41,9 @@ t_tokens	*parse_line(t_command *cmd, t_tokens *tokens, char **env)
 	while (current)
 	{
 		t = current->type;
-		if ((t == PIPES || t == ANDS || t == ORS) && current == tokens->head)
+		if ((t == PIPE || t == AND || t == OR) && current == tokens->head)
 			prompt1(tokens); // Find a solid way to handle more prompts.	
-		if (t == HEREDOCS)
+		if (t == HEREDOC)
 			current->lexeme = get_heredoc_input(current->lexeme);
 		else if (t == DOLLAR || t == D_QUOTE)
 			current->lexeme = expand(current->lexeme);

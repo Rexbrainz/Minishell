@@ -6,12 +6,12 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 07:22:35 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:49:02 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Includes/minishell.h"
-//#include "../scanner.h"
+#include "../../Includes/minishell.h"
+//#include "../parser.h"
 
 bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 {

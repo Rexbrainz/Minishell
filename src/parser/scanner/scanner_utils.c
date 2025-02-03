@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/28 16:56:28 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:11:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	char	*s;
 
 	s = NULL;
-	if (type == INFILES || type == HEREDOCS)
+	if (type == INFILE || type == HEREDOC)
 	{
 		while (**c && (**c == '<' || ft_isspace(**c)))
 			(*c)++;
@@ -27,7 +27,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 			&& *s != '&')
 			s++;
 	}
-	else if (type == OUTFILES || type == APPENDS)
+	else if (type == OUTFILE || type == APPEND)
 	{
 		while (**c == '>' || ft_isspace(**c))
 			(*c)++;

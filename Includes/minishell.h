@@ -11,7 +11,6 @@
 # include <errno.h>
 # include <stdbool.h>
 # include "../new_libft/libft.h"
-# include "../src/parser/parser.h"
 # include "../garbage_collector/bin_malloc.h"
 
 // Infile <, Outfile >, Append >>, Heredoc <<.
@@ -39,6 +38,8 @@ typedef enum e_types
 	BACK_SLASH,
 	NOTHING
 }	t_type;
+
+# include "../src/parser/parser.h"
 
 typedef struct s_filelist
 {
