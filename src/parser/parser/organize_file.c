@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   organize_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:10:15 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/31 10:35:30 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:13:23 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_file	*init_files(void)
 {
 	t_file	*file;
 
-	file = (t_file *)malloc(sizeof(t_file));
+	file = (t_file *)bin_malloc(sizeof(t_file));
 	if (!file)
 		return (NULL);
 	file->head = NULL;
@@ -29,7 +29,7 @@ static bool	add_file(t_file *file, char *filename, t_type type)
 {
 	t_filelist	*new_node;
 
-	new_node = (t_filelist *)malloc(sizeof(t_filelist));
+	new_node = (t_filelist *)bin_malloc(sizeof(t_filelist));
 	if (!new_node)
 		return (false);
 	new_node->type = type;
@@ -66,7 +66,7 @@ static t_file	*get_filelist(t_toklist **tokens)
 				file = init_files();
 			if (!file)
 				return (NULL);
-			add_file(file, ft_strdup((*tokens)->lexeme), (*tokens)->type);
+			add_file(file, bin_strdup((*tokens)->lexeme), (*tokens)->type);
 		}
 		*tokens = (*tokens)->next;
 	}

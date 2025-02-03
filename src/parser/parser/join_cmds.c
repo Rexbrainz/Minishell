@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 09:43:18 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:12:17 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	add_cmds(t_command *cmd, char **cmds, t_type type, char **env)
 {
 	t_commandlist	*new_node;
 
-	new_node = (t_commandlist *)malloc(sizeof(t_commandlist));
+	new_node = (t_commandlist *)bin_malloc(sizeof(t_commandlist));
 	if (!new_node)
 		return ;
 	new_node->cmd = cmds;
@@ -60,7 +60,7 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 		}
 		if (!j)
 			*type = start->type;
-		cmd[j++] = ft_strdup(start->lexeme);
+		cmd[j++] = bin_strdup(start->lexeme);
 		start = start->next;
 	}
 	cmd[j] = NULL;
@@ -90,7 +90,7 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 	}
 	if (!i)
 		return (NULL);
-	cmd = (char **)malloc(sizeof(char *) * (i + 1));
+	cmd = (char **)bin_malloc(sizeof(char *) * (i + 1));
 	if (!cmd)
 		return (NULL);
 	return (enter_cmd(start, curr, cmd, type));

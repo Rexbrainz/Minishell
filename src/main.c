@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 10:42:55 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:14:34 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,12 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		add_history(tokens.t_input);
 		parse_line(&cmd, &tokens, env);
+		free_tokens_list(&tokens);
 		run_tokens(&cmd);
 		// tokens_print(&tokens);
-		free_tokens_list(&tokens);
 		// commands_print(&cmd);
-		free_cmds_list(&cmd);
+		// free_cmds_list(&cmd);
+		bin_malloc(-1);
 	}
 	return (0);
 }
