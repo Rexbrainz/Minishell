@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 08:20:05 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:02:21 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@
 # include "../../Includes/minishell.h"
 //# include "parser.h"
 
-typedef enum e_tok_types
-{
-	WORDS,
-	OPTIONS,
-	BUILTINS,
-	PIPES,
-	INFILES,
-	OUTFILES,
-	APPENDS,
-	HEREDOCS,
-	DOLLAR,
-	S_QUOTE,
-	D_QUOTE,
-	LEFT_PAREN,
-	RIGHT_PAREN,
-	STAR,
-	ANDS,
-	ORS,
-	CMD_SUB,
-	EXIT_STAT,
-	BACK_SLASH,
-	NOTHING,
-}	t_type;
+// typedef enum e_tok_types
+// {
+// 	WORDS,
+// 	OPTIONS,
+// 	BUILTINS,
+// 	PIPES,
+// 	INFILES,
+// 	OUTFILES,
+// 	APPENDS,
+// 	HEREDOCS,
+// 	DOLLAR,
+// 	S_QUOTE,
+// 	D_QUOTE,
+// 	LEFT_PAREN,
+// 	RIGHT_PAREN,
+// 	STAR,
+// 	ANDS,
+// 	ORS,
+// 	CMD_SUB,
+// 	EXIT_STAT,
+// 	BACK_SLASH,
+// 	NOTHING,
+// }	t_type;
 
 typedef struct s_toklist
 {

@@ -26,13 +26,24 @@ typedef enum e_types
 	INFILE,
 	OUTFILE,
 	APPEND,
-	HEREDOC
-}	t_types;
+	HEREDOC,
+	OPTIONS,
+	DOLLAR,
+	S_QUOTE,
+	D_QUOTE,
+	LEFT_PAREN,
+	RIGHT_PAREN,
+	STAR,
+	CMD_SUB,
+	EXIT_STAT,
+	BACK_SLASH,
+	NOTHING
+}	t_type;
 
 typedef struct s_filelist
 {
 	char				*filename;
-	int					type;
+	t_type				type;
 	struct s_filelist	*next;
 }	t_filelist;
 
