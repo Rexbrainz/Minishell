@@ -50,14 +50,15 @@ int	run_tokens(t_command *cmds)
 {
 	t_commandlist	*current;
 	int				starting_in_out[2];
-	int				exit_code;
+	int				exit_status;
 
 	current = cmds->head;
+	exit_status = 0;
 	starting_in_out[0] = NO_REDIRECTION;
 	starting_in_out[1] = NO_REDIRECTION;
-	exit_code = 0;
 	if (lonely_builtin(cmds) == 0)
-		exit_code = run_one(current, current->env);
-	exit_code = rec_exec(cmds, 0, starting_in_out);
-	return (exit_code);
+		exit_status = run_one(current, current->env);
+	else
+		exit_status = rec_exec(cmds, 0, starting_in_out, 0);
+	return (exit_status);
 }

@@ -117,13 +117,11 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	Reworked pipex to run single command
 	return status to check if we keep going
 */
-int	run_cmd(t_commandlist *cmd, int *redirect,
+pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
 {
 	pid_t	child;
-	int		status;
 
-	status = 0;
 	child = fork();
 	if (child == -1)
 		standard_error();
@@ -136,5 +134,5 @@ int	run_cmd(t_commandlist *cmd, int *redirect,
 		close(prev_in_out[0]);
 	if (new_in_out[1] != NO_REDIRECTION)
 		close(new_in_out[1]);
-	return (WEXITSTATUS(status));
+	return (child);
 }

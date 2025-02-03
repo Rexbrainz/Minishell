@@ -20,15 +20,20 @@ void	looking_for_pipes(t_command *cmds, int start, int *new_in_out)
 }
 
 /*
-	parent process waits for all the children
-	generate the exit code for the last one
-	TBD env as a list (make it easy)
+	capturing the last exit command
+	and waiting for the rest
 */
-void	waiting_for_everyone(void)
+int	wait_for_last(pid_t last_pid)
 {
 	int		status;
+	int		saving;
 	pid_t	waiting_for_each;
 
+	status = 0;
+	saving = 0;
+	waitpid(last_pid, &status, 0);
+	if (WIFEXITED(status))
+		saving = WEXITSTATUS(status);
 	while (errno != ECHILD)
 	{
 		waiting_for_each = waitpid(-1, &status, 0);
@@ -40,6 +45,7 @@ void	waiting_for_everyone(void)
 				standard_error();
 		}
 	}
+	return (saving);
 }
 
 /*
@@ -73,8 +79,6 @@ static int	find_opposite(t_commandlist *current,
 }
 
 /*
-	DOUBLE CHECK THIS CRAP
-	!!!!!!!	!!!!!!!!	!!!!!!!!	!!!!!!!!	
 	Making sure that the execution should end
 	for the case of cmd1 || cmd2 && cmd3
 	we should execute first one and last

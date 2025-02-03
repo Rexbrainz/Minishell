@@ -1,38 +1,10 @@
 #include "minishell.h"
 
 /*
-	Looking for pipes and logic operators in context
-	to know how many times we need to go to the next
-*/
-static int	find_leftmost(t_command *cmds, int start)
-{
-	int				cpo;
-	int				end;
-	t_commandlist	*current;
-
-	cpo = 0;
-	end = 0;
-	current = cmds->head;
-	while (current != NULL && current->next != NULL && cpo < start)
-	{
-		if (current->type == AND || current->type == OR
-			|| current->type == PIPE)
-		{
-			cpo++;
-			if (cpo == start - 1)
-				break ;
-		}
-		end++;
-		current = current->next;
-	}
-	return (end);
-}
-
-/*
 	Ensuring that you can keep going depending on logic operators
 	looking at the exit of the last executed function to compare
 */
-static int	keep_going(t_command *cmds, int last_exit, int end)
+static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 {
 	t_commandlist	*current;
 	int				co;
@@ -44,10 +16,18 @@ static int	keep_going(t_command *cmds, int last_exit, int end)
 		co++;
 		current = current->next;
 	}
-	if (current->type == AND && last_exit != 0)
-		return (AND);
-	else if (current->type == OR && last_exit == 0)
-		return (OR);
+	if (current->type == AND)
+	{
+		(*exit_code) = wait_for_last(last_pid);
+		if ((*exit_code) != 0)
+			return (AND);
+	}
+	else if (current->type == OR)
+	{
+		(*exit_code) = wait_for_last(last_pid);
+		if ((*exit_code) == 0)
+			return (OR);
+	}
 	return (0);
 }
 
@@ -100,39 +80,46 @@ static int	c_pipes_operators(t_command *cmds)
 	return (cpo);
 }
 
-/*	
-		Possible recursive execution
-	- finding left most with highest priority (after PIPE/AND/OR)
-	- saving the exit code to the next part of (left most +1)
-	- divided by two because we increment start + 2 and
-	for each OR / AND / PIPE we have to call execve + 1 times
-	- returning the last exit code and wait for proccesses
+/*
+	shortenning up the main function
 */
-int	rec_exec(t_command *cmds, int start, int *prev_in_out)
+static void	close_prev(int *prev_in_out)
 {
-	int	last_exit;
-	int	new_in_out[2];
-	int	run_or_not;
+	if (prev_in_out[0] != NO_REDIRECTION)
+		close(prev_in_out[0]);
+}
 
-	last_exit = 0;
+/*	
+		recursive _ execution
+	- check is divided by two because we increment start + 2
+		command(0) OPERATOR(1) command(2)
+	- returning the last exit code and wait for all processes
+		saving exit for the case when pid was already used
+*/
+int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
+{
+	pid_t	current_pid;
+	int		new_in_out[2];
+	int		run_or_not;
+	int		exit_code;
+
+	current_pid = 0;
+	exit_code = 0;
 	new_in_out[0] = NO_REDIRECTION;
 	new_in_out[1] = NO_REDIRECTION;
 	looking_for_pipes(cmds, start, new_in_out);
-	run_or_not = keep_going(cmds, last_exit, find_leftmost(cmds, start));
+	run_or_not = keep_going(cmds, last_pid, start - 1, &exit_code);
 	if (run_or_not != 0)
 	{
-		if (prev_in_out[0] != NO_REDIRECTION)
-			close(prev_in_out[0]);
+		close_prev(prev_in_out);
 		start = double_check(cmds, start, run_or_not);
 		if (start == 0)
-			return (waiting_for_everyone(), last_exit);
-		rec_exec(cmds, start, new_in_out);
+			return (exit_code);
+		return (rec_exec(cmds, start, new_in_out, last_pid));
 	}
 	else
-		last_exit = check_execute(cmds, start, prev_in_out, new_in_out);
+		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
-		rec_exec(cmds, start + 2, new_in_out);
-	if (prev_in_out[0] != NO_REDIRECTION)
-		close(prev_in_out[0]);
-	return (waiting_for_everyone(), last_exit);
+		return (rec_exec(cmds, start + 2, new_in_out, current_pid));
+	return (close_prev(prev_in_out), wait_for_last(current_pid));
 }

@@ -1,6 +1,19 @@
 #include "minishell.h"
 
 /*
+	Flag if its a child process
+	if so we need to clean memory
+*/
+void	clean_exit(int update)
+{
+	if (update == NO_REDIRECTION)
+	{
+		bin_malloc(-1);
+		exit(EXIT_SUCCESS);
+	}
+}
+
+/*
 	TBD: check if it works correctly
 	with all the redirections etc.
 	(seems to be working)
@@ -16,8 +29,7 @@ static void	ft_env(char **env, int update)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		cc++;
 	}
-	if (update == NO_REDIRECTION)
-		exit(EXIT_SUCCESS);
+	clean_exit(update);
 }
 
 /*
@@ -50,8 +62,7 @@ static void	ft_echo(t_commandlist *cmd, int update)
 	}
 	if (no_new_line == 0)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	if (update == NO_REDIRECTION)
-		exit(EXIT_SUCCESS);
+	clean_exit(update);
 }
 
 /*
