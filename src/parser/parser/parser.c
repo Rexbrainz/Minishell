@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:55:13 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:25:57 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,15 @@ int	process_tokens(t_toklist *current)
 	if ((c_t == PIPE || c_t == AND || c_t == OR)
 		&& (l_t == NOTHING || l_t == c_t))
 		return (258);
+	else if ((c_t == INFILE || c_t == OUTFILE || c_t == APPEND
+		|| c_t == HEREDOC) && !*current->lexeme)
+		return (258);
 	else if (c_t == HEREDOC)
 		current->lexeme = get_heredoc_input(current->lexeme);
 	else if (c_t == DOLLAR || c_t == D_QUOTE)
 		current->lexeme = expand(current->lexeme);
+	else if ((c_t == PIPE || c_t == AND || c_t == OR || c_t == BACK_SLASH)
+		&& !current->next)
 	l_t = c_t;
 	return (0);
 }

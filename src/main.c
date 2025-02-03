@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:55:09 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:27:36 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@
 // 	}
 // }
 
-// static void	tokens_print(t_tokens *tokens)
-// {
-// 	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
-// 		tokens->t_input, tokens->lexeme_count);
-// 	while (tokens->head)
-// 	{
-// 		ft_printf("lexeme-> [%s]\ttype-> [%d]\tPos-> [%d]\t\n",
-// 			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos);
-// 		tokens->head = tokens->head->next;
-// 	}
-// }
+ static void	tokens_print(t_tokens *tokens)
+ {
+ 	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
+ 		tokens->t_input, tokens->lexeme_count);
+ 	while (tokens->head)
+ 	{
+ 		ft_printf("lexeme-> [%s]\ttype-> [%d]\tPos-> [%d]\t\n",
+ 			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos);
+ 		tokens->head = tokens->head->next;
+	}
+}
 
 static void	prompt(t_tokens *tokens)
 {
@@ -111,9 +111,9 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		add_history(tokens.t_input);
 		parse_tokens(&cmd, &tokens, env);
+		// tokens_print(&tokens);
 		free_tokens_list(&tokens);
 		run_tokens(&cmd);
-		// tokens_print(&tokens);
 		// commands_print(&cmd);
 		// free_cmds_list(&cmd);
 		bin_malloc(-1);
