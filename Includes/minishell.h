@@ -15,9 +15,13 @@
 // Infile <, Outfile >, Append >>, Heredoc <<.
 typedef enum e_types
 {
+	NO_REDIRECTION = -1,
 	WORD,
 	BUILTIN,
 	PIPE,
+	AND,
+	OR,
+	STAR,
 	INFILE,
 	OUTFILE,
 	APPEND,
@@ -43,6 +47,7 @@ typedef struct s_commandlist
 	char					**cmd;
 	t_type					type;
 	t_file					*files;
+	char					**env;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
