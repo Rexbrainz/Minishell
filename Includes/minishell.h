@@ -8,9 +8,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <stdbool.h>
 # include "../new_libft/libft.h"
 # include "../src/parser/parser.h"
+# include "../garbage_collector/bin_malloc.h"
 
 // Infile <, Outfile >, Append >>, Heredoc <<.
 typedef enum e_types
@@ -21,7 +23,6 @@ typedef enum e_types
 	PIPE,
 	AND,
 	OR,
-	STAR,
 	INFILE,
 	OUTFILE,
 	APPEND,
@@ -59,11 +60,57 @@ typedef struct s_command
 }	t_command;
 
 void		init_commands(t_command *cmd);
-t_tokens	*parse_line(t_command *cmd, t_tokens *tokens);
-void		join_cmd_and_args(t_command *cmd, t_toklist *tokens);
+t_tokens	*parse_line(t_command *cmd, t_tokens *tokens, char **env);
+void		join_cmd_and_args(t_command *cmd, t_toklist *tokens, char **env);
 bool		add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void		enter_filelist(t_command *cmd, t_toklist *tokens);
 void		free_tokens_list(t_tokens *tokens);
 void		free_cmds_list(t_command *cmd);
+/*
+	Connection point between parsing and execution
+	place to check for edge cases and conversion
+	- possible update function for calling
+		minishell and the env functions
+*/
+int		run_tokens(t_command *cmds);
+/*
+	The main caller:
+	recursive _ execution
+*/
+int		rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid);
+/*
+	All of its not static helper functions
+	before actually running the command
+	(double check is for logic operators)
+	and going to return the last exit
+*/
+void	looking_for_pipes(t_command *cmds, int start, int *new_in_out);
+int		check_redirection(t_commandlist *command, int control);
+int		double_check(t_command *cmds, int start, int run_or_not);
+int		wait_for_last(pid_t last_pid);
+/*
+	Running the actual commands
+	in the running _ commands
+	Pipes in out (prev and new):
+	[0] is for reading (our in)
+	[1] is for writing (our out)
+	the rest are helper functions
+*/
+pid_t	run_cmd(t_commandlist *cmd, int *redirect,
+			int *prev_in_out, int *new_in_out);
+void	set_input(t_commandlist *cmd, int *redirect);
+void	set_output(t_commandlist *cmd, int *redirect);
+void	built_in_table(t_commandlist *cmd, char **env, int update);
+void	clean_exit(int update);
+char	*find_path(char *av, char **en);
+/*
+	Handling errors for different cases
+	- general case
+	- permission denied
+	- directory of file not found
+*/
+void	standard_error(void);
+void	path_error(t_commandlist *cmd);
+void	nofile_error(t_filelist *current);
 
 #endif

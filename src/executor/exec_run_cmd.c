@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../Includes/minishell.h"
 
 /*
 	if we found that there was an input redirect

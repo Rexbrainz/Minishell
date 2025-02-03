@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../Includes/minishell.h"
 
 /*
 	check if we need to create another pipe

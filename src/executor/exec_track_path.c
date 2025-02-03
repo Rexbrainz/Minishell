@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../Includes/minishell.h"
 
 /*
 	Keeping the memory safe

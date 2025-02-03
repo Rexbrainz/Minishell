@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../Includes/minishell.h"
 
 /*
 	Ensuring that you can keep going depending on logic operators

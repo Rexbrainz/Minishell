@@ -2,7 +2,7 @@
 #                           GARBAGE COLLECTOR FOR C                            #
 # **************************************************************************** #
 
-NAME = garbage_collector
+NAME = libgarbage.a
 
 SRCS =	bin_malloc.c	bin_bzero.c		bin_calloc.c \
 		bin_itoa.c		bin_split.c		bin_strdup.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 09:17:40 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:43:18 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //#include "parser.h"
 //#include "scanner.h"
 
-static void	add_cmds(t_command *cmd, char **cmds, t_type type)
+static void	add_cmds(t_command *cmd, char **cmds, t_type type, char **env)
 {
 	t_commandlist	*new_node;
 
@@ -24,6 +24,7 @@ static void	add_cmds(t_command *cmd, char **cmds, t_type type)
 	new_node->cmd = cmds;
 	new_node->files = NULL;
 	new_node->type = type;
+	new_node->env = env;
 	new_node->next = NULL;
 	if (!cmd->head)
 	{
@@ -95,7 +96,7 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 	return (enter_cmd(start, curr, cmd, type));
 }
 
-void	join_cmd_and_args(t_command *cmd, t_toklist *tokens)
+void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, char **env)
 {
 	t_type		type;
 	t_toklist	*temp;
@@ -107,10 +108,10 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens)
 		type = NOTHING;
 		cmds_args = find_lexemes(&tokens, &type);
 		if (cmds_args)
-			add_cmds(cmd, cmds_args, type);
+			add_cmds(cmd, cmds_args, type, env);
 		if (tokens)
 		{
-			add_cmds(cmd, NULL, tokens->type);
+			add_cmds(cmd, NULL, tokens->type, env);
 			tokens = tokens->next;
 		}
 	}

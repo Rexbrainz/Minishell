@@ -3,7 +3,7 @@
 #*************************************************************************************#
 
 # Program name
-NAME = minishell
+NAME = parsing
 
 # Compiler and flags
 CC = cc
