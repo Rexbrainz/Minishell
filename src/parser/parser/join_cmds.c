@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/31 10:36:09 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:17:40 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens)
 	temp = tokens;
 	while (tokens)
 	{
-		type = -10;
+		type = NOTHING;
 		cmds_args = find_lexemes(&tokens, &type);
 		if (cmds_args)
 			add_cmds(cmd, cmds_args, type);

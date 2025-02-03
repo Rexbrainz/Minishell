@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/29 06:52:54 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 07:22:35 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,9 @@ t_toklist	*scan_line(t_tokens *tokens)
 		}
 		if (!id_and_add_tokens(tokens, &s))
 			return (NULL);
-		if (!*s && (tokens->l_t == ANDS
-				|| tokens->l_t == ORS || tokens->l_t == PIPES
-				|| tokens->l_t == BACK_SLASH))
-			prompt_for_more(tokens, &s, NULL);
+	//	if (!*s && (tokens->l_t == ANDS || tokens->l_t == ORS
+	//			|| tokens->l_t == PIPES || tokens->l_t == BACK_SLASH))
+	//		prompt_for_more(tokens, &s, NULL);
 	}
 	return (tokens->head);
 }

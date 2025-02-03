@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/31 11:13:25 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/03 08:20:05 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef enum e_tok_types
 	ORS,
 	CMD_SUB,
 	EXIT_STAT,
-	BACK_SLASH
+	BACK_SLASH,
+	NOTHING,
 }	t_type;
 
 typedef struct s_toklist
