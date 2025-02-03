@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/15 15:48:15 by sudaniel         ###   ########.fr       */
+/*   Created: 2024/11/30 07:24:41 by sudaniel          #+#    #+#             */
+/*   Updated: 2024/12/09 13:09:25 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
-#include "parse.h"
+#include "libft.h"
 
-static char	*prompt(void)
+long	ft_atol(const char *str)
 {
-	char	*user;
-	char	*line;
+	long	num;
+	int		sign;
 
-	user = getenv("USER");
-	ft_printf("%s$ ", user);
-	return (readline(line));
-}
-
-int	main(void)
-{
-	char	*line;
-
-	while (1)
+	num = 0;
+	sign = 1;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		line = prompt();
-		if (!line)
-			break ;
-		parse_line(line);
-		ft_printf("%s\n", line);
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	return (0);
+	while ('0' <= *str && *str <= '9')
+	{
+		num *= 10;
+		num += *str++ - '0';
+	}
+	return (sign * num);
 }

@@ -8,7 +8,7 @@ RM := rm -rf
 ################################################################################
 
 OBJ_DIR := _obj
-LIBFT_PATH := libft
+LIBFT_PATH := new_libft
 LIBFT := $(LIBFT_PATH)/libft.a
 INC_DIRS := Includes $(LIBFT)
 SRC_DIRS := src
