@@ -17,18 +17,26 @@ static int	lonely_builtin(t_command *cmds)
 	Helper function to keep track of input/output
 	saving them if needed to be later on restored
 */
-static void	saving_in_out(t_commandlist *one, int *redirect, int *reset)
+static int	saving_in_out(t_commandlist *one, int *redirect, int *reset)
 {
+	int	possible_error;
+
+	possible_error = 0;
 	if (redirect[0] != NO_REDIRECTION)
 	{
 		reset[0] = dup(STDIN_FILENO);
-		set_input(one, redirect, 0);
+		possible_error = set_input(one, redirect, 0);
+		if (possible_error != EXIT_SUCCESS)
+			return (possible_error);
 	}
 	if (redirect[1] != NO_REDIRECTION)
 	{
 		reset[1] = dup(STDOUT_FILENO);
-		set_output(one, redirect, 0);
+		possible_error = set_output(one, redirect, 0);
+		if (possible_error != EXIT_SUCCESS)
+			return (possible_error);
 	}
+	return (possible_error);
 }
 
 /*
@@ -57,17 +65,21 @@ static int	run_one(t_commandlist *one, char **env)
 {
 	int	redirect[2];
 	int	reset[2];
+	int	possible_error;
 
 	redirect[0] = NO_REDIRECTION;
 	redirect[1] = NO_REDIRECTION;
 	reset[0] = NO_REDIRECTION;
 	reset[1] = NO_REDIRECTION;
+	possible_error = 0;
 	if (one->files != NULL)
 	{
 		redirect[0] = check_redirection(one, 0);
 		redirect[1] = check_redirection(one, 1);
 	}
-	saving_in_out(one, redirect, reset);
+	possible_error = saving_in_out(one, redirect, reset);
+	if (possible_error != EXIT_SUCCESS)
+		return (restoring_in_out(reset), possible_error);
 	built_in_table(one, env, 1);
 	restoring_in_out(reset);
 	return (EXIT_SUCCESS);

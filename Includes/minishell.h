@@ -110,8 +110,8 @@ int		wait_for_last(pid_t last_pid);
 */
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			int *prev_in_out, int *new_in_out);
-void	set_input(t_commandlist *cmd, int *redirect, int update);
-void	set_output(t_commandlist *cmd, int *redirect, int update);
+int		set_input(t_commandlist *cmd, int *redirect, int update);
+int		set_output(t_commandlist *cmd, int *redirect, int update);
 void	built_in_table(t_commandlist *cmd, char **env, int update);
 void	clean_exit(int update);
 char	*find_path(char *av, char **en);
@@ -121,8 +121,8 @@ char	*find_path(char *av, char **en);
 	- permission denied
 	- directory of file not found
 */
-void	standard_error(int update);
-void	path_error(t_commandlist *cmd, int update);
-void	nofile_error(t_filelist *current, int update);
+int		standard_error(int update);
+int		path_error(t_commandlist *cmd, int update);
+int		nofile_error(t_filelist *current, int update);
 
 #endif

@@ -4,7 +4,7 @@
 	if we found that there was an input redirect
 	we are setting it up to be used by proccess
 */
-void	set_input(t_commandlist *cmd, int *redirect, int update)
+int	set_input(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
@@ -18,23 +18,24 @@ void	set_input(t_commandlist *cmd, int *redirect, int update)
 		{
 			fd = open(current->filename, O_RDONLY);
 			if (fd == -1)
-				nofile_error(current, update);
+				return (nofile_error(current, update));
 		}
 		lc++;
 		current = current->next;
 	}
 	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
-		nofile_error(current, update);
+		return (nofile_error(current, update));
 	if (dup2(fd, STDIN_FILENO) == -1)
-		standard_error(update);
+		return (standard_error(update));
 	close(fd);
+	return (EXIT_SUCCESS);
 }
 
 /*
 	just like above but for the output
 */
-void	set_output(t_commandlist *cmd, int *redirect, int update)
+int	set_output(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
@@ -53,10 +54,11 @@ void	set_output(t_commandlist *cmd, int *redirect, int update)
 	else if (current->type == APPEND)
 		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		nofile_error(current, update);
+		return (nofile_error(current, update));
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		standard_error(update);
+		return (standard_error(update));
 	close(fd);
+	return (EXIT_SUCCESS);
 }
 
 /*
