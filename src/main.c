@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 08:16:39 by sudaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 //#include "scanner.h"
@@ -114,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 			run_tokens(&cmd);
 		add_history(tokens.t_input);
 		// tokens_print(&tokens);
-		free_tokens_list(&tokens);
+		free_tokens_list(&tokens);	
 		// commands_print(&cmd);
 		// free_cmds_list(&cmd);
 		bin_malloc(-1);

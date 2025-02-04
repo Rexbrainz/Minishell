@@ -14,25 +14,62 @@ static int	lonely_builtin(t_command *cmds)
 }
 
 /*
-	Executing the edge case
-	the only command is BUILTIN	
+	Helper function to keep track of input/output
+	saving them if needed to be later on restored
+*/
+static void	saving_in_out(t_commandlist *one, int *redirect, int *reset)
+{
+	if (redirect[0] != NO_REDIRECTION)
+	{
+		reset[0] = dup(STDIN_FILENO);
+		set_input(one, redirect, 0);
+	}
+	if (redirect[1] != NO_REDIRECTION)
+	{
+		reset[1] = dup(STDOUT_FILENO);
+		set_output(one, redirect, 0);
+	}
+}
+
+/*
+	per name function
+*/
+static void	restoring_in_out(int *reset)
+{
+	if (reset[0] != NO_REDIRECTION)
+	{
+		dup2(reset[0], STDIN_FILENO);
+		close (reset[0]);
+	}
+	if (reset[1] != NO_REDIRECTION)
+	{
+		dup2(reset[1], STDOUT_FILENO);
+		close (reset[1]);
+	}
+}
+
+/*
+	Executing the edge case the only command is BUILTIN
+	we need to add the case if there was an error
+	to stop the rest of the execution without exiting
 */
 static int	run_one(t_commandlist *one, char **env)
 {
-	int				redirect[2];
+	int	redirect[2];
+	int	reset[2];
 
 	redirect[0] = NO_REDIRECTION;
 	redirect[1] = NO_REDIRECTION;
+	reset[0] = NO_REDIRECTION;
+	reset[1] = NO_REDIRECTION;
 	if (one->files != NULL)
 	{
 		redirect[0] = check_redirection(one, 0);
 		redirect[1] = check_redirection(one, 1);
 	}
-	if (redirect[0] != NO_REDIRECTION)
-		set_input(one, redirect);
-	if (redirect[1] != NO_REDIRECTION)
-		set_output(one, redirect);
+	saving_in_out(one, redirect, reset);
 	built_in_table(one, env, 1);
+	restoring_in_out(reset);
 	return (EXIT_SUCCESS);
 }
 

@@ -4,7 +4,7 @@
 	if we found that there was an input redirect
 	we are setting it up to be used by proccess
 */
-void	set_input(t_commandlist *cmd, int *redirect)
+void	set_input(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
@@ -18,23 +18,23 @@ void	set_input(t_commandlist *cmd, int *redirect)
 		{
 			fd = open(current->filename, O_RDONLY);
 			if (fd == -1)
-				nofile_error(current);
+				nofile_error(current, update);
 		}
 		lc++;
 		current = current->next;
 	}
 	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
-		nofile_error(current);
+		nofile_error(current, update);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		standard_error();
+		standard_error(update);
 	close(fd);
 }
 
 /*
 	just like above but for the output
 */
-void	set_output(t_commandlist *cmd, int *redirect)
+void	set_output(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
@@ -53,9 +53,9 @@ void	set_output(t_commandlist *cmd, int *redirect)
 	else if (current->type == APPEND)
 		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		nofile_error(current);
+		nofile_error(current, update);
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		standard_error();
+		standard_error(update);
 	close(fd);
 }
 
@@ -99,17 +99,17 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	char	*path;
 
 	if (redirect[0] != NO_REDIRECTION)
-		set_input(cmd, redirect);
+		set_input(cmd, redirect, NO_REDIRECTION);
 	if (redirect[1] != NO_REDIRECTION)
-		set_output(cmd, redirect);
+		set_output(cmd, redirect, NO_REDIRECTION);
 	dup_and_or_close(prev_in_out, new_in_out);
 	if (cmd->type == BUILTIN)
 		built_in_table(cmd, cmd->env, NO_REDIRECTION);
 	path = find_path(cmd->cmd[0], cmd->env);
 	if (path == NULL)
-		path_error(cmd);
+		path_error(cmd, NO_REDIRECTION);
 	if (execve(path, cmd->cmd, cmd->env) < 0)
-		standard_error();
+		standard_error(NO_REDIRECTION);
 	return (EXIT_FAILURE);
 }
 
@@ -124,11 +124,11 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 
 	child = fork();
 	if (child == -1)
-		standard_error();
+		standard_error(0);
 	else if (child == 0)
 	{
 		if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
-			standard_error();
+			standard_error(NO_REDIRECTION);
 	}
 	if (prev_in_out[0] != NO_REDIRECTION)
 		close(prev_in_out[0]);

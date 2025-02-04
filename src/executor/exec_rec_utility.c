@@ -42,7 +42,7 @@ int	wait_for_last(pid_t last_pid)
 			if (errno == ECHILD)
 				break ;
 			else
-				standard_error();
+				standard_error(NO_REDIRECTION);
 		}
 	}
 	return (saving);

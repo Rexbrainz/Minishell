@@ -90,7 +90,7 @@ static int	setting_output_file(t_commandlist *cmd)
 	current = cmd->files->head;
 	while (current != NULL)
 	{
-		if (current->type == INFILE || current->type == HEREDOC)
+		if (current->type == OUTFILE || current->type == APPEND)
 		{
 			last++;
 			if (outputs == last)
