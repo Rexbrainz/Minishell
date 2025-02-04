@@ -97,11 +97,6 @@ static void	close_prev(int *prev_in_out)
 	- returning the last exit code and wait for all processes
 		saving exit for the case when pid was already used
 	- short circuting depending on logic operators in use
-		TBD: false && echo "this should not run" || echo "this should run"
-		this one works: echo "success" && echo "this should run" || echo "this should not run"
-		same with those ones:
-		echo "world" | cat | grep "o" | sed 's/o/a/g'
-		echo "hello" | tr 'a-z' 'A-Z' | rev | wc -c
 */
 int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 {
