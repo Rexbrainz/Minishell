@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 06:22:14 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:51:59 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ typedef struct s_toklist
 
 typedef struct s_tokens
 {
-	t_type		l_t;
-	int			size;
 	t_toklist	*tail;
 	t_toklist	*head;
 	char		*t_input;
 	int			lexeme_count;
 	bool		is_inside_squote;
 	bool		is_inside_dquote;
+	bool		backslash_inside_word;
 }	t_tokens;
 
 char		*prompt1(t_tokens *tokens);
@@ -92,7 +91,7 @@ bool		is_builtin(char *lexeme);
 bool		add_options(t_tokens *tokens, char **c);
 bool		add_backslash(t_tokens *tokens, char **c);
 void		prompt_for_more(t_tokens *tokens, char **c, char **s);
-bool		is_delim(char c);
+bool		is_delim(char *c);
 char		*expand(char *lexeme);
 char		*get_heredoc_input(char *delim);
 void		remove_escape_char(t_tokens *tokens);

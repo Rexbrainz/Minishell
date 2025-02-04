@@ -52,8 +52,10 @@
 }
 */
 
-static void	prompt(t_tokens *tokens)
+static void	prompt(t_tokens *tokens, t_command *cmd)
 {
+	init_tokens(tokens);
+	init_commands(cmd);
 	tokens->t_input = readline("minishell$ ");
 	if (!tokens->t_input)
 		return ;
@@ -94,18 +96,15 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	while (1)
 	{
-		init_tokens(&tokens);
-		init_commands(&cmd);
-		prompt(&tokens);
+		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
-	//	parse_tokens(&cmd, &tokens, env);
 		if (!parse_tokens(&cmd, &tokens, env))
 			execute_commands(&cmd);
 		add_history(tokens.t_input);
-//		tokens_print(&tokens);
-//		free_tokens_list(&tokens);
-//		commands_print(&cmd);
+	//	tokens_print(&tokens);
+		free_tokens_list(&tokens);
+	//	commands_print(&cmd);
 	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}

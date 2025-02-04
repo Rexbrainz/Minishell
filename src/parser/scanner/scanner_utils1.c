@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:11:57 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:51:06 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	prompt_for_more(t_tokens *tokens, char **c, char **s)
 		*s = tokens->t_input + s_len;
 }
 
-bool	is_delim(char c)
+bool	is_delim(char *c)
 {
-	if (c == ' ' || c == ')' || c == '(' || c == '"'
-		|| c == '\'' || c == '|' || c == '&'
-		|| c == '<' || c == '>' || c == '\\')
+	if (*c == ' ' || *c == ')' || *c == '(' || *c == '"'
+		|| *c == '\'' || *c == '|' || *c == '&'
+		|| *c == '<' || *c == '>' || *c == '\\')
 		return (true);
 	return (false);
 }

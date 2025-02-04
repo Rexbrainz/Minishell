@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:10:04 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:50:24 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	add_and(t_tokens *tokens, char **c)
 		return (false);
 	if (!add_token(tokens, AND, lexeme, *c - tokens->t_input))
 		return (false);
-	tokens->l_t = AND;
 	*c += 2;
 	return (true);
 }
@@ -48,7 +47,6 @@ bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 		return (false);
 	if (!add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
-	tokens->l_t = type;
 	*c += 1;
 	return (true);
 }
@@ -78,7 +76,6 @@ bool	add_literal(t_tokens *tokens, char **c)
 	else
 		if (!process_dquote(tokens, c))
 			return (false);
-	tokens->l_t = type;
 	return (*c += 1, true);
 }
 

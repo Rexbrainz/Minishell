@@ -6,16 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/29 07:20:28 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:52:35 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
-/*
- * TODO
- * subject to change*/
 void	init_tokens(t_tokens *tokens)
 {
 	tokens->head = NULL;
@@ -24,8 +21,7 @@ void	init_tokens(t_tokens *tokens)
 	tokens->lexeme_count = 0;
 	tokens->is_inside_squote = false;
 	tokens->is_inside_dquote = false;
-	tokens->l_t = -1;
-	tokens->size = 0;
+	tokens->backslash_inside_word = false;
 }
 
 void	init_commands(t_command *cmd)

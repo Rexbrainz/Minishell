@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:10:36 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:55:02 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	s = *c;
 	if (*s == '$')
 		(*c)++;
-	while (**c && !is_delim(**c) && **c != '$')
+	while (**c && !is_delim(*c) && **c != '$')
 		(*c)++;
 	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
 	if (!lexeme)
@@ -30,14 +30,10 @@ bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	{
 		if (!add_token(tokens, BUILTIN, lexeme, s - tokens->t_input))
 			return (false);
-		tokens->l_t = BUILTIN;
 	}
 	else
-	{
 		if (!add_token(tokens, WORD, lexeme, s - tokens->t_input))
 			return (false);
-		tokens->l_t = WORD;
-	}
 	return (true);
 }
 
@@ -47,7 +43,7 @@ bool	add_options(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	while (*s && !is_delim(*s))
+	while (*s && !is_delim(s))
 	{
 		if (*s++ == ' ')
 		{
@@ -60,17 +56,20 @@ bool	add_options(t_tokens *tokens, char **c)
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme || !add_token(tokens, OPTIONS, lexeme, *c - tokens->t_input))
 		return (false);
-	tokens->l_t = OPTIONS;
 	*c = s;
 	return (true);
 }
 
 bool	add_backslash(t_tokens *tokens, char **c)
 {
+	char	*prev;
 	char	*lexeme;
 	char	*space;
 
+	prev = *c - 1;
 	space = *c + 2;
+	if (*prev != ' ')
+		tokens->backslash_inside_word = true;
 	if (*space == ' ')
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, 3);
 	else
@@ -78,7 +77,6 @@ bool	add_backslash(t_tokens *tokens, char **c)
 	if (!lexeme
 		|| !add_token(tokens, BACK_SLASH, lexeme, *c - tokens->t_input))
 		return (false);
-	tokens->l_t = BACK_SLASH;
 	if (*space == ' ')
 		*c += 3;
 	else

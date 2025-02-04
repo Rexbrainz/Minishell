@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:09:32 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:34:29 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, OR, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = OR;
 		*c += 2;
 	}
 	else
@@ -34,7 +33,6 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, PIPE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = PIPE;
 		*c += 1;
 	}
 	return (true);
@@ -52,7 +50,6 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 		if (!lexeme
 			|| !add_token(tokens, HEREDOC, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = HEREDOC;
 	}
 	else
 	{
@@ -62,7 +59,6 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, INFILE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = INFILE;
 	}
 	*c += len;
 	return (true);
@@ -81,7 +77,6 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, APPEND, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = APPEND;
 	}
 	else
 	{
@@ -91,7 +86,6 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 			return (false);
 		if (!add_token(tokens, OUTFILE, lexeme, *c - tokens->t_input))
 			return (false);
-		tokens->l_t = OUTFILE;
 	}
 	*c += len;
 	return (true);
@@ -113,14 +107,16 @@ bool	add_variable(t_tokens *tokens, char **c)
 		s++;
 	}
 	if (type == DOLLAR)
-		while (*s++ && !is_delim(*s) && *s != '$')
-			;
+	{
+		s++;
+		while (*s && !is_delim(s) && *s != '$')
+			s++;
+	}
 	if (type == EXIT_STAT)
 		s = *c + 2;
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme || !add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
-	tokens->l_t = type;
 	return (*c = s, true);
 }
 
@@ -139,6 +135,5 @@ bool	wild_state(t_tokens *tokens, char **c)
 		return (false);
 	if (!add_token(tokens, STAR, lexeme, s - tokens->t_input))
 		return (false);
-	tokens->l_t = STAR;
 	return (true);
 }
