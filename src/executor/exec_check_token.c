@@ -89,11 +89,6 @@ static int	run_one(t_commandlist *one, char **env)
 	Taking the information from parser:
 	- running checks for special case
 	- going to actual execution
-	TBD:
-	- the process stopped because of logic operator,
-	but it should be going to start from another place
-	- creating a wait overhere not in execution,
-	as of right now it isn't asynchronus
 */
 int	execute_commands(t_command *cmds)
 {

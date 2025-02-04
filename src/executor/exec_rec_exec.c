@@ -16,13 +16,13 @@ static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 		co++;
 		current = current->next;
 	}
-	if (current->type == AND)
+	if (current->type == AND && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(last_pid);
 		if ((*exit_code) != 0)
 			return (AND);
 	}
-	else if (current->type == OR)
+	else if (current->type == OR && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(last_pid);
 		if ((*exit_code) == 0)
@@ -96,6 +96,12 @@ static void	close_prev(int *prev_in_out)
 		command(0) OPERATOR(1) command(2)
 	- returning the last exit code and wait for all processes
 		saving exit for the case when pid was already used
+	- short circuting depending on logic operators in use
+		TBD: false && echo "this should not run" || echo "this should run"
+		this one works: echo "success" && echo "this should run" || echo "this should not run"
+		same with those ones:
+		echo "world" | cat | grep "o" | sed 's/o/a/g'
+		echo "hello" | tr 'a-z' 'A-Z' | rev | wc -c
 */
 int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 {
@@ -116,7 +122,7 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 		start = double_check(cmds, start, run_or_not);
 		if (start == 0)
 			return (exit_code);
-		return (rec_exec(cmds, start, new_in_out, last_pid));
+		return (rec_exec(cmds, start, new_in_out, current_pid));
 	}
 	else
 		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
