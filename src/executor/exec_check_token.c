@@ -83,7 +83,7 @@ static int	run_one(t_commandlist *one, char **env)
 	- creating a wait overhere not in execution,
 	as of right now it isn't asynchronus
 */
-int	run_tokens(t_command *cmds)
+int	execute_commands(t_command *cmds)
 {
 	t_commandlist	*current;
 	int				starting_in_out[2];

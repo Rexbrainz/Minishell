@@ -100,7 +100,7 @@ int	main(int argc, char **argv, char **env)
 		if (!tokens.t_input)
 			break ;
 		if (!parse_tokens(&cmd, &tokens, env))
-			run_tokens(&cmd);
+			execute_commands(&cmd);
 		add_history(tokens.t_input);
 		// tokens_print(&tokens);
 		free_tokens_list(&tokens);

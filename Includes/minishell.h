@@ -84,7 +84,7 @@ void	free_cmds_list(t_command *cmd);
 	- possible update function for calling
 		minishell and the env functions
 */
-int		run_tokens(t_command *cmds);
+int		execute_commands(t_command *cmds);
 /*
 	The main caller:
 	recursive _ execution
