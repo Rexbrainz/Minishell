@@ -15,8 +15,11 @@ void	looking_for_pipes(t_command *cmds, int start, int *new_in_out)
 		find_start++;
 		current = current->next;
 	}
-	if (current->next != NULL && current->next->type == PIPE)
-		pipe(new_in_out);
+	if (current->next != NULL)
+	{
+		if (current->next->type == PIPE)
+			pipe(new_in_out);
+	}
 }
 
 /*
