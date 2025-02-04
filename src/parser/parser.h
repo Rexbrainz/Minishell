@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 11:44:19 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:22:14 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_tokens
 
 char		*prompt1(t_tokens *tokens);
 //t_tokens	*parse_line(t_tokens *tokens);
-t_toklist	*scan_line(t_tokens *tokens);
+t_toklist	*scan_line(t_tokens *tokens, char **s);
 bool		add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos);
 void		init_tokens(t_tokens *tokens);
 bool		add_pipe_or_op(t_tokens *tokens, char **c);

@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 08:18:57 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 14:27:36 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:16:39 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 // 		free(current);
 // 	}
 // }
-
+/*
  static void	tokens_print(t_tokens *tokens)
  {
  	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
@@ -61,6 +61,7 @@
  		tokens->head = tokens->head->next;
 	}
 }
+*/
 
 static void	prompt(t_tokens *tokens)
 {
@@ -109,11 +110,11 @@ int	main(int argc, char **argv, char **env)
 		prompt(&tokens);
 		if (!tokens.t_input)
 			break ;
+		if (!parse_tokens(&cmd, &tokens, env))
+			run_tokens(&cmd);
 		add_history(tokens.t_input);
-		parse_tokens(&cmd, &tokens, env);
 		// tokens_print(&tokens);
 		free_tokens_list(&tokens);
-		run_tokens(&cmd);
 		// commands_print(&cmd);
 		// free_cmds_list(&cmd);
 		bin_malloc(-1);
