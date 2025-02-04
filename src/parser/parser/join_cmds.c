@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:03:31 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:07:47 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 	return (cmd);
 }
 
-static char	**find_lexemes(t_toklist **curr, t_type *type)
+static char	**find_lexemes(t_toklist **curr, t_type *type, int *redirection)
 {
 	int			i;
+	t_type		t;
 	char		**cmd;
 	t_toklist	*start;
 
@@ -75,15 +76,13 @@ static char	**find_lexemes(t_toklist **curr, t_type *type)
 	start = *curr;
 	while (*curr)
 	{
-		if ((*curr)->type == PIPE || (*curr)->type == AND
-			|| (*curr)->type == OR)
+		t = (*curr)->type;
+		if (t == PIPE || t == AND || t == OR)
 			break ;
-		if ((*curr)->type != INFILE && (*curr)->type != OUTFILE
-			&& (*curr)->type != APPEND && (*curr)->type != HEREDOC)
-		{
-			if ((*curr)->type == D_QUOTE || *(*curr)->lexeme)
-				i++;
-		}
+		else if (t == INFILE || t == OUTFILE || t == APPEND || t == HEREDOC)
+			(*redirection)++;
+		else if (*(*curr)->lexeme || t == D_QUOTE)
+			i++;
 		*curr = (*curr)->next;
 	}
 	if (!i)
@@ -98,14 +97,16 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, char **env)
 {
 	t_type		type;
 	t_toklist	*temp;
+	int			redirection;
 	char		**cmds_args;
 
 	temp = tokens;
 	while (tokens)
 	{
+		redirection = 0;
 		type = NOTHING;
-		cmds_args = find_lexemes(&tokens, &type);
-		if (cmds_args)
+		cmds_args = find_lexemes(&tokens, &type, &redirection);
+		if (cmds_args || redirection)
 			add_cmds(cmd, cmds_args, type, env);
 		if (tokens)
 		{
