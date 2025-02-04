@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 			run_tokens(&cmd);
 		add_history(tokens.t_input);
 		// tokens_print(&tokens);
-		free_tokens_list(&tokens);	
+		free_tokens_list(&tokens);
 		// commands_print(&cmd);
 		// free_cmds_list(&cmd);
 		bin_malloc(-1);
