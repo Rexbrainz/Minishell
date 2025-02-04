@@ -80,6 +80,8 @@ void	built_in_table(t_commandlist *cmd, char **env, int update)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
 	else if (ft_strncmp("unset", cmd->cmd[0], 5) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
+	else if (ft_strncmp("minishell", cmd->cmd[0], 9) == 0)
+		printf("Executing built-in: %s\n", cmd->cmd[0]);
 	else if (ft_strncmp("env", cmd->cmd[0], 3) == 0)
 		ft_env(env, update);
 	else if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)

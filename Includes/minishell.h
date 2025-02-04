@@ -111,6 +111,8 @@ int		wait_for_last(pid_t last_pid);
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			int *prev_in_out, int *new_in_out);
 int		set_input(t_commandlist *cmd, int *redirect, int update);
+int		handling_infile(t_filelist	*current, int update);
+int		handling_heredoc(t_filelist	*current, int update);
 int		set_output(t_commandlist *cmd, int *redirect, int update);
 void	built_in_table(t_commandlist *cmd, char **env, int update);
 void	clean_exit(int update);

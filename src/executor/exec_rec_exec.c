@@ -62,6 +62,7 @@ static int	check_execute(t_command *cmds, int start,
 
 /*
 	Counter for total number of logic operators and pipes
+	check used later on if we need to keep going
 */
 static int	c_pipes_operators(t_command *cmds)
 {
@@ -81,7 +82,7 @@ static int	c_pipes_operators(t_command *cmds)
 }
 
 /*
-	shortenning up the main function
+	short up the main function
 */
 static void	close_prev(int *prev_in_out)
 {

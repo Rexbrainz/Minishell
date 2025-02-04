@@ -11,6 +11,7 @@ int	set_input(t_commandlist *cmd, int *redirect, int update)
 	t_filelist	*current;
 
 	lc = 0;
+	fd = 0;
 	current = cmd->files->head;
 	while (lc < redirect[0])
 	{
@@ -19,16 +20,15 @@ int	set_input(t_commandlist *cmd, int *redirect, int update)
 			fd = open(current->filename, O_RDONLY);
 			if (fd == -1)
 				return (nofile_error(current, update));
+			close(fd);
 		}
 		lc++;
 		current = current->next;
 	}
-	fd = open(current->filename, O_RDONLY);
-	if (fd == -1)
-		return (nofile_error(current, update));
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (standard_error(update));
-	close(fd);
+	if (current->type == INFILE)
+		return (handling_infile(current, update));
+	else if (current->type == HEREDOC)
+		return (handling_heredoc(current, update));
 	return (EXIT_SUCCESS);
 }
 
@@ -56,9 +56,8 @@ int	set_output(t_commandlist *cmd, int *redirect, int update)
 	if (fd == -1)
 		return (nofile_error(current, update));
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		return (standard_error(update));
-	close(fd);
-	return (EXIT_SUCCESS);
+		return (close(fd), standard_error(update));
+	return (close(fd), EXIT_SUCCESS);
 }
 
 /*
