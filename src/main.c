@@ -1,59 +1,61 @@
 
 #include "../Includes/minishell.h"
 //#include "scanner.h"
-
-// static void	commands_print(t_command *cmd)
-// {
-// 	int				i;
-// 	int				j;
-// 	t_commandlist	*current;
-
-// 	current = cmd->head;
-// 	while (cmd->head)
-// 	{
-// 		i = 0;
-// 		ft_printf("Node type: [%d]\t", cmd->head->type);
-// 		if (!cmd->head->cmd)
-// 			ft_printf("PIPELINE SEPARATOR");
-// 		else
-// 		{
-// 			ft_printf("The command and arguments are: ");
-// 			while (*(cmd->head->cmd))
-// 				ft_printf("%d. [%s] ", i++, *(cmd->head->cmd)++);
-// 		}
-// 		ft_printf("\n");
-// 		if (cmd->head->files)
-// 		{
-// 			j = 0;
-// 			ft_printf("FILES\n");
-// 			while (cmd->head->files->head)
-// 			{
-// 				ft_printf("FILE[%d]-> %s\n", j++,
-// 					cmd->head->files->head->filename);
-// 				cmd->head->files->head = cmd->head->files->head->next;
-// 			}
-// 		}
-// 		current = cmd->head;
-// 		cmd->head = cmd->head->next;
-// 		free(current);
-// 	}
-// }
 /*
+ static void	commands_print(t_command *cmd)
+ {
+ 	int				i;
+ 	int				j;
+ 	t_commandlist	*current;
+
+ 	current = cmd->head;
+ 	while (cmd->head)
+ 	{
+ 		i = 0;
+ 		ft_printf("Node type: [%d]\t", cmd->head->type);
+ 		if (!cmd->head->cmd)
+ 			ft_printf("PIPELINE SEPARATOR");
+ 		else
+ 		{
+ 			ft_printf("The command and arguments are: ");
+ 			while (*(cmd->head->cmd))
+ 				ft_printf("%d. [%s] ", i++, *(cmd->head->cmd)++);
+ 		}
+ 		ft_printf("\n");
+ 		if (cmd->head->files)
+ 		{
+ 			j = 0;
+ 			ft_printf("FILES\n");
+ 			while (cmd->head->files->head)
+ 			{
+ 				ft_printf("FILE[%d]-> %s\n", j++,
+ 					cmd->head->files->head->filename);
+ 				cmd->head->files->head = cmd->head->files->head->next;
+ 			}
+ 		}
+ 		current = cmd->head;
+ 		cmd->head = cmd->head->next;
+ 		free(current);
+ 	}
+ }
+*/ 
+
  static void	tokens_print(t_tokens *tokens)
  {
  	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
  		tokens->t_input, tokens->lexeme_count);
  	while (tokens->head)
  	{
- 		ft_printf("lexeme-> [%s]\ttype-> [%d]\tPos-> [%d]\t\n",
- 			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos);
+ 		ft_printf("lexeme-> [%s]\ttype-> [%d]\tS_Pos-> [%d]\tE_Pos-> [%d]\n",
+ 			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos, tokens->head->end_pos);
  		tokens->head = tokens->head->next;
 	}
 }
-*/
 
-static void	prompt(t_tokens *tokens)
+static void	prompt(t_tokens *tokens, t_command *cmd)
 {
+	init_tokens(tokens);
+	init_commands(cmd);
 	tokens->t_input = readline("minishell$ ");
 	if (!tokens->t_input)
 		return ;
@@ -94,19 +96,17 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	while (1)
 	{
-		init_tokens(&tokens);
-		init_commands(&cmd);
-		prompt(&tokens);
+		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
 		// parse_tokens(&cmd, &tokens, env);
 		if (!parse_tokens(&cmd, &tokens, env))
 			execute_commands(&cmd);
 		add_history(tokens.t_input);
-		// tokens_print(&tokens);
-		free_tokens_list(&tokens);	
-		// commands_print(&cmd);
-		// free_cmds_list(&cmd);
+		tokens_print(&tokens);
+		free_tokens_list(&tokens);
+	//	commands_print(&cmd);
+	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
 	return (0);

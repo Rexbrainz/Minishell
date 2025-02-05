@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:10:15 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:06:04 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:24:17 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	enter_filelist(t_command *cmd, t_toklist *tokens)
 		if (cmdlist->type == PIPE || cmdlist->type == AND
 			|| cmdlist->type == OR)
 		{
-			tokens = tokens->next;
 			cmdlist = cmdlist->next;
 			continue ;
 		}

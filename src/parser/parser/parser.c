@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 08:34:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:56:28 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	syntax_error(int status, t_toklist *current, t_toklist *next_t)
 	write(2, "'\n", 2);
 }
 
-static int	process_tokens(t_toklist *current, t_type l_t)
+static int	check_tokens(t_toklist *current, t_type l_t)
 {
 	t_type			c_t;
 
@@ -53,36 +53,52 @@ static int	process_tokens(t_toklist *current, t_type l_t)
 		return (2);
 	else if (c_t == HEREDOC)
 		current->lexeme = get_heredoc_input(current->lexeme);
-	else if (c_t == DOLLAR || c_t == D_QUOTE)
-		current->lexeme = expand(current->lexeme);
+	else if (c_t == S_QUOTE || c_t == D_QUOTE)
+		current->lexeme = rm_newline(&current->lexeme);
 	return (0);
 }
 
-int	parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
+static int	process_tokens(t_tokens *tokens, char **s)
 {
-	char		*s;
 	t_type		l_t;
 	int			status;
 	t_toklist	*current;
 
-	s = tokens->t_input;
-	tokens->head = scan_line(tokens, &s);
+	status = 0;
 	l_t = NOTHING;
 	current = tokens->head;
 	while (current)
 	{
-		status = process_tokens(current, l_t);
+		status = check_tokens(current, l_t);
 		if (status)
 		{
 			syntax_error(status, current, current->next);
 			return (status);
 		}
-		check_for_more_prompt(tokens, current, &s);
+		check_for_more_prompt(tokens, current, s);
 		l_t = current->type;
 		current = current->next;
 	}
+	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
+		return (-1);
+	return (status);
+}
+
+int	parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
+{
+	char	*s;
+	int		status;
+
+	s = tokens->t_input;
+	tokens->head = scan_line(tokens, &s);
+	status = process_tokens(tokens, &s);
+	if (status)
+		return (status);
 	remove_escape_char(tokens);
+	expand_variables(tokens);
+	merge_adjacent_tokens(tokens);
 	join_cmd_and_args(cmd, tokens->head, env);
+	//ft_printf("We got here\n");
 	enter_filelist(cmd, tokens->head);
 	return (status);
 }

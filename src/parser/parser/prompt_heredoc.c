@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/31 10:35:46 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:53:38 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ static char	*the_prompt(char *delim)
 	while (true)
 	{
 		line = readline("> ");
-		if (!ft_strncmp(delim, line, ft_strlen(line)))
+		if (*line && !ft_strncmp(delim, line, ft_strlen(line)))
 		{
 			free(line);
+			line = NULL;
 			break ;
 		}
 		if (!lexeme)
@@ -91,8 +92,7 @@ char	*get_heredoc_input(char *delim)
 		return (NULL);
 	lexeme = the_prompt(delim);
 	if (!lexeme)
-		return (NULL);
-	free(delim);
+		return (free(delim), delim = NULL, NULL);
 	if (!quote)
 		lexeme = expand(lexeme);
 	return (lexeme);

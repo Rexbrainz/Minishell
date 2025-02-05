@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/31 10:35:15 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 08:14:51 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,15 @@ char	*expand(char *lexeme)
 	return (free(lexeme), new_lexeme);
 }
 
-/*
-void	perform_expansion(char	*str)
+void	expand_variables(t_tokens *tokens)
 {
-	char		*lexeme;
+	t_toklist	*current;
 
+	current = tokens->head;
 	while (current)
 	{
-		if (current->type == DOLLAR)
-		{
-			lexeme = getenv(current->lexeme + 1);
-			free(current->lexeme);
-			if (!lexeme)
-				current->lexeme = ft_strdup("");
-			else
-				current->lexeme = ft_strdup(lexeme);
-			if (!current->lexeme)
-				current->lexeme = NULL;
-		}
-
-	lexeme = expansion(str);
-	free(str);
-	if (!lexeme)
-		lexeme = NULL;
-	return (lexeme);
+		if (current->type == DOLLAR || current->type == D_QUOTE)
+			current->lexeme = expand(current->lexeme);
+		current = current->next;
+	}
 }
-*/
