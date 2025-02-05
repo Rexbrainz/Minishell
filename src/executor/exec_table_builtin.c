@@ -82,24 +82,26 @@ static void	ft_cd(t_commandlist *cmd, int update)
 */
 void	built_in_table(t_commandlist *cmd, char **env, int update)
 {
-	if (ft_strncmp("echo", cmd->cmd[0], 4) == 0)
+	if (ft_strncmp("echo", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_echo(cmd, update);
-	else if (ft_strncmp("cd", cmd->cmd[0], 2) == 0)
+	else if (ft_strncmp("cd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_cd(cmd, update);
-	else if (ft_strncmp("pwd", cmd->cmd[0], 3) == 0)
+	else if (ft_strncmp("pwd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_pwd(update);
-	else if (ft_strncmp("export", cmd->cmd[0], 6) == 0)
+	else if (ft_strncmp("export", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
-	else if (ft_strncmp("unset", cmd->cmd[0], 5) == 0)
+	else if (ft_strncmp("unset", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
-	else if (ft_strncmp("minishell", cmd->cmd[0], 9) == 0)
+	else if (ft_strncmp("minishell", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
-	else if (ft_strncmp("env", cmd->cmd[0], 3) == 0)
+	else if (ft_strncmp("env", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_env(env, update);
-	else if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+	else if (ft_strncmp("exit", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 	{
 		if (update != NO_REDIRECTION)
 			bin_malloc(-1);
 		exit(EXIT_SUCCESS);
 	}
+	else
+		path_error(cmd, update);
 }
