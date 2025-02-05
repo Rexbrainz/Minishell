@@ -6,25 +6,13 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 07:32:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:56:28 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 //#include "scanner.h"
 //#include "parser.h"
-static void	expand_tokens(t_tokens *tokens)
-{
-	t_toklist	*current;
-
-	current = tokens->head;
-	while (current)
-	{
-		if (current->type == DOLLAR || current->type == D_QUOTE)
-			current->lexeme = expand(current->lexeme);
-		current = current->next;
-	}
-}
 
 static void	
 	check_for_more_prompt(t_tokens *tokens, t_toklist *current, char **s)
@@ -52,7 +40,7 @@ static void	syntax_error(int status, t_toklist *current, t_toklist *next_t)
 	write(2, "'\n", 2);
 }
 
-static int	process_tokens(t_toklist *current, t_type l_t)
+static int	check_tokens(t_toklist *current, t_type l_t)
 {
 	t_type			c_t;
 
@@ -70,36 +58,47 @@ static int	process_tokens(t_toklist *current, t_type l_t)
 	return (0);
 }
 
-int	parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
+static int	process_tokens(t_tokens *tokens, char **s)
 {
-	char		*s;
 	t_type		l_t;
 	int			status;
 	t_toklist	*current;
 
-	s = tokens->t_input;
-	tokens->head = scan_line(tokens, &s);
-	current = tokens->head;
+	status = 0;
 	l_t = NOTHING;
-	status = -1;
 	current = tokens->head;
 	while (current)
 	{
-		status = process_tokens(current, l_t);
+		status = check_tokens(current, l_t);
 		if (status)
 		{
 			syntax_error(status, current, current->next);
 			return (status);
 		}
-		check_for_more_prompt(tokens, current, &s);
+		check_for_more_prompt(tokens, current, s);
 		l_t = current->type;
 		current = current->next;
 	}
-	if (tokens->lexeme_count == 1 && !*tokens->head->lexeme)
+	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
 		return (-1);
+	return (status);
+}
+
+int	parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
+{
+	char	*s;
+	int		status;
+
+	s = tokens->t_input;
+	tokens->head = scan_line(tokens, &s);
+	status = process_tokens(tokens, &s);
+	if (status)
+		return (status);
 	remove_escape_char(tokens);
-	expand_tokens(tokens);
+	expand_variables(tokens);
+	merge_adjacent_tokens(tokens);
 	join_cmd_and_args(cmd, tokens->head, env);
+	//ft_printf("We got here\n");
 	enter_filelist(cmd, tokens->head);
 	return (status);
 }

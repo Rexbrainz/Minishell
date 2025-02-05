@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 17:35:31 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:58:44 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 	new_node->type = types;
 	new_node->lexeme_len = ft_strlen(lexeme);
 	new_node->start_pos = s_pos;
+	new_node->end_pos = s_pos + new_node->lexeme_len - 1;
 	new_node->next = NULL;
 	if (!tokens->head)
 	{
@@ -61,7 +62,7 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 		return (false);
 	else if (**c == '&' && *(*c + 1) == '&' && !add_and(tokens, c))
 		return (false);
-	else if (**c && !is_delim(*c) && !add_word_or_builtin(tokens, c))
+	else if (**c && !is_delim(**c) && !add_word_or_builtin(tokens, c))
 		return (false);
 	return (true);
 }

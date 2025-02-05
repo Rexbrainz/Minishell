@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 17:34:29 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 08:16:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool	add_variable(t_tokens *tokens, char **c)
 	if (type == DOLLAR)
 	{
 		s++;
-		while (*s && !is_delim(s) && *s != '$')
+		while (*s && !is_delim(*s) && *s != '$')
 			s++;
 	}
 	if (type == EXIT_STAT)

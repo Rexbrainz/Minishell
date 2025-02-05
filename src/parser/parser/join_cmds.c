@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 13:07:47 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 08:58:15 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 		start = start->next;
 	}
 	cmd[j] = NULL;
+	ft_printf("WE got here\n");
 	return (cmd);
 }
 
@@ -81,7 +82,7 @@ static char	**find_lexemes(t_toklist **curr, t_type *type, int *redirection)
 			break ;
 		else if (t == INFILE || t == OUTFILE || t == APPEND || t == HEREDOC)
 			(*redirection)++;
-		else if (*(*curr)->lexeme || t == D_QUOTE)
+		else if (t == D_QUOTE || *(*curr)->lexeme)
 			i++;
 		*curr = (*curr)->next;
 	}
