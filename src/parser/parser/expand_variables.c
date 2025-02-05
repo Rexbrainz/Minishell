@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 08:14:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:14:53 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*expand(char *lexeme)
 		{
 			temp = get_chars(lexeme, &s, new_lexeme);
 			if (!temp)
-				return (NULL);
+				return (free(lexeme), NULL);
 			new_lexeme = temp;
 		}
 		else
@@ -90,10 +90,12 @@ char	*expand(char *lexeme)
 			s++;
 			temp = extract_var(lexeme, &s, new_lexeme);
 			if (!temp)
-				return (NULL);
+				return (free(lexeme), NULL);
 			new_lexeme = temp;
 		}
 	}
+	if (!new_lexeme)
+		new_lexeme = ft_strdup("");
 	return (free(lexeme), new_lexeme);
 }
 
