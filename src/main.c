@@ -99,9 +99,9 @@ int	main(int argc, char **argv, char **env)
 		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
-		parse_tokens(&cmd, &tokens, env);
-	//	if (!parse_tokens(&cmd, &tokens, env))
-	//		execute_commands(&cmd);
+		// parse_tokens(&cmd, &tokens, env);
+		if (!parse_tokens(&cmd, &tokens, env))
+			execute_commands(&cmd);
 		add_history(tokens.t_input);
 		tokens_print(&tokens);
 		free_tokens_list(&tokens);

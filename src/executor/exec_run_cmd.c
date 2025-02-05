@@ -4,13 +4,14 @@
 	if we found that there was an input redirect
 	we are setting it up to be used by proccess
 */
-void	set_input(t_commandlist *cmd, int *redirect, int update)
+int	set_input(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
 	t_filelist	*current;
 
 	lc = 0;
+	fd = 0;
 	current = cmd->files->head;
 	while (lc < redirect[0])
 	{
@@ -18,23 +19,23 @@ void	set_input(t_commandlist *cmd, int *redirect, int update)
 		{
 			fd = open(current->filename, O_RDONLY);
 			if (fd == -1)
-				nofile_error(current, update);
+				return (nofile_error(current, update));
+			close(fd);
 		}
 		lc++;
 		current = current->next;
 	}
-	fd = open(current->filename, O_RDONLY);
-	if (fd == -1)
-		nofile_error(current, update);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		standard_error(update);
-	close(fd);
+	if (current->type == INFILE)
+		return (handling_infile(current, update));
+	else if (current->type == HEREDOC)
+		return (handling_heredoc(current, update));
+	return (EXIT_SUCCESS);
 }
 
 /*
 	just like above but for the output
 */
-void	set_output(t_commandlist *cmd, int *redirect, int update)
+int	set_output(t_commandlist *cmd, int *redirect, int update)
 {
 	int			fd;
 	int			lc;
@@ -53,10 +54,10 @@ void	set_output(t_commandlist *cmd, int *redirect, int update)
 	else if (current->type == APPEND)
 		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		nofile_error(current, update);
+		return (nofile_error(current, update));
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		standard_error(update);
-	close(fd);
+		return (close(fd), standard_error(update));
+	return (close(fd), EXIT_SUCCESS);
 }
 
 /*
@@ -99,9 +100,16 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	char	*path;
 
 	if (redirect[0] != NO_REDIRECTION)
+	{
 		set_input(cmd, redirect, NO_REDIRECTION);
+		prev_in_out[0] = NO_REDIRECTION;
+		new_in_out[0] = NO_REDIRECTION;
+	}
 	if (redirect[1] != NO_REDIRECTION)
+	{
 		set_output(cmd, redirect, NO_REDIRECTION);
+		new_in_out[1] = NO_REDIRECTION;
+	}
 	dup_and_or_close(prev_in_out, new_in_out);
 	if (cmd->type == BUILTIN)
 		built_in_table(cmd, cmd->env, NO_REDIRECTION);
@@ -121,7 +129,10 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
 {
 	pid_t	child;
+	int		reset[2];
 
+	reset[0] = dup(STDIN_FILENO);
+	reset[1] = dup(STDOUT_FILENO);
 	child = fork();
 	if (child == -1)
 		standard_error(0);
@@ -134,5 +145,9 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 		close(prev_in_out[0]);
 	if (new_in_out[1] != NO_REDIRECTION)
 		close(new_in_out[1]);
+	dup2(reset[0], STDIN_FILENO);
+	dup2(reset[1], STDOUT_FILENO);
+	close(reset[0]);
+	close(reset[1]);
 	return (child);
 }

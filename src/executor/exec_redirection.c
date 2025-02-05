@@ -36,7 +36,7 @@ static int	setting_input_file(t_commandlist *cmd)
 	last = 0;
 	inputs = count_input(cmd);
 	if (inputs == 0)
-		return (-1);
+		return (NO_REDIRECTION);
 	current = cmd->files->head;
 	while (current != NULL)
 	{
@@ -86,7 +86,7 @@ static int	setting_output_file(t_commandlist *cmd)
 	last = 0;
 	outputs = count_output(cmd);
 	if (outputs == 0)
-		return (-1);
+		return (NO_REDIRECTION);
 	current = cmd->files->head;
 	while (current != NULL)
 	{
@@ -112,5 +112,5 @@ int	check_redirection(t_commandlist *command, int control)
 		return (setting_input_file(command));
 	else if (control == 1)
 		return (setting_output_file(command));
-	return (0);
+	return (NO_REDIRECTION);
 }
