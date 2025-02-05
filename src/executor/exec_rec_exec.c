@@ -16,13 +16,13 @@ static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 		co++;
 		current = current->next;
 	}
-	if (current->type == AND)
+	if (current->type == AND && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(last_pid);
 		if ((*exit_code) != 0)
 			return (AND);
 	}
-	else if (current->type == OR)
+	else if (current->type == OR && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(last_pid);
 		if ((*exit_code) == 0)
@@ -62,6 +62,7 @@ static int	check_execute(t_command *cmds, int start,
 
 /*
 	Counter for total number of logic operators and pipes
+	check used later on if we need to keep going
 */
 static int	c_pipes_operators(t_command *cmds)
 {
@@ -81,12 +82,30 @@ static int	c_pipes_operators(t_command *cmds)
 }
 
 /*
-	shortenning up the main function
+	short up the main function
 */
-static void	close_prev(int *prev_in_out)
+static void	close_pipes(int *prev_in_out, int *new_in_out)
 {
 	if (prev_in_out[0] != NO_REDIRECTION)
+	{
 		close(prev_in_out[0]);
+		prev_in_out[0] = NO_REDIRECTION;
+	}
+	if (prev_in_out[1] != NO_REDIRECTION)
+	{
+		close(prev_in_out[1]);
+		prev_in_out[1] = NO_REDIRECTION;
+	}
+	if (new_in_out[0] != NO_REDIRECTION)
+	{
+		close(new_in_out[0]);
+		new_in_out[0] = NO_REDIRECTION;
+	}
+	if (new_in_out[1] != NO_REDIRECTION)
+	{
+		close(new_in_out[1]);
+		new_in_out[1] = NO_REDIRECTION;
+	}
 }
 
 /*	
@@ -95,6 +114,7 @@ static void	close_prev(int *prev_in_out)
 		command(0) OPERATOR(1) command(2)
 	- returning the last exit code and wait for all processes
 		saving exit for the case when pid was already used
+	- short circuting depending on logic operators in use
 */
 int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 {
@@ -111,15 +131,15 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 	run_or_not = keep_going(cmds, last_pid, start - 1, &exit_code);
 	if (run_or_not != 0)
 	{
-		close_prev(prev_in_out);
+		close_pipes(prev_in_out, new_in_out);
 		start = double_check(cmds, start, run_or_not);
 		if (start == 0)
 			return (exit_code);
-		return (rec_exec(cmds, start, new_in_out, last_pid));
+		return (rec_exec(cmds, start, new_in_out, current_pid));
 	}
 	else
 		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
 		return (rec_exec(cmds, start + 2, new_in_out, current_pid));
-	return (close_prev(prev_in_out), wait_for_last(current_pid));
+	return (close_pipes(prev_in_out, new_in_out), wait_for_last(current_pid));
 }

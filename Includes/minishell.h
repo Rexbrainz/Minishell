@@ -110,19 +110,27 @@ int		wait_for_last(pid_t last_pid);
 */
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			int *prev_in_out, int *new_in_out);
-void	set_input(t_commandlist *cmd, int *redirect, int update);
-void	set_output(t_commandlist *cmd, int *redirect, int update);
-void	built_in_table(t_commandlist *cmd, char **env, int update);
-void	clean_exit(int update);
+int		set_input(t_commandlist *cmd, int *redirect, int update);
+int		handling_infile(t_filelist	*current, int update);
+int		handling_heredoc(t_filelist	*current, int update);
+int		set_output(t_commandlist *cmd, int *redirect, int update);
 char	*find_path(char *av, char **en);
+/*
+	Builtins main caller and fts being called
+	clean exit with a flag to know when to exit
+*/
+void	built_in_table(t_commandlist *cmd, char **env, int update);
+void	ft_pwd(int update);
+void	clean_exit(int update);
 /*
 	Handling errors for different cases
 	- general case
 	- permission denied
 	- directory of file not found
 */
-void	standard_error(int update);
-void	path_error(t_commandlist *cmd, int update);
-void	nofile_error(t_filelist *current, int update);
+int		standard_error(int update);
+int		path_error(t_commandlist *cmd, int update);
+int		nofile_error(t_filelist *current, int update);
+int		nodir_error(t_commandlist *cmd, int update);
 
 #endif

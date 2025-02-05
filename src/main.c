@@ -99,6 +99,7 @@ int	main(int argc, char **argv, char **env)
 		prompt(&tokens);
 		if (!tokens.t_input)
 			break ;
+		// parse_tokens(&cmd, &tokens, env);
 		if (!parse_tokens(&cmd, &tokens, env))
 			execute_commands(&cmd);
 		add_history(tokens.t_input);

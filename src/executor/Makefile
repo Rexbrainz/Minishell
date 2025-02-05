@@ -5,7 +5,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 # Source files and object files
 SRC = exec_check_token.c exec_rec_exec.c exec_redirection.c \
       exec_run_cmd.c exec_table_builtin.c exec_track_path.c \
-      exec_ultimate_error.c exec_rec_utility.c 
+      exec_ultimate_error.c exec_rec_utility.c exec_run_utility.c \
+	  exec_table_fts.c 
 OBJ = $(SRC:.c=.o)
 
 # Name of the executable
