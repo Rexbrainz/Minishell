@@ -100,9 +100,16 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	char	*path;
 
 	if (redirect[0] != NO_REDIRECTION)
+	{
 		set_input(cmd, redirect, NO_REDIRECTION);
+		prev_in_out[0] = NO_REDIRECTION;
+		new_in_out[0] = NO_REDIRECTION;
+	}
 	if (redirect[1] != NO_REDIRECTION)
+	{
 		set_output(cmd, redirect, NO_REDIRECTION);
+		new_in_out[1] = NO_REDIRECTION;
+	}
 	dup_and_or_close(prev_in_out, new_in_out);
 	if (cmd->type == BUILTIN)
 		built_in_table(cmd, cmd->env, NO_REDIRECTION);
@@ -122,7 +129,10 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
 {
 	pid_t	child;
+	int		reset[2];
 
+	reset[0] = dup(STDIN_FILENO);
+	reset[1] = dup(STDOUT_FILENO);
 	child = fork();
 	if (child == -1)
 		standard_error(0);
@@ -135,5 +145,9 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 		close(prev_in_out[0]);
 	if (new_in_out[1] != NO_REDIRECTION)
 		close(new_in_out[1]);
+	dup2(reset[0], STDIN_FILENO);
+	dup2(reset[1], STDOUT_FILENO);
+	close(reset[0]);
+	close(reset[1]);
 	return (child);
 }

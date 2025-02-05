@@ -84,10 +84,28 @@ static int	c_pipes_operators(t_command *cmds)
 /*
 	short up the main function
 */
-static void	close_prev(int *prev_in_out)
+static void	close_pipes(int *prev_in_out, int *new_in_out)
 {
 	if (prev_in_out[0] != NO_REDIRECTION)
+	{
 		close(prev_in_out[0]);
+		prev_in_out[0] = NO_REDIRECTION;
+	}
+	if (prev_in_out[1] != NO_REDIRECTION)
+	{
+		close(prev_in_out[1]);
+		prev_in_out[1] = NO_REDIRECTION;
+	}
+	if (new_in_out[0] != NO_REDIRECTION)
+	{
+		close(new_in_out[0]);
+		new_in_out[0] = NO_REDIRECTION;
+	}
+	if (new_in_out[1] != NO_REDIRECTION)
+	{
+		close(new_in_out[1]);
+		new_in_out[1] = NO_REDIRECTION;
+	}
 }
 
 /*	
@@ -113,7 +131,7 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 	run_or_not = keep_going(cmds, last_pid, start - 1, &exit_code);
 	if (run_or_not != 0)
 	{
-		close_prev(prev_in_out);
+		close_pipes(prev_in_out, new_in_out);
 		start = double_check(cmds, start, run_or_not);
 		if (start == 0)
 			return (exit_code);
@@ -123,5 +141,5 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
 		return (rec_exec(cmds, start + 2, new_in_out, current_pid));
-	return (close_prev(prev_in_out), wait_for_last(current_pid));
+	return (close_pipes(prev_in_out, new_in_out), wait_for_last(current_pid));
 }

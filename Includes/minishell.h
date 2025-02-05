@@ -114,9 +114,14 @@ int		set_input(t_commandlist *cmd, int *redirect, int update);
 int		handling_infile(t_filelist	*current, int update);
 int		handling_heredoc(t_filelist	*current, int update);
 int		set_output(t_commandlist *cmd, int *redirect, int update);
-void	built_in_table(t_commandlist *cmd, char **env, int update);
-void	clean_exit(int update);
 char	*find_path(char *av, char **en);
+/*
+	Builtins main caller and fts being called
+	clean exit with a flag to know when to exit
+*/
+void	built_in_table(t_commandlist *cmd, char **env, int update);
+void	ft_pwd(int update);
+void	clean_exit(int update);
 /*
 	Handling errors for different cases
 	- general case
@@ -126,5 +131,6 @@ char	*find_path(char *av, char **en);
 int		standard_error(int update);
 int		path_error(t_commandlist *cmd, int update);
 int		nofile_error(t_filelist *current, int update);
+int		nodir_error(t_commandlist *cmd, int update);
 
 #endif

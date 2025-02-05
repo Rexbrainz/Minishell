@@ -54,3 +54,21 @@ int	nofile_error(t_filelist *current, int update)
 	}
 	return (errno);
 }
+
+/*
+	No directory was found
+*/
+int	nodir_error(t_commandlist *cmd, int update)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd->cmd[1], STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	if (update == NO_REDIRECTION)
+	{
+		bin_malloc(-1);
+		exit(errno);
+	}
+	return (errno);
+}
