@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 08:58:15 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:50:16 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 		start = start->next;
 	}
 	cmd[j] = NULL;
-	ft_printf("WE got here\n");
 	return (cmd);
 }
 

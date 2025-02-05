@@ -40,17 +40,17 @@
  }
 */ 
 
- static void	tokens_print(t_tokens *tokens)
- {
- 	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
- 		tokens->t_input, tokens->lexeme_count);
- 	while (tokens->head)
- 	{
- 		ft_printf("lexeme-> [%s]\ttype-> [%d]\tS_Pos-> [%d]\tE_Pos-> [%d]\n",
- 			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos, tokens->head->end_pos);
- 		tokens->head = tokens->head->next;
-	}
-}
+//  static void	tokens_print(t_tokens *tokens)
+//  {
+//  	ft_printf("t_input-> [%s]\tLexeme count-> [%d]\n\n",
+//  		tokens->t_input, tokens->lexeme_count);
+//  	while (tokens->head)
+//  	{
+//  		ft_printf("lexeme-> [%s]\ttype-> [%d]\tS_Pos-> [%d]\tE_Pos-> [%d]\n",
+//  			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos, tokens->head->end_pos);
+//  		tokens->head = tokens->head->next;
+// 	}
+// }
 
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 		if (!parse_tokens(&cmd, &tokens, env))
 			execute_commands(&cmd);
 		add_history(tokens.t_input);
-		tokens_print(&tokens);
+		// tokens_print(&tokens);
 		free_tokens_list(&tokens);
 	//	commands_print(&cmd);
 	//	 free_cmds_list(&cmd);
