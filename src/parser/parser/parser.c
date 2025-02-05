@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 18:58:26 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 07:32:02 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	process_tokens(t_toklist *current, t_type l_t)
 		return (2);
 	else if (c_t == HEREDOC)
 		current->lexeme = get_heredoc_input(current->lexeme);
+	else if (c_t == S_QUOTE || c_t == D_QUOTE)
+		current->lexeme = rm_newline(&current->lexeme);
 	return (0);
 }
 

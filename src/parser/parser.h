@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 17:51:59 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/05 07:07:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ bool		is_delim(char *c);
 char		*expand(char *lexeme);
 char		*get_heredoc_input(char *delim);
 void		remove_escape_char(t_tokens *tokens);
+char		*rm_newline(char **lexeme);
 
 #endif
