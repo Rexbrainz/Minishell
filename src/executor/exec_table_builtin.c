@@ -4,10 +4,11 @@
 	Flag if its a child process
 	if so we need to clean memory
 */
-void	clean_exit(int update)
+void	clean_exit(int update, t_commandlist *cmd)
 {
 	if (update == NO_REDIRECTION)
 	{
+		free_env_list(cmd);
 		rl_clear_history();
 		bin_malloc(-1);
 		exit(EXIT_SUCCESS);
@@ -18,7 +19,7 @@ void	clean_exit(int update)
 	No comment needed for that one
 	TBD: change in linked list env
 */
-static void	ft_env(char **env, int update)
+static void	ft_env(char **env, int update, t_commandlist *cmd)
 {
 	int	cc;
 
@@ -29,7 +30,7 @@ static void	ft_env(char **env, int update)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		cc++;
 	}
-	clean_exit(update);
+	clean_exit(update, cmd);
 }
 
 /*
@@ -62,7 +63,7 @@ static void	ft_echo(t_commandlist *cmd, int update)
 	}
 	if (no_new_line == 0)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	clean_exit(update);
+	clean_exit(update, cmd);
 }
 
 /*
@@ -75,7 +76,7 @@ static void	ft_cd(t_commandlist *cmd, int update)
 		if (cmd->cmd[1] != NULL)
 			nodir_error(cmd, update);
 	}
-	clean_exit(update);
+	clean_exit(update, cmd);
 }
 
 /*
@@ -88,7 +89,7 @@ void	built_in_table(t_commandlist *cmd, char **env, int update)
 	else if (ft_strncmp("cd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_cd(cmd, update);
 	else if (ft_strncmp("pwd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-		ft_pwd(update);
+		ft_pwd(update, cmd);
 	else if (ft_strncmp("export", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
 	else if (ft_strncmp("unset", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
@@ -96,9 +97,9 @@ void	built_in_table(t_commandlist *cmd, char **env, int update)
 	else if (ft_strncmp("minishell", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		printf("Executing built-in: %s\n", cmd->cmd[0]);
 	else if (ft_strncmp("env", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-		ft_env(env, update);
+		ft_env(env, update, cmd);
 	else if (ft_strncmp("exit", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-		clean_exit(NO_REDIRECTION);
+		clean_exit(NO_REDIRECTION, cmd);
 	else
 		path_error(cmd, update);
 }

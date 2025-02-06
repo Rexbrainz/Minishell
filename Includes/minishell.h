@@ -93,7 +93,7 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);
 bool	add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
-void	free_cmds_list(t_command *cmd);
+void	free_env_list(t_commandlist *cmd);
 /*
 	Connection point between parsing and execution
 	place to check for edge cases and conversion
@@ -117,7 +117,7 @@ int		rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid);
 void	looking_for_pipes(t_command *cmds, int start, int *new_in_out);
 int		check_redirection(t_commandlist *command, int control);
 int		double_check(t_command *cmds, int start, int run_or_not);
-int		wait_for_last(pid_t last_pid);
+int		wait_for_last(t_commandlist *cmds, pid_t last_pid);
 /*
 	Running the actual commands
 	in the running _ commands
@@ -129,8 +129,8 @@ int		wait_for_last(pid_t last_pid);
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			int *prev_in_out, int *new_in_out);
 int		set_input(t_commandlist *cmd, int *redirect, int update);
-int		handling_infile(t_filelist	*current, int update);
-int		handling_heredoc(t_filelist	*current, int update);
+int		handling_infile(t_commandlist *cmd, t_filelist	*current, int update);
+int		handling_heredoc(t_commandlist *cmd, t_filelist	*current, int update);
 int		set_output(t_commandlist *cmd, int *redirect, int update);
 char	*find_path(char *av, char **en);
 /*
@@ -138,17 +138,17 @@ char	*find_path(char *av, char **en);
 	clean exit with a flag to know when to exit
 */
 void	built_in_table(t_commandlist *cmd, char **env, int update);
-void	ft_pwd(int update);
-void	clean_exit(int update);
+void	ft_pwd(int update, t_commandlist *cmd);
+void	clean_exit(int update, t_commandlist *cmd);
 /*
 	Handling errors for different cases
 	- general case
 	- permission denied
 	- directory of file not found
 */
-int		standard_error(int update);
+int		standard_error(int update, t_commandlist *cmd);
 int		path_error(t_commandlist *cmd, int update);
-int		nofile_error(t_filelist *current, int update);
+int		nofile_error(t_filelist *current, int update, t_commandlist *cmd);
 int		nodir_error(t_commandlist *cmd, int update);
 
 #endif

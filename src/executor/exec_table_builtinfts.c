@@ -1,6 +1,6 @@
 #include "../../Includes/minishell.h"
 
-void	ft_pwd(int update)
+void	ft_pwd(int update, t_commandlist *cmd)
 {
 	char	*pwd;
 
@@ -11,5 +11,5 @@ void	ft_pwd(int update)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		free(pwd);
 	}
-	clean_exit(update);
+	clean_exit(update, cmd);
 }

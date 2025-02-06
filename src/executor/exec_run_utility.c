@@ -1,18 +1,18 @@
 #include "../../Includes/minishell.h"
 
-int	handling_infile(t_filelist	*current, int update)
+int	handling_infile(t_commandlist *cmd, t_filelist	*current, int update)
 {
 	int	fd;
 
 	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
-		return (nofile_error(current, update));
+		return (nofile_error(current, update, cmd));
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (close(fd), standard_error(update));
+		return (close(fd), standard_error(update, cmd));
 	return (close(fd), EXIT_SUCCESS);
 }
 
-int	handling_heredoc(t_filelist	*current, int update)
+int	handling_heredoc(t_commandlist *cmd, t_filelist	*current, int update)
 {
 	int	heredoc_pipe[2];
 
@@ -22,7 +22,7 @@ int	handling_heredoc(t_filelist	*current, int update)
 	ft_putstr_fd("\n", heredoc_pipe[1]);
 	close(heredoc_pipe[1]);
 	if (dup2(heredoc_pipe[0], STDIN_FILENO) == -1)
-		return (close(heredoc_pipe[0]), standard_error(update));
+		return (close(heredoc_pipe[0]), standard_error(update, cmd));
 	close(heredoc_pipe[0]);
 	return (EXIT_SUCCESS);
 }

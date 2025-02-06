@@ -26,7 +26,7 @@ void	looking_for_pipes(t_command *cmds, int start, int *new_in_out)
 	capturing the last exit command
 	and waiting for the rest
 */
-int	wait_for_last(pid_t last_pid)
+int	wait_for_last(t_commandlist *cmd, pid_t last_pid)
 {
 	int		status;
 	int		saving;
@@ -45,7 +45,7 @@ int	wait_for_last(pid_t last_pid)
 			if (errno == ECHILD)
 				break ;
 			else
-				standard_error(NO_REDIRECTION);
+				standard_error(NO_REDIRECTION, cmd);
 		}
 	}
 	return (saving);

@@ -18,13 +18,13 @@ static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 	}
 	if (current->type == AND && last_pid != 0)
 	{
-		(*exit_code) = wait_for_last(last_pid);
+		(*exit_code) = wait_for_last(current, last_pid);
 		if ((*exit_code) != 0)
 			return (AND);
 	}
 	else if (current->type == OR && last_pid != 0)
 	{
-		(*exit_code) = wait_for_last(last_pid);
+		(*exit_code) = wait_for_last(current, last_pid);
 		if ((*exit_code) == 0)
 			return (OR);
 	}
@@ -141,5 +141,5 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
 		return (rec_exec(cmds, start + 2, new_in_out, current_pid));
-	return (close_pipes(prev_in_out, new_in_out), wait_for_last(current_pid));
+	return (close_pipes(prev_in_out, new_in_out), wait_for_last(cmds->head, current_pid));
 }

@@ -4,13 +4,14 @@
 	General error message after checks
 	- if no extra work is needed
 */
-int	standard_error(int update)
+int	standard_error(int update, t_commandlist *cmd)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
+		free_env_list(cmd);
 		bin_malloc(-1);
 		exit(errno);
 	}
@@ -29,6 +30,7 @@ int	path_error(t_commandlist *cmd, int update)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
+		free_env_list(cmd);
 		bin_malloc(-1);
 		exit(127);
 	}
@@ -40,7 +42,7 @@ int	path_error(t_commandlist *cmd, int update)
 	- because standard doesn't show which one
 		is missing from the files / directories
 */
-int	nofile_error(t_filelist *current, int update)
+int	nofile_error(t_filelist *current, int update, t_commandlist *cmd)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(current->filename, STDERR_FILENO);
@@ -49,6 +51,7 @@ int	nofile_error(t_filelist *current, int update)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
+		free_env_list(cmd);
 		bin_malloc(-1);
 		exit(errno);
 	}
@@ -67,6 +70,7 @@ int	nodir_error(t_commandlist *cmd, int update)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
+		free_env_list(cmd);
 		bin_malloc(-1);
 		exit(errno);
 	}

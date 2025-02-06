@@ -116,6 +116,7 @@ int	main(int argc, char **argv, char **env)
 	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
+	free_env_list(cmd.head);
 	rl_clear_history();
 	return (0);
 }
