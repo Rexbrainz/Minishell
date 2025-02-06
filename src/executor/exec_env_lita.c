@@ -36,7 +36,10 @@ static char	**populate_env(t_env *env, int size)
 	while (current != NULL)
 	{
 		if (current->value != NULL)
+		{
 			new_env[array_c] = bin_strjoin(current->key, current->value);
+			array_c++;	
+		}
 		current = current->next;
 	}
 	new_env[array_c] = NULL;
