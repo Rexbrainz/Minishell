@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 16:22:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 08:10:21 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 	new_node->lexeme_len = ft_strlen(lexeme);
 	new_node->start_pos = s_pos;
 	new_node->end_pos = s_pos + new_node->lexeme_len - 1;
+	if (types == S_QUOTE || types == D_QUOTE)
+		new_node->end_pos = s_pos + new_node->lexeme_len + 2 - 1;
 	new_node->next = NULL;
 	if (!tokens->head)
 	{
