@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 16:47:51 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:34:10 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static bool	add_env_var(t_env *env, char *key, char *value)
 {
 	t_envlist	*new_node;
 
-	new_node = (t_envlist *)bin_malloc(sizeof(t_envlist));
+	new_node = (t_envlist *)malloc(sizeof(t_envlist));
 	if (!new_node)
 		return (false);
 	new_node->key = key;
@@ -72,15 +72,20 @@ static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 	s = ft_strchr(en, '=');
 	if (!s)
 	{
-		*key = bin_strdup(en);
+		*key = ft_strdup(en);
 		*value = NULL;
 	}
 	else
 	{
-		*key = bin_substr(en, 0, s - en);
-		*value = bin_strdup(s);
+		*key = ft_substr(en, 0, s - en);
+		*value = ft_strdup(s);
 		if (!strncmp(*key, "SHLVL", ft_strlen(*key)))
+		{
 			env->shlvl = ft_atoi(*value);
+			env->shlvl++;
+			free(*value);
+			*value = ft_itoa(env->shlvl);
+		}
 	}
 }
 
@@ -101,6 +106,5 @@ bool	init_env(t_env *env, char **en)
 			return (false);
 		i++;
 	}
-	env->shlvl++;
 	return (true);
 }
