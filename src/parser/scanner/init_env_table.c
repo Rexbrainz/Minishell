@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 17:38:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:50:13 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static bool	add_env_var(t_env *env, char *key, char *value)
 static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 {
 	char	*s;
+	char	*temp;
 
 	s = NULL;
 	s = ft_strchr(en, '=');
@@ -62,10 +63,13 @@ static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 		*value = ft_strdup(s);
 		if (!strncmp(*key, "SHLVL", ft_strlen(*key)))
 		{
-			env->shlvl = ft_atoi(*value);
+			env->shlvl = ft_atoi(*value + 1);
 			env->shlvl++;
 			free(*value);
 			*value = ft_itoa(env->shlvl);
+			temp = ft_strjoin("=", *value);
+			free(*value);
+			*value = temp;
 		}
 	}
 }
