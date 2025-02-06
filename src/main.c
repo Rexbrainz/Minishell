@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **env)
 		if (!tokens.t_input)
 			break ;
 		// parse_tokens(&cmd, &tokens, env);
-		if (!parse_tokens(&cmd, &tokens, env))
+		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
 			execute_commands(&cmd);

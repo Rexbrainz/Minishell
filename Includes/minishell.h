@@ -39,8 +39,6 @@ typedef enum e_types
 	NOTHING
 }	t_type;
 
-# include "../src/parser/parser.h"
-
 typedef struct s_envlist
 {
 	char				*key;
@@ -55,6 +53,8 @@ typedef struct s_env
 	t_envlist	*head;
 	t_envlist	*tail;
 }	t_env;
+
+# include "../src/parser/parser.h"
 
 typedef struct s_filelist
 {
@@ -74,9 +74,8 @@ typedef struct s_commandlist
 {
 	char					**cmd;
 	t_type					type;
+	t_env					*env;
 	t_file					*files;
-	char					**env;
-	//t_env					*env;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
@@ -87,9 +86,10 @@ typedef struct s_command
 	t_commandlist	*tail;
 }	t_command;
 
+bool	init_env(t_env *en, char **env);
 void	init_commands(t_command *cmd);
-int		parse_tokens(t_command *cmd, t_tokens *tokens, char **env);
-void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, char **env);
+int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);
+void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);
 bool	add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 18:14:53 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:25:35 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char	*expand(char *lexeme)
 		if (*s != '$')
 		{
 			temp = get_chars(lexeme, &s, new_lexeme);
-			if (!temp)
-				return (free(lexeme), NULL);
 			new_lexeme = temp;
 		}
 		else

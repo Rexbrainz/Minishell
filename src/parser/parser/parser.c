@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 18:15:52 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:21:16 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 //#include "scanner.h"
 //#include "parser.h"
 
-static void	
-	check_for_more_prompt(t_tokens *tokens, t_toklist *current, char **s)
+static void	check_for_more_prompt(t_tokens *tokens,
+	t_toklist *current, char **s)
 {
 	t_type	t;
 
@@ -84,7 +84,7 @@ static int	process_tokens(t_tokens *tokens, char **s)
 	return (status);
 }
 
-int	parse_tokens(t_command *cmd, t_tokens *tokens, char **env)
+int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 {
 	char	*s;
 	int		status;

@@ -6,13 +6,13 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 16:36:36 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:48:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
-static void	add_cmds(t_command *cmd, char **cmds, t_type type, char **env)
+static void	add_cmds(t_command *cmd, char **cmds, t_type type, t_env *env)
 {
 	t_commandlist	*new_node;
 
@@ -93,7 +93,7 @@ static char	**find_lexemes(t_toklist **curr, t_type *type, int *redirection)
 	return (enter_cmd(start, curr, cmd, type));
 }
 
-void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, char **env)
+void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env)
 {
 	t_type		type;
 	t_toklist	*temp;
