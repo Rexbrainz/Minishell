@@ -87,11 +87,15 @@ char	*prompt1(t_tokens *tokens)
 	return (tokens->t_input);
 }
 
+int	main(int argc, char **argv, char **env)
+{
+	t_env			en;
 	t_command		cmd;
 	t_tokens		tokens;
 
 	(void)argv;
 	(void)argc;
+	init_env(&en, env);
 	while (1)
 	{
 		prompt(&tokens, &cmd);

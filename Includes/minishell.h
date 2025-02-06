@@ -40,12 +40,22 @@ typedef enum e_types
 }	t_type;
 
 # include "../src/parser/parser.h"
-/*
+
 typedef struct s_envlist
 {
-	
-}
-*/
+	char				*key;
+	char				*value;
+	struct s_envlist	*next;	
+}	t_envlist;
+
+typedef struct s_env
+{
+	int			size;
+	int			shlvl;
+	t_envlist	*head;
+	t_envlist	*tail;
+}	t_env;
+
 typedef struct s_filelist
 {
 	char				*filename;
@@ -66,14 +76,15 @@ typedef struct s_commandlist
 	t_type					type;
 	t_file					*files;
 	char					**env;
+	//t_env					*env;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
 typedef struct s_command
 {
+	int				size;
 	t_commandlist	*head;
 	t_commandlist	*tail;
-	int				size;
 }	t_command;
 
 void	init_commands(t_command *cmd);
