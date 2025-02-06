@@ -87,8 +87,6 @@ char	*prompt1(t_tokens *tokens)
 	return (tokens->t_input);
 }
 
-int	main(int argc, char **argv, char **env)
-{
 	t_command		cmd;
 	t_tokens		tokens;
 
@@ -101,13 +99,19 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		// parse_tokens(&cmd, &tokens, env);
 		if (!parse_tokens(&cmd, &tokens, env))
+		{
+			free_tokens_list(&tokens);
 			execute_commands(&cmd);
+		}
+		else
+			free_tokens_list(&tokens);
 		add_history(tokens.t_input);
 //		 tokens_print(&tokens);
-		free_tokens_list(&tokens);
+//		free_tokens_list(&tokens);
 //		commands_print(&cmd);
 	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
+	rl_clear_history();
 	return (0);
 }

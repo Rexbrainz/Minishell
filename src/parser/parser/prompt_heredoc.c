@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 18:18:04 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:15:18 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*join_inputs(char *lexeme, char *line)
 	char	*temp;
 
 	len = ft_strlen(lexeme);
-	temp = (char *)malloc(len + 1);
+	temp = (char *)malloc(len + 2);
 	i = 0;
 	while (lexeme[i])
 	{
@@ -49,7 +49,9 @@ static char	*join_inputs(char *lexeme, char *line)
 	temp[i] = '\n';
 	temp[i + 1] = '\0';
 	free(lexeme);
-	return (ft_strjoin(temp, line));
+	lexeme = ft_strjoin(temp, line);
+	free(temp);
+	return (lexeme);
 }
 
 static char	*the_prompt(char *delim)
@@ -95,5 +97,6 @@ char	*get_heredoc_input(char *delim)
 		return (free(delim), delim = NULL, ft_strdup(""));
 	if (!quote)
 		lexeme = expand(lexeme);
+	free(delim);
 	return (lexeme);
 }

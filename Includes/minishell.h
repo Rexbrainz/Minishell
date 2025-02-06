@@ -40,7 +40,12 @@ typedef enum e_types
 }	t_type;
 
 # include "../src/parser/parser.h"
-
+/*
+typedef struct s_envlist
+{
+	
+}
+*/
 typedef struct s_filelist
 {
 	char				*filename;

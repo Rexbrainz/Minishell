@@ -8,6 +8,7 @@ void	clean_exit(int update)
 {
 	if (update == NO_REDIRECTION)
 	{
+		rl_clear_history();
 		bin_malloc(-1);
 		exit(EXIT_SUCCESS);
 	}
@@ -97,11 +98,7 @@ void	built_in_table(t_commandlist *cmd, char **env, int update)
 	else if (ft_strncmp("env", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		ft_env(env, update);
 	else if (ft_strncmp("exit", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-	{
-		if (update != NO_REDIRECTION)
-			bin_malloc(-1);
-		exit(EXIT_SUCCESS);
-	}
+		clean_exit(NO_REDIRECTION);
 	else
 		path_error(cmd, update);
 }

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 08:30:36 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 14:55:46 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:02:13 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	free_tokens_list(t_tokens *tokens)
 		tokens->head = tokens->head->next;
 		free(temp);
 	}
-	free(tokens->t_input);
 }
 
 void	free_cmds_list(t_command *cmd)
