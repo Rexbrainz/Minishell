@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_table.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 15:33:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:47:51 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,20 @@ static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 
 bool	init_env(t_env *env, char **en)
 {
-	char	*s;
+	int		i;
 	char	*key;
 	char	*value;
 
 	init_environment(env);
+	i = 0;
 	key = NULL;
 	value = NULL;
-	while (*en)
+	while (en[i])
 	{
-		get_key_and_value(env, &key, &value, *en);
+		get_key_and_value(env, &key, &value, en[i]);
 		if (!add_env_var(env, key, value))
 			return (false);
-		(*en)++;
+		i++;
 	}
 	env->shlvl++;
 	return (true);

@@ -61,7 +61,7 @@ static void	restoring_in_out(int *reset)
 	we need to add the case if there was an error
 	to stop the rest of the execution without exiting
 */
-static int	run_one(t_commandlist *one, char **env)
+static int	run_one(t_commandlist *one)
 {
 	int	redirect[2];
 	int	reset[2];
@@ -80,7 +80,7 @@ static int	run_one(t_commandlist *one, char **env)
 	possible_error = saving_in_out(one, redirect, reset);
 	if (possible_error != EXIT_SUCCESS)
 		return (restoring_in_out(reset), possible_error);
-	built_in_table(one, env, 1);
+	built_in_table(one, generate_env(one->env), 1);
 	restoring_in_out(reset);
 	return (EXIT_SUCCESS);
 }
@@ -101,7 +101,7 @@ int	execute_commands(t_command *cmds)
 	starting_in_out[0] = NO_REDIRECTION;
 	starting_in_out[1] = NO_REDIRECTION;
 	if (lonely_builtin(cmds) == 0)
-		exit_status = run_one(current, current->env);
+		exit_status = run_one(current);
 	else
 		exit_status = rec_exec(cmds, 0, starting_in_out, 0);
 	return (exit_status);

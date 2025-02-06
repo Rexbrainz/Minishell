@@ -98,6 +98,7 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
 {
 	char	*path;
+	char	**env;
 
 	if (redirect[0] != NO_REDIRECTION)
 	{
@@ -111,12 +112,13 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 		new_in_out[1] = NO_REDIRECTION;
 	}
 	dup_and_or_close(prev_in_out, new_in_out);
+	env = generate_env(cmd->env);
 	if (cmd->type == BUILTIN)
-		built_in_table(cmd, cmd->env, NO_REDIRECTION);
-	path = find_path(cmd->cmd[0], cmd->env);
+		built_in_table(cmd, env, NO_REDIRECTION);
+	path = find_path(cmd->cmd[0], env);
 	if (path == NULL)
 		path_error(cmd, NO_REDIRECTION);
-	if (execve(path, cmd->cmd, cmd->env) < 0)
+	if (execve(path, cmd->cmd, env) < 0)
 		standard_error(NO_REDIRECTION);
 	return (EXIT_FAILURE);
 }

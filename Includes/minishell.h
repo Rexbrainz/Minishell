@@ -99,8 +99,10 @@ void	free_cmds_list(t_command *cmd);
 	place to check for edge cases and conversion
 	- possible update function for calling
 		minishell and the env functions
+	- helping function for transformation
 */
 int		execute_commands(t_command *cmds);
+char	**generate_env(t_env *env);
 /*
 	The main caller:
 	recursive _ execution
