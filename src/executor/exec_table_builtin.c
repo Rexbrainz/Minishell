@@ -81,17 +81,14 @@ static int	cd_minus_case(t_commandlist *cmd, int update)
 */
 static int	ft_cd(t_commandlist *cmd, int update)
 {
-	if (cmd->cmd[1] != NULL)
-	{
-		if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1]) == 0))
-			return (chdir(getenv("HOME")), 0);
-	}
 	if (chdir(cmd->cmd[1]) != 0)
 	{
 		if (cmd->cmd[1] != NULL)
 		{
 			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
 				return (cd_minus_case(cmd, update));
+			else if	(ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
+				return (chdir(getenv("HOME")), 0);
 			else
 				return (nodir_error(cmd, update));
 		}
