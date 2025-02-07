@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 17:50:13 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 11:37:29 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	init_environment(t_env *env)
 	env->shlvl = 0;
 	env->head = NULL;
 	env->tail = NULL;
+	env->pid = getpid();
+	env->exit_status = 0;
 }
 
 static bool	add_env_var(t_env *env, char *key, char *value)
@@ -86,7 +88,13 @@ bool	init_env(t_env *env, char **en)
 	value = NULL;
 	while (en[i])
 	{
-		get_key_and_value(env, &key, &value, en[i]);
+		if (!ft_strncmp(en[i], "OLDPWD", ft_strlen(en[i])))
+		{
+			key = ft_strdup(en[i]);
+			value = NULL;
+		}
+		else
+			get_key_and_value(env, &key, &value, en[i]);
 		if (!add_env_var(env, key, value))
 			return (false);
 		i++;

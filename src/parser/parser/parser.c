@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 16:21:16 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:03:01 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	syntax_error(int status, t_toklist *current, t_toklist *next_t)
 	write(2, "'\n", 2);
 }
 
-static int	check_tokens(t_toklist *current, t_type l_t)
+static int	check_tokens(t_toklist *current, t_type l_t, t_env *env)
 {
 	t_type			c_t;
 
@@ -52,13 +52,13 @@ static int	check_tokens(t_toklist *current, t_type l_t)
 			|| c_t == HEREDOC) && !*current->lexeme)
 		return (2);
 	else if (c_t == HEREDOC)
-		current->lexeme = get_heredoc_input(current->lexeme);
+		current->lexeme = get_heredoc_input(current->lexeme, env);
 	else if (c_t == S_QUOTE || c_t == D_QUOTE)
 		current->lexeme = rm_newline(&current->lexeme);
 	return (0);
 }
 
-static int	process_tokens(t_tokens *tokens, char **s)
+static int	process_tokens(t_tokens *tokens, char **s, t_env *env)
 {
 	t_type		l_t;
 	int			status;
@@ -69,7 +69,7 @@ static int	process_tokens(t_tokens *tokens, char **s)
 	current = tokens->head;
 	while (current)
 	{
-		status = check_tokens(current, l_t);
+		status = check_tokens(current, l_t, env);
 		if (status)
 		{
 			syntax_error(status, current, current->next);
@@ -91,11 +91,11 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 
 	s = tokens->t_input;
 	tokens->head = scan_line(tokens, &s);
-	status = process_tokens(tokens, &s);
+	status = process_tokens(tokens, &s, env);
 	if (status)
 		return (status);
 	remove_escape_char(tokens);
-	expand_variables(tokens);
+	expand_variables(tokens, env);
 	merge_adjacent_tokens(tokens);
 	join_cmd_and_args(cmd, tokens->head, env);
 	enter_filelist(cmd, tokens->head);

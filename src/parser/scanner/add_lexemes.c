@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 08:16:43 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 08:01:03 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,15 @@ bool	add_variable(t_tokens *tokens, char **c)
 
 	type = get_type(*c + 1);
 	s = *c;
-	if (*(s + 1) == ' ' || !*(s + 1))
+	if (type == WORD)
 		return (true);
-	if (type == CMD_SUB)
-	{
-		find_last_r_paren(c, &s, tokens);
-		s++;
-	}
-	if (type == DOLLAR)
-	{
-		s++;
-		while (*s && !is_delim(*s) && *s != '$')
-			s++;
-	}
-	if (type == EXIT_STAT)
+	else if (type == CMD_SUB)
+		find_eot(tokens, c, &s, CMD_SUB);
+	else if (type == DOLLAR)
+		find_eot(tokens, c, &s, DOLLAR);
+	else if (type == EXIT_STAT)
+		s = *c + 2;
+	else
 		s = *c + 2;
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme || !add_token(tokens, type, lexeme, *c - tokens->t_input))

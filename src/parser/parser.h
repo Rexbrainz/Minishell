@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 17:04:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:02:19 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_toklist
 
 typedef struct s_tokens
 {
+	pid_t		pid;
 	t_toklist	*tail;
 	t_toklist	*head;
 	char		*t_input;
@@ -80,6 +81,7 @@ bool		add_outfile_or_append(t_tokens *tokens, char **c);
 int			get_rest_of_lexeme(char **c, t_type type);
 bool		add_variable(t_tokens *tokens, char **c);
 t_type		get_type(char *c);
+void		find_eot(t_tokens *tokens, char **c, char **s, t_type type);
 void		find_last_r_paren(char **c, char **s, t_tokens *tokens);
 bool		wild_state(t_tokens *tokens, char **c);
 bool		add_and(t_tokens *tokens, char **c);
@@ -93,10 +95,9 @@ bool		add_options(t_tokens *tokens, char **c);
 bool		add_backslash(t_tokens *tokens, char **c);
 void		prompt_for_more(t_tokens *tokens, char **c, char **s);
 bool		is_delim(char c);
-void		expand_variables(t_tokens *tokens);
-char		*expand(char *lexeme);
-char		*get_env(char *environment, t_env *env);
-char		*get_heredoc_input(char *delim);
+void		expand_variables(t_tokens *tokens, t_env *env);
+char		*expand(char *lexeme, t_env *env);
+char		*get_heredoc_input(char *delim, t_env *env);
 void		remove_escape_char(t_tokens *tokens);
 char		*rm_newline(char **lexeme);
 void		merge_adjacent_tokens(t_tokens *tokens);

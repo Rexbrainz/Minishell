@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/03 12:11:31 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 08:00:34 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 		}
 	}
 }
-
+/*
 void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 {
 	char	c;
@@ -87,6 +87,7 @@ void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
 			break ;
 	}
 }
+*/
 
 bool	is_builtin(char *lexeme)
 {
@@ -122,7 +123,26 @@ t_type	get_type(char *c)
 		type = CMD_SUB;
 	else if (*c == '?')
 		type = EXIT_STAT;
+	else if (*c == '$')
+		type = PID;
+	else if (!*c || ft_isspace(*c))
+		type = WORD;
 	else
 		type = DOLLAR;
 	return (type);
+}
+
+void	find_eot(t_tokens *tokens, char **c, char **s, t_type type)
+{
+	if (type == CMD_SUB)
+	{
+		find_last_r_paren(c, s, tokens);
+		(*s)++;
+	}
+	else if (type == DOLLAR)
+	{
+		(*s)++;
+		while (**s && !is_delim(**s) && **s != '$')
+			(*s)++;
+	}
 }
