@@ -106,9 +106,11 @@ void	print_vars(t_commandlist *cmd, int update);
 	- possible update function for calling
 		minishell and the env functions
 	- helping function for transformation
+	- exit with a flag to know when to clean
 */
 int		execute_commands(t_command *cmds);
 char	**generate_env(t_env *env);
+void	clean_exit(int update, t_commandlist *cmd);
 /*
 	The main caller:
 	recursive _ execution
@@ -140,12 +142,13 @@ int		handling_heredoc(t_commandlist *cmd, t_filelist	*current, int update);
 int		set_output(t_commandlist *cmd, int *redirect, int update);
 char	*find_path(char *av, char **en);
 /*
-	Builtins main caller and fts being called
-	clean exit with a flag to know when to exit
+	Builtins main caller is a table
+	the rest are fts being called
+	
 */
-void	built_in_table(t_commandlist *cmd, char **env, int update);
+int		built_in_table(t_commandlist *cmd, char **env, int update);
 void	ft_pwd(int update, t_commandlist *cmd);
-void	clean_exit(int update, t_commandlist *cmd);
+void	ft_unset(t_commandlist *cmd, int update);
 /*
 	Handling errors for different cases
 	- general case
