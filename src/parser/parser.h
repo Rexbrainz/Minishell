@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 09:02:19 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:12:06 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_toklist
 
 typedef struct s_tokens
 {
-	pid_t		pid;
 	t_toklist	*tail;
 	t_toklist	*head;
 	char		*t_input;

@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 11:40:48 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:28:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_env(char *lexeme, t_env *env)
 		{
 			if (!curr->value)
 				break ;
-			return (ft_strdup(curr->key));
+			return (ft_strdup(curr->value + 1));
 		}
 		curr = curr->next;
 	}
