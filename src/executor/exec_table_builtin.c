@@ -113,7 +113,12 @@ int	built_in_table(t_commandlist *cmd, char **env, int update)
 	else if (ft_strncmp("pwd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		return (ft_pwd(update, cmd), 0);
 	else if (ft_strncmp("export", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-		return (printf("Executing built-in: %s\n", cmd->cmd[0]), 0);
+	{
+		if (ft_export(cmd, update) == false)
+			return (1);
+		else
+			return (0);
+	}
 	else if (ft_strncmp("unset", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		return (ft_unset(cmd, update), 0);
 	else if (ft_strncmp("minishell", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)

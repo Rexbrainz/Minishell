@@ -99,7 +99,6 @@ void	free_tokens_list(t_tokens *tokens);
 void	free_env_list(t_env *envc);
 char	*get_env(char *lexeme, t_env *env);
 bool	add_env_var(t_env *env, char *key, char *value);
-void	print_vars(t_commandlist *cmd, int update);
 /*
 	Connection point between parsing and execution
 	place to check for edge cases and conversion
@@ -143,12 +142,13 @@ int		set_output(t_commandlist *cmd, int *redirect, int update);
 char	*find_path(char *av, char **en);
 /*
 	Builtins main caller is a table
-	the rest are fts being called
-	
+	the rest are non static fts being called
 */
 int		built_in_table(t_commandlist *cmd, char **env, int update);
 void	ft_pwd(int update, t_commandlist *cmd);
 void	ft_unset(t_commandlist *cmd, int update);
+bool	ft_export(t_commandlist *cmd, int update);
+void	print_vars(t_commandlist *cmd, int update);
 /*
 	Handling errors for different cases
 	- general case

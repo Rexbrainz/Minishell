@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 15:27:42 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 18:40:23 by sudaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static void	enter_var(t_env *env, char *key, char *value)
 {
@@ -35,18 +23,25 @@ static void	enter_var(t_env *env, char *key, char *value)
 	add_env_var(env, key, value);
 }
 
+/*
+	the main problem seems to be here
+	we are calling add_env_var
+	but it doesn't seem to be needed
+	we would just need to update the values
+*/
 static void	concatenate_var(t_env *env, char *key, char *value)
 {
 	char		*temp;
 	t_envlist	*curr;
 
+	ft_putstr_fd("We are in concatenate\n", 2);
 	curr = env->head;
 	while (curr)
 	{
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
 			if (!curr->value)
-				curr->value = value;
+				curr->value = value + 1;
 			else
 			{
 				if (!value)
@@ -94,21 +89,22 @@ static bool	get_key_and_value(char *env, char **key, char **value)
 
 static bool	check_syntax(t_commandlist *cmd, char *var, int update)
 {
-	if (*var != '_' || !ft_isalpha(*var))
+	if (*var != '_' && !ft_isalpha(*var))
 	{
-		write(2, "bash: export: `", 15);
-		write(2, var, ft_strlen(var));
-		write(2, "': not a valid identifier\n", 26);
+		ft_putstr_fd("bash: export: `", STDERR_FILENO);
+		ft_putstr_fd(var, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 		clean_exit(update, cmd);
 		return (false);
 	}
-	while (*var && (*var != '+' || *var != '='))
+	var++;
+	while (*var && *var != '+' && *var != '=')
 	{
-		if (*var != '_' || !ft_isalnum(*var))
+		if (*var != '_' && !ft_isalnum(*var))
 		{
-			write(2, "bash: export: `", 15);
-			write(2, var, ft_strlen(var));
-			write(2, "': not a valid identifier\n", 26);
+			ft_putstr_fd("bash: export: `", STDERR_FILENO);
+			ft_putstr_fd(var, STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			clean_exit(update, cmd);
 			return (false);
 		}
@@ -117,10 +113,14 @@ static bool	check_syntax(t_commandlist *cmd, char *var, int update)
 	return (true);
 }
 
-bool	export(t_commandlist *cmd, char **en, int update)
+/*
+	Export
+	- print vars function now works correctly
+	- The main problem is probably in concatenate
+*/
+bool	ft_export(t_commandlist *cmd, int update)
 {
 	int			i;
-	char		*s;
 	char		*key;
 	char		*value;
 
