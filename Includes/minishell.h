@@ -98,6 +98,8 @@ void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
 void	free_env_list(t_env *envc);
 char	*get_env(char *lexeme, t_env *env);
+bool	add_env_var(t_env *env, char *key, char *value);
+void	print_vars(t_commandlist *cmd, int update);
 /*
 	Connection point between parsing and execution
 	place to check for edge cases and conversion

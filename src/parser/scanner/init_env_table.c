@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 14:25:23 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:44:45 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	init_environment(t_env *env)
 	env->exit_status = 0;
 }
 
-static bool	add_env_var(t_env *env, char *key, char *value)
+bool	add_env_var(t_env *env, char *key, char *value)
 {
 	t_envlist	*new_node;
 
