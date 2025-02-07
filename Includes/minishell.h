@@ -149,10 +149,12 @@ void	clean_exit(int update, t_commandlist *cmd);
 	- general case
 	- permission denied
 	- directory of file not found
+	- cd edge case
 */
 int		standard_error(int update, t_commandlist *cmd);
 int		path_error(t_commandlist *cmd, int update);
 int		nofile_error(t_filelist *current, int update, t_commandlist *cmd);
 int		nodir_error(t_commandlist *cmd, int update);
+int		no_oldpwd(t_commandlist *cmd, int update);
 
 #endif

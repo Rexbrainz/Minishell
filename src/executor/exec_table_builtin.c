@@ -1,21 +1,6 @@
 #include "../../Includes/minishell.h"
 
 /*
-	Flag if its a child process
-	if so we need to clean memory
-*/
-void	clean_exit(int update, t_commandlist *cmd)
-{
-	if (update == NO_REDIRECTION)
-	{
-		free_env_list(cmd);
-		rl_clear_history();
-		bin_malloc(-1);
-		exit(EXIT_SUCCESS);
-	}
-}
-
-/*
 	No comment needed for that one
 	TBD: change in linked list env
 */
@@ -67,9 +52,31 @@ static void	ft_echo(t_commandlist *cmd, int update)
 }
 
 /*
+	Special case for minus handling both
+		- if there is OLDPWD
+		- if there is no OLDPWD
+*/
+static void	cd_minus_case(t_commandlist *cmd, int update)
+{
+	char	*found_value;
+
+	found_value = get_env("OLDPWD", cmd->env);
+	if (found_value == NULL)
+		no_oldpwd(cmd, update);
+	else
+	{
+		ft_putstr_fd(found_value, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		chdir(found_value);
+		free(found_value);
+	}
+}
+
+/*
 	Thank you Stelio
 	added handling for:
 	- / ~ / [NULL]
+	updating OLDPWD
 */
 static void	ft_cd(t_commandlist *cmd, int update)
 {
@@ -78,11 +85,7 @@ static void	ft_cd(t_commandlist *cmd, int update)
 		if (cmd->cmd[1] != NULL)
 		{
 			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
-			{
-				ft_putstr_fd(getenv("OLDPWD"), STDOUT_FILENO);
-				ft_putstr_fd("\n", STDOUT_FILENO);
-				chdir(getenv("OLDPWD"));
-			}
+				cd_minus_case(cmd, update);
 			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1]) == 0))
 				chdir(getenv("HOME"));
 			else

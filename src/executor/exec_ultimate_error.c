@@ -20,7 +20,7 @@ int	standard_error(int update, t_commandlist *cmd)
 
 /*
 	Command not found because my errno was wrong
-	- displayed after the path failed
+	- displayed after the path function failed
 */
 int	path_error(t_commandlist *cmd, int update)
 {
@@ -59,7 +59,7 @@ int	nofile_error(t_filelist *current, int update, t_commandlist *cmd)
 }
 
 /*
-	No directory was found
+	no _ directory was found
 */
 int	nodir_error(t_commandlist *cmd, int update)
 {
@@ -75,4 +75,19 @@ int	nodir_error(t_commandlist *cmd, int update)
 		exit(errno);
 	}
 	return (errno);
+}
+
+/*
+	OLDPWD is not set
+*/
+int	no_oldpwd(t_commandlist *cmd, int update)
+{
+	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+	if (update == NO_REDIRECTION)
+	{
+		free_env_list(cmd);
+		bin_malloc(-1);
+		exit(1);
+	}
+	return (1);
 }
