@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:28:43 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:53:27 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,22 @@ char	*expand(char *lexeme, t_env *env)
 
 void	expand_variables(t_tokens *tokens, t_env *env)
 {
+	t_type		t;
+	char		*temp;
 	t_toklist	*current;
 
 	current = tokens->head;
 	while (current)
 	{
-		if (current->type == DOLLAR || current->type == D_QUOTE)
+		t = current->type;
+		if (t == DOLLAR || t == D_QUOTE)
 			current->lexeme = expand(current->lexeme, env);
+		else if (t == PID || t == EXIT_STAT)
+		{
+			temp = current->lexeme;
+			current->lexeme = get_env(current->lexeme, env);
+			free(temp);
+		}
 		current = current->next;
 	}
 }
