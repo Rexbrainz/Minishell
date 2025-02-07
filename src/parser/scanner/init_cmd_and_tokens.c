@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 08:26:23 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:11:48 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	init_tokens(t_tokens *tokens)
 {
-	tokens->pid = getpid();
 	tokens->head = NULL;
 	tokens->tail = NULL;
 	tokens->t_input = NULL;
