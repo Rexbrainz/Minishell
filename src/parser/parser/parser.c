@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 16:21:16 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 08:24:52 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	if (status)
 		return (status);
 	remove_escape_char(tokens);
-	expand_variables(tokens);
+	expand_variables(tokens, env);
 	merge_adjacent_tokens(tokens);
 	join_cmd_and_args(cmd, tokens->head, env);
 	enter_filelist(cmd, tokens->head);

@@ -35,6 +35,7 @@ typedef enum e_types
 	STAR,
 	CMD_SUB,
 	EXIT_STAT,
+	PID,
 	BACK_SLASH,
 	NOTHING
 }	t_type;
@@ -48,10 +49,12 @@ typedef struct s_envlist
 
 typedef struct s_env
 {
+	pid_t		pid;
 	int			size;
 	int			shlvl;
 	t_envlist	*head;
 	t_envlist	*tail;
+	int			exit_status;
 }	t_env;
 
 # include "../src/parser/parser.h"
@@ -94,6 +97,7 @@ bool	add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
 void	free_env_list(t_commandlist *cmd);
+char	*get_env(char *lexeme, t_env *env);
 /*
 	Connection point between parsing and execution
 	place to check for edge cases and conversion

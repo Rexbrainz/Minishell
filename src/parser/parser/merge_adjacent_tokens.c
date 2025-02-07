@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:04:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 08:03:08 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 06:57:49 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	merge_adjacent_tokens(t_tokens *tokens)
 				diff = curr->next->start_pos - curr->end_pos;
 				if (diff == 1)
 				{
-					ft_printf("WE got here\n");
 					merge(curr);
 					continue ;
 				}

@@ -6,13 +6,35 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 16:25:35 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 11:40:48 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 //#include "scanner.h"
 //#include "parser.h"
+
+char	*get_env(char *lexeme, t_env *env)
+{
+	t_envlist	*curr;
+
+	if (!ft_strncmp(lexeme, "$$", ft_strlen(lexeme)))
+		return (ft_itoa(env->pid));
+	else if (!ft_strncmp(lexeme, "$?", ft_strlen(lexeme)))
+		return (ft_itoa(env->exit_status));
+	curr = env->head;
+	while (curr)
+	{
+		if (!ft_strncmp(lexeme, curr->key, ft_strlen(lexeme)))
+		{
+			if (!curr->value)
+				break ;
+			return (ft_strdup(curr->key));
+		}
+		curr = curr->next;
+	}
+	return (NULL);
+}
 
 static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 {
@@ -39,7 +61,8 @@ static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 	return (temp);
 }
 
-static char	*extract_var(char *lexeme, char **s, char *new_lexeme)
+static char	*extract_var(char *lexeme, char **s, char *new_lexeme,
+	t_env *env)
 {
 	char	*var;
 	char	*temp;
@@ -55,7 +78,7 @@ static char	*extract_var(char *lexeme, char **s, char *new_lexeme)
 	temp = ft_substr(lexeme, start - lexeme, *s - start);
 	if (!temp)
 		return (NULL);
-	var = getenv(temp);
+	var = get_env(temp, env);
 	free(temp);
 	if (!var && !new_lexeme)
 		return (ft_strdup(""));
@@ -68,7 +91,7 @@ static char	*extract_var(char *lexeme, char **s, char *new_lexeme)
 	return (temp);
 }
 
-char	*expand(char *lexeme)
+char	*expand(char *lexeme, t_env *env)
 {
 	char	*s;
 	char	*temp;
@@ -86,7 +109,7 @@ char	*expand(char *lexeme)
 		else
 		{
 			s++;
-			temp = extract_var(lexeme, &s, new_lexeme);
+			temp = extract_var(lexeme, &s, new_lexeme, env);
 			if (!temp)
 				return (free(lexeme), NULL);
 			new_lexeme = temp;
@@ -97,7 +120,7 @@ char	*expand(char *lexeme)
 	return (free(lexeme), new_lexeme);
 }
 
-void	expand_variables(t_tokens *tokens)
+void	expand_variables(t_tokens *tokens, t_env *env)
 {
 	t_toklist	*current;
 
@@ -105,7 +128,7 @@ void	expand_variables(t_tokens *tokens)
 	while (current)
 	{
 		if (current->type == DOLLAR || current->type == D_QUOTE)
-			current->lexeme = expand(current->lexeme);
+			current->lexeme = expand(current->lexeme, env);
 		current = current->next;
 	}
 }
