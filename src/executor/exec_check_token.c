@@ -80,9 +80,9 @@ static int	run_one(t_commandlist *one)
 	possible_error = saving_in_out(one, redirect, reset);
 	if (possible_error != EXIT_SUCCESS)
 		return (restoring_in_out(reset), possible_error);
-	built_in_table(one, generate_env(one->env), 1);
+	possible_error = built_in_table(one, generate_env(one->env), 1);
 	restoring_in_out(reset);
-	return (EXIT_SUCCESS);
+	return (possible_error);
 }
 
 /*
