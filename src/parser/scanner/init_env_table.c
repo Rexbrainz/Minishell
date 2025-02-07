@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 14:18:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:25:23 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ bool	init_env(t_env *env, char **en)
 	value = NULL;
 	while (en[i])
 	{
-		if (!ft_strncmp(en[i], "OLDPWD", ft_strlen(en[i])))
+		if (!ft_strncmp(en[i], "OLDPWD", 6))
 		{
-			key = ft_strdup(en[i]);
-			value = NULL;
+			i++;
+			continue ;
 		}
 		else
 			get_key_and_value(env, &key, &value, en[i]);
