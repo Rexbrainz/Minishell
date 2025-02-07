@@ -68,13 +68,28 @@ static void	ft_echo(t_commandlist *cmd, int update)
 
 /*
 	Thank you Stelio
+	added handling for:
+	- / ~ / [NULL]
 */
 static void	ft_cd(t_commandlist *cmd, int update)
 {
 	if (chdir(cmd->cmd[1]) != 0)
 	{
 		if (cmd->cmd[1] != NULL)
-			nodir_error(cmd, update);
+		{
+			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
+			{
+				ft_putstr_fd(getenv("OLDPWD"), STDOUT_FILENO);
+				ft_putstr_fd("\n", STDOUT_FILENO);
+				chdir(getenv("OLDPWD"));
+			}
+			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1]) == 0))
+				chdir(getenv("HOME"));
+			else
+				nodir_error(cmd, update);
+		}
+		else
+			chdir(getenv("HOME"));
 	}
 	clean_exit(update, cmd);
 }
