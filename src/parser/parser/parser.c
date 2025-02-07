@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:03:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:19:52 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	tokens->head = scan_line(tokens, &s);
 	status = process_tokens(tokens, &s, env);
 	if (status)
+	{
+		env->exit_status = 258;
 		return (status);
+	}
 	remove_escape_char(tokens);
 	expand_variables(tokens, env);
 	merge_adjacent_tokens(tokens);
