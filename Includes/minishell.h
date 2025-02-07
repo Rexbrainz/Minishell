@@ -96,7 +96,7 @@ void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);
 bool	add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
-void	free_env_list(t_env *env);
+void	free_env_list(t_env *envc);
 char	*get_env(char *lexeme, t_env *env);
 /*
 	Connection point between parsing and execution

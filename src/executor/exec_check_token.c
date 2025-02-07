@@ -94,15 +94,16 @@ int	execute_commands(t_command *cmds)
 {
 	t_commandlist	*current;
 	int				starting_in_out[2];
-	int				exit_status;
+	int				error_or_not;
 
 	current = cmds->head;
-	exit_status = 0;
+	error_or_not = current->env->exit_status;
 	starting_in_out[0] = NO_REDIRECTION;
 	starting_in_out[1] = NO_REDIRECTION;
 	if (lonely_builtin(cmds) == 0)
-		exit_status = run_one(current);
+		error_or_not = run_one(current);
 	else
-		exit_status = rec_exec(cmds, 0, starting_in_out, 0);
-	return (exit_status);
+		error_or_not = rec_exec(cmds, 0, starting_in_out, 0);
+	current->env->exit_status = error_or_not;
+	return (error_or_not);
 }
