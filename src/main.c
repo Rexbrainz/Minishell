@@ -103,7 +103,6 @@ int	main(int argc, char **argv, char **env)
 		if (!tokens.t_input)
 			break ;
 //		 parse_tokens(&cmd, &tokens, &en);
-		
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
@@ -118,7 +117,7 @@ int	main(int argc, char **argv, char **env)
 	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
-	free_env_list(cmd.head);
+	free_env_list(&en);
 	rl_clear_history();
 	return (0);
 }

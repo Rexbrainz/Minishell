@@ -11,7 +11,7 @@ int	standard_error(int update, t_commandlist *cmd)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		bin_malloc(-1);
 		exit(errno);
 	}
@@ -30,7 +30,7 @@ int	path_error(t_commandlist *cmd, int update)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		bin_malloc(-1);
 		exit(127);
 	}
@@ -51,7 +51,7 @@ int	nofile_error(t_filelist *current, int update, t_commandlist *cmd)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		bin_malloc(-1);
 		exit(errno);
 	}
@@ -70,7 +70,7 @@ int	nodir_error(t_commandlist *cmd, int update)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		bin_malloc(-1);
 		exit(errno);
 	}
@@ -85,7 +85,7 @@ int	no_oldpwd(t_commandlist *cmd, int update)
 	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		bin_malloc(-1);
 		exit(1);
 	}

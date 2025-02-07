@@ -8,7 +8,7 @@ void	clean_exit(int update, t_commandlist *cmd)
 {
 	if (update == NO_REDIRECTION)
 	{
-		free_env_list(cmd);
+		free_env_list(cmd->env);
 		rl_clear_history();
 		bin_malloc(-1);
 		exit(EXIT_SUCCESS);
