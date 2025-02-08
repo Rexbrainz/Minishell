@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:53:27 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 13:15:34 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 	char	*chars;
 
 	start = *s;
+	if (**s == '$')
+		(*s)++;
 	while (**s && **s != '$')
 	{
 		if (**s == '\\' && *(*s + 1) == '$')
@@ -101,7 +103,7 @@ char	*expand(char *lexeme, t_env *env)
 	s = lexeme;
 	while (*s)
 	{
-		if (*s != '$')
+		if (*s != '$' || (*(s + 1) != '_' && !ft_isalpha(*s)))
 		{
 			temp = get_chars(lexeme, &s, new_lexeme);
 			new_lexeme = temp;
