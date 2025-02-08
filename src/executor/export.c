@@ -2,25 +2,14 @@
 
 static void	enter_var(t_env *env, char *key, char *value)
 {
-	t_envlist	*curr;
+	char		**existing_value;
 
-	curr = env->head;
-	while (curr)
-	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
-		{
-			if (!curr->value)
-				curr->value = value;
-			else
-			{
-				if (!value)
-					return ;
-				curr->value = value;
-			}
-		}
-		curr = curr->next;
-	}
-	add_env_var(env, key, value);
+	existing_value = &key;
+	existing_value = find_key(env, key);
+	if (!existing_value)
+		add_env_var(env, key, value);
+	else if (value)
+		*existing_value = value;
 }
 
 /*
@@ -28,34 +17,33 @@ static void	enter_var(t_env *env, char *key, char *value)
 	we are calling add_env_var
 	but it doesn't seem to be needed
 	we would just need to update the values
+	RE:
+		Not really, if the key does not already exist,
+		the new key and value are exported.
 */
 static void	concatenate_var(t_env *env, char *key, char *value)
 {
 	char		*temp;
-	t_envlist	*curr;
+	char		**existing_value;
 
-	ft_putstr_fd("We are in concatenate\n", 2);
-	curr = env->head;
-	while (curr)
+	temp = key;
+	key = ft_substr(temp, 0, ft_strlen(temp) - 1);
+	free(temp);
+	existing_value = &temp;
+	existing_value = find_key(env, key);
+	if (!existing_value)
+		add_env_var(env, key, value);
+	else if (!*existing_value && value)
+		*existing_value = value;
+	else
 	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
-		{
-			if (!curr->value)
-				curr->value = value + 1;
-			else
-			{
-				if (!value)
-					return ;
-				temp = curr->value;
-				curr->value = ft_strjoin(temp, value + 1);
-				free(temp);
-				free(value);
-				return ;
-			}
-		}
-		curr = curr->next;
+		if (!value)
+			return ;
+		temp = *existing_value;
+		*existing_value = ft_strjoin(temp, value + 1);
+		free(temp);
+		free(value);
 	}
-	add_env_var(env, key, value);
 }
 
 static bool	get_key_and_value(char *env, char **key, char **value)
@@ -82,30 +70,32 @@ static bool	get_key_and_value(char *env, char **key, char **value)
 		else
 			*value = ft_strdup(s);
 	}
-	if (ft_strchr(env, '+'))
+	if (ft_strchr(*key, '+'))
 		return (true);
 	return (false);
 }
 
 static bool	check_syntax(t_commandlist *cmd, char *var, int update)
 {
+	char	*temp;
+
+	temp = var;
 	if (*var != '_' && !ft_isalpha(*var))
 	{
-		ft_putstr_fd("bash: export: `", STDERR_FILENO);
-		ft_putstr_fd(var, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-		clean_exit(update, cmd);
+		report_export_syntax_error(cmd, temp, update);
 		return (false);
 	}
 	var++;
-	while (*var && *var != '+' && *var != '=')
+	while (*var && *var != '=')
 	{
-		if (*var != '_' && !ft_isalnum(*var))
+		if (*var == '+' && *(var + 1) == '=')
 		{
-			ft_putstr_fd("bash: export: `", STDERR_FILENO);
-			ft_putstr_fd(var, STDERR_FILENO);
-			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-			clean_exit(update, cmd);
+			var++;
+			continue ;
+		}
+		else if (*var != '_' && !ft_isalnum(*var))
+		{
+			report_export_syntax_error(cmd, temp, update);
 			return (false);
 		}
 		var++;
