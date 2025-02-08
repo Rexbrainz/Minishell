@@ -52,6 +52,14 @@ static void	tokens_print(t_tokens *tokens)
  	}
  }
 */
+/*
+static void	handle_signals(int signum)
+{
+	if (signum == SIGINT)
+	else if (signum == SIGQUIT)
+		return ;
+}
+*/
 
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {

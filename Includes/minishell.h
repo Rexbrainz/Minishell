@@ -10,6 +10,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <signal.h>
 # include "../new_libft/libft.h"
 # include "../garbage_collector/bin_malloc.h"
 
