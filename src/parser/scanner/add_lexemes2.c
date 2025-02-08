@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 06:54:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:25:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ bool	add_word_or_builtin(t_tokens *tokens, char **c)
 	char	*lexeme;
 
 	s = *c;
-	if (*s == '$' && *(s + 1) && !ft_isspace(*(s + 1)))
-		return (true);
 	if (*s == '$')
 		(*c)++;
-	while (**c && !is_delim(**c) && **c != '$')
+	while (**c && !is_delim(**c))
 		(*c)++;
 	lexeme = ft_substr(tokens->t_input, s - tokens->t_input, *c - s);
 	if (!lexeme)

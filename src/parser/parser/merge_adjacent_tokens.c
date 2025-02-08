@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:04:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 06:57:49 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:32:27 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static bool	is_mergeable(t_type t)
 {
 	if (t == WORD || t == OPTIONS || t == BUILTIN || t == DOLLAR
-		|| t == CMD_SUB || t == D_QUOTE || t == S_QUOTE || t == STAR)
+		|| t == CMD_SUB || t == D_QUOTE || t == S_QUOTE || t == STAR
+		|| t == PID || t == EXIT_STAT)
 		return (true);
 	return (false);
 }

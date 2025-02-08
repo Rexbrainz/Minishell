@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 08:18:56 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:38:29 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	prompt_for_more(t_tokens *tokens, char **c, char **s)
 
 bool	is_delim(char c)
 {
-	if (c == ' ' || c == ')' || c == '(' || c == '"'
-		|| c == '\'' || c == '|' || c == '&'
+	if (ft_isspace(c) || c == ')' || c == '(' || c == '"'
+		|| c == '\'' || c == '|' || c == '&' || c == '$'
 		|| c == '<' || c == '>' || c == '\\')
 		return (true);
 	return (false);

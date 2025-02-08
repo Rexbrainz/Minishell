@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:47:50 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:47:17 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ bool	add_variable(t_tokens *tokens, char **c)
 	type = get_type(*c + 1);
 	s = *c;
 	if (type == WORD)
-		return (true);
+		find_eot(tokens, c, &s, WORD);
 	else if (type == CMD_SUB)
 		find_eot(tokens, c, &s, CMD_SUB);
 	else if (type == DOLLAR)

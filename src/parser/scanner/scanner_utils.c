@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 08:00:34 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:48:10 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 		while (**c && (**c == '<' || ft_isspace(**c)))
 			(*c)++;
 		s = *c;
-		while (*s && *s != ' ' && *s != '<' && *s != '>' && *s != '|'
+		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
 			&& *s != '&')
 			s++;
 	}
@@ -32,7 +32,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 		while (**c == '>' || ft_isspace(**c))
 			(*c)++;
 		s = *c;
-		while (*s && *s != ' ' && *s != '<' && *s != '>' && *s != '|'
+		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
 			&& *s != '&')
 			s++;
 	}
@@ -67,27 +67,6 @@ void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 		}
 	}
 }
-/*
-void	handle_quoting(t_tokens *tokens, t_type type, int len, char **s)
-{
-	char	c;
-	char	*p;
-
-	if (type == D_QUOTE)
-		c = '"';
-	else
-		c = '\'';
-	p = NULL;
-	while (true)
-	{
-		prompt1(tokens);
-		*s = tokens->t_input + len;
-		p = ft_strchr(*s + 1, c);
-		if (p)
-			break ;
-	}
-}
-*/
 
 bool	is_builtin(char *lexeme)
 {
@@ -125,10 +104,10 @@ t_type	get_type(char *c)
 		type = EXIT_STAT;
 	else if (*c == '$')
 		type = PID;
-	else if (!*c || ft_isspace(*c))
-		type = WORD;
-	else
+	else if (*c == '_' || ft_isalpha(*c))
 		type = DOLLAR;
+	else
+		type = WORD;
 	return (type);
 }
 
@@ -142,7 +121,13 @@ void	find_eot(t_tokens *tokens, char **c, char **s, t_type type)
 	else if (type == DOLLAR)
 	{
 		(*s)++;
-		while (**s && !is_delim(**s) && **s != '$')
+		while (**s && !is_delim(**s) && ft_isalnum(**s))
+			(*s)++;
+	}
+	else if (type == WORD)
+	{
+		(*s)++;
+		while (**s && !is_delim(**s))
 			(*s)++;
 	}
 }
