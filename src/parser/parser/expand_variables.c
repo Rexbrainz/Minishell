@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/08 13:15:34 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/08 13:27:04 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*expand(char *lexeme, t_env *env)
 	s = lexeme;
 	while (*s)
 	{
-		if (*s != '$' || (*(s + 1) != '_' && !ft_isalpha(*s)))
+		if (*s != '$' || (*(s + 1) != '_' && !ft_isalpha(*(s + 1))))
 		{
 			temp = get_chars(lexeme, &s, new_lexeme);
 			new_lexeme = temp;
