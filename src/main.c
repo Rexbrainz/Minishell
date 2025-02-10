@@ -96,17 +96,20 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	install_signals();
 	init_env(&en, env);
+	install_signals();
 	while (1)
 	{
 		if (g_sigint_detected)
 		{
-			if (tokens.head)
-				free_tokens_list(&tokens);
-			if (cmd.head)
-				bin_malloc(-1);
-			en.exit_status = 130;
+			if (getpid() == en.pid)
+			{
+				if (tokens.head)
+					free_tokens_list(&tokens);
+				if (cmd.head)
+					bin_malloc(-1);
+				en.exit_status = 130;
+			}
 			g_sigint_detected = 0;
 		}
 		prompt(&tokens, &cmd);
