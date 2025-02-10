@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 06:44:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/10 09:37:41 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:45:01 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 volatile sig_atomic_t	g_sigint_detected = 0;
 
-static void	disable_ctrlc_print(struct termios *old_setting)
+static void	disable_ctrlc_print(void)
 {
 	struct termios	new_setting;
 
-	tcgetattr(STDIN_FILENO, old_setting);
 	tcgetattr(STDIN_FILENO, &new_setting);
 	new_setting.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_setting);
@@ -38,7 +37,6 @@ void	install_signals(void)
 {
 	struct sigaction	sig_int;
 	struct sigaction	sig_quit;
-	struct termios		old_setting;
 
 	sig_quit.sa_handler = SIG_IGN;
 	sig_int.sa_handler = handle_sigint;
@@ -47,6 +45,5 @@ void	install_signals(void)
 	sig_int.sa_flags = SA_RESTART;
 	sigaction(SIGQUIT, &sig_quit, NULL);
 	sigaction(SIGINT, &sig_int, NULL);
-	disable_ctrlc_print(&old_setting);
-	tcsetattr(STDIN_FILENO, TCSANOW, &old_setting);
+	disable_ctrlc_print();
 }
