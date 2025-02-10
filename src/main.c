@@ -106,7 +106,7 @@ int	main(int argc, char **argv, char **env)
 				free_tokens_list(&tokens);
 			if (cmd.head)
 				bin_malloc(-1);
-			env->exit
+			en.exit_status = 130;
 			g_sigint_detected = 0;
 		}
 		prompt(&tokens, &cmd);
