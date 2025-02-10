@@ -13,12 +13,13 @@ LIBFT_DIR = ../../new_libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRC = main.c	scanner/init_cmd_and_tokens.c	parser/parser.c\
+SRC = main.c	scanner/init_cmd_and_tokens.c\
   	  scanner/scanner_utils.c	scanner/scanner.c	scanner/add_lexemes.c\
 	  scanner/add_lexemes1.c	scanner/add_lexemes2.c	scanner/scanner_utils1.c\
+	  scanner/init_env_table.c	scanner/signal.c	parser.c\
 	  parser/expand_variables.c		parser/prompt_heredoc.c		parser/rm_escape.c\
 	  parser/join_cmds.c	  parser/organize_file.c	parser/free_tokens_list.c\
-	  parser/rm_newline.c	scanner/init_env_table.c
+	  parser/rm_newline.c
 
 # Object files
 OBJ = $(SRC:.c=.o)

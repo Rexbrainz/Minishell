@@ -52,14 +52,6 @@ static void	tokens_print(t_tokens *tokens)
  	}
  }
 */
-/*
-static void	handle_signals(int signum)
-{
-	if (signum == SIGINT)
-	else if (signum == SIGQUIT)
-		return ;
-}
-*/
 
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {
@@ -104,9 +96,19 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
+	install_signals();
 	init_env(&en, env);
 	while (1)
 	{
+		if (g_sigint_detected)
+		{
+			if (tokens.head)
+				free_tokens_list(&tokens);
+			if (cmd.head)
+				bin_malloc(-1);
+			env->exit
+			g_sigint_detected = 0;
+		}
 		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
