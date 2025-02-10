@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/06 15:48:43 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:31:14 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	add_cmds(t_command *cmd, char **cmds, t_type type, t_env *env)
 	new_node->files = NULL;
 	new_node->type = type;
 	new_node->env = env;
+	new_node->logic_flag = 0;
 	new_node->next = NULL;
 	if (!cmd->head)
 	{
