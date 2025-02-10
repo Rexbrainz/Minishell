@@ -141,5 +141,6 @@ int	rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid)
 		current_pid = check_execute(cmds, start, prev_in_out, new_in_out);
 	if ((start / 2) < c_pipes_operators(cmds))
 		return (rec_exec(cmds, start + 2, new_in_out, current_pid));
-	return (close_pipes(prev_in_out, new_in_out), wait_for_last(cmds->head, current_pid));
+	close_pipes(prev_in_out, new_in_out);
+	return (wait_for_last(cmds->head, current_pid));
 }
