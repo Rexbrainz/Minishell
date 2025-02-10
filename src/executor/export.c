@@ -107,6 +107,7 @@ static bool	check_syntax(t_commandlist *cmd, char *var, int update)
 	Export
 	- print vars function now works correctly
 	- The main problem is probably in concatenate
+	check for the case when there is space before
 */
 bool	ft_export(t_commandlist *cmd, int update)
 {

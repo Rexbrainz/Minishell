@@ -89,6 +89,7 @@ static int	run_one(t_commandlist *one)
 	Taking the information from parser:
 	- running checks for special case
 	- going to actual execution
+echo "hello world" | tr '[:lower:]' '[:upper:]' > out.txt && cat out.txt
 */
 int	execute_commands(t_command *cmds)
 {

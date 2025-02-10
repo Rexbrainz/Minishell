@@ -52,11 +52,34 @@ static void	ft_echo(t_commandlist *cmd, int update)
 }
 
 /*
+	setting the OLDPWD
+	Does't work for the case of just running
+	cd it fails pointer being fread but not allocated
+*/
+static void	set_oldpwd(t_commandlist *info, char *pwd)
+{
+	t_commandlist	*oldpwd;
+
+	oldpwd = bin_malloc(sizeof(t_commandlist));
+	oldpwd->cmd = bin_malloc(sizeof(char *) * 3);
+	oldpwd->cmd[0] = bin_strdup("export");
+	oldpwd->cmd[1] = bin_strjoin("OLDPWD=", pwd);
+	oldpwd->cmd[2] = NULL;
+	oldpwd->env = info->env;
+	if (pwd != NULL)
+	{
+		free(pwd);
+		pwd = NULL;
+	}
+	ft_export(oldpwd, 1);
+}
+
+/*
 	Special case for minus handling both
 		- if there is OLDPWD
 		- if there is no OLDPWD
 */
-static int	cd_minus_case(t_commandlist *cmd, int update)
+static int	cd_minus_case(t_commandlist *cmd, int update, char *pwd)
 {
 	char	*found_value;
 
@@ -65,6 +88,7 @@ static int	cd_minus_case(t_commandlist *cmd, int update)
 		return (no_oldpwd(cmd, update));
 	else
 	{
+		set_oldpwd(cmd, pwd);
 		ft_putstr_fd(found_value, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		chdir(found_value);
@@ -81,20 +105,27 @@ static int	cd_minus_case(t_commandlist *cmd, int update)
 */
 static int	ft_cd(t_commandlist *cmd, int update)
 {
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
 	if (chdir(cmd->cmd[1]) != 0)
 	{
 		if (cmd->cmd[1] != NULL)
 		{
 			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
-				return (cd_minus_case(cmd, update));
+				return (cd_minus_case(cmd, update, pwd));
 			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
-				return (chdir(getenv("HOME")), 0);
+				return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")), 0);
 			else
 				return (nodir_error(cmd, update));
 		}
 		else
+		{
+			set_oldpwd(cmd, pwd);
 			chdir(getenv("HOME"));
+		}
 	}
+	set_oldpwd(cmd, pwd);
 	clean_exit(update, cmd);
 	return (0);
 }
