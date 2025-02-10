@@ -82,6 +82,7 @@ typedef struct s_commandlist
 	t_type					type;
 	t_env					*env;
 	t_file					*files;
+	int						logic_flag;
 	struct s_commandlist	*next;
 }	t_commandlist;
 
@@ -120,6 +121,7 @@ void	clean_exit(int update, t_commandlist *cmd);
 	recursive _ execution
 */
 int		rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid);
+int		run_one(t_commandlist *one);
 /*
 	All of its not static helper functions
 	before actually running the command

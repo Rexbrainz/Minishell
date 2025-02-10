@@ -69,6 +69,23 @@ int	set_input(t_commandlist *cmd, int *redirect, int update)
 }
 
 /*
+	norminette fix, both cases in one helper function
+*/
+static int	helper_output(t_filelist *current, int update, int fd, t_commandlist *cmd)
+{
+	if (current->type == OUTFILE)
+		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (current->type == APPEND)
+		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+		return (nofile_error(current, update, cmd));
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		return (close(fd), standard_error(update, cmd));
+	close(fd);
+	return (EXIT_SUCCESS);
+}
+
+/*
 	just like above but for the output
 */
 int	set_output(t_commandlist *cmd, int *redirect, int update)
@@ -82,16 +99,18 @@ int	set_output(t_commandlist *cmd, int *redirect, int update)
 	current = cmd->files->head;
 	while (lc < redirect[1])
 	{
+		if (current->type == OUTFILE)
+		{
+			fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			close(fd);
+		}
+		else if (current->type == APPEND)
+		{
+			fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			close(fd);	
+		}
 		lc++;
 		current = current->next;
 	}
-	if (current->type == OUTFILE)
-		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (current->type == APPEND)
-		fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		return (nofile_error(current, update, cmd));
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		return (close(fd), standard_error(update, cmd));
-	return (close(fd), EXIT_SUCCESS);
+	return (helper_output(current, update, fd, cmd));
 }
