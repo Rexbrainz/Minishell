@@ -61,7 +61,7 @@ static void	restoring_in_out(int *reset)
 	we need to add the case if there was an error
 	to stop the rest of the execution without exiting
 */
-int	run_one(t_commandlist *one)
+static int	run_one(t_commandlist *one)
 {
 	int	redirect[2];
 	int	reset[2];

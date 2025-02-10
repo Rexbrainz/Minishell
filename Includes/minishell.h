@@ -119,9 +119,10 @@ void	clean_exit(int update, t_commandlist *cmd);
 /*
 	The main caller:
 	recursive _ execution
+	helper to check edge case
 */
 int		rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid);
-int		run_one(t_commandlist *one);
+void	check_for_flag(t_commandlist *current, t_commandlist *prev);
 /*
 	All of its not static helper functions
 	before actually running the command
@@ -142,10 +143,13 @@ int		wait_for_last(t_commandlist *cmds, pid_t last_pid);
 */
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			int *prev_in_out, int *new_in_out);
+pid_t	run_parent(t_commandlist *cmd, int *redirect,
+			int *prev_in_out, int *new_in_out);
 int		set_input(t_commandlist *cmd, int *redirect, int update);
 int		handling_infile(t_commandlist *cmd, t_filelist	*current, int update);
 int		handling_heredoc(t_commandlist *cmd, t_filelist	*current, int update);
 int		set_output(t_commandlist *cmd, int *redirect, int update);
+void	dup_and_or_close(int *prev_in_out, int *new_in_out);
 char	*find_path(char *av, char **en);
 /*
 	Builtins main caller is a table

@@ -34,6 +34,7 @@ static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 /*
 	Checking for redirections and if it should be executed
 	we are also moving to command thats going to be executed
+	extra check for case of BUILTIN and logic operators
 	when all above went okay we are calling the executor
 */
 static int	check_execute(t_command *cmds, int start,
@@ -42,16 +43,21 @@ static int	check_execute(t_command *cmds, int start,
 	int				redirect[2];
 	int				find_start;
 	t_commandlist	*current;
+	t_commandlist	*prev;
 
 	redirect[0] = NO_REDIRECTION;
 	redirect[1] = NO_REDIRECTION;
 	find_start = 0;
 	current = cmds->head;
+	prev = NULL;
 	while (find_start < start && current != NULL)
 	{
 		find_start++;
+		if (current != NULL)
+			prev = current;
 		current = current->next;
 	}
+	check_for_flag(current, prev);
 	if (current->files != NULL)
 	{
 		redirect[0] = check_redirection(current, 0);

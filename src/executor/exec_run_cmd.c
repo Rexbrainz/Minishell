@@ -6,7 +6,7 @@
 	- if new pipe was created we connect it ([1] writing)
 	- closing everything after the usage in child proc
 */
-static void	dup_and_or_close(int *prev_in_out, int *new_in_out)
+void	dup_and_or_close(int *prev_in_out, int *new_in_out)
 {
 	if (prev_in_out[0] != NO_REDIRECTION)
 	{
@@ -78,7 +78,6 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 
 /*
 	Reworked pipex to run single command
-	return status to check if we keep going
 */
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
@@ -88,14 +87,19 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 
 	reset[0] = dup(STDIN_FILENO);
 	reset[1] = dup(STDOUT_FILENO);
-	child = fork();
-	if (child == -1)
-		standard_error(0, cmd);
-	else if (child == 0)
+	if (cmd->logic_flag == NO_REDIRECTION)
+		child = run_parent(cmd, redirect, prev_in_out, new_in_out);
+	else
 	{
-		if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
-			standard_error(NO_REDIRECTION, cmd);
-	}
+		child = fork();
+		if (child == -1)
+			standard_error(0, cmd);
+		else if (child == 0)
+		{
+			if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
+				standard_error(NO_REDIRECTION, cmd);
+		}
+	}	
 	if (prev_in_out[0] != NO_REDIRECTION)
 		close(prev_in_out[0]);
 	if (new_in_out[1] != NO_REDIRECTION)

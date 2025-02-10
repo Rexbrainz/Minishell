@@ -102,3 +102,18 @@ int	double_check(t_command *cmds, int start, int run_or_not)
 	}
 	return (find_opposite(current, find_start, run_or_not));
 }
+
+/*
+		setting a flag if we should execute in parent
+	case for builtin before or after the logic operator
+*/
+void	check_for_flag(t_commandlist *current, t_commandlist *prev)
+{
+	if (current->type == BUILTIN)
+	{
+		if (current->next != NULL && current->next->type != PIPE)
+			current->logic_flag = NO_REDIRECTION;
+		else if (prev != NULL && prev->type != PIPE)
+			current->logic_flag = NO_REDIRECTION;
+	}
+}
