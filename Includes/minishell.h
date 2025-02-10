@@ -10,10 +10,12 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <termios.h>
 # include <signal.h>
 # include "../new_libft/libft.h"
 # include "../garbage_collector/bin_malloc.h"
 
+extern volatile sig_atomic_t	g_sigint_detected;
 // Infile <, Outfile >, Append >>, Heredoc <<.
 typedef enum e_types
 {
@@ -90,6 +92,7 @@ typedef struct s_command
 	t_commandlist	*tail;
 }	t_command;
 
+void	install_signals(void);
 bool	init_env(t_env *en, char **env);
 void	init_commands(t_command *cmd);
 int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);
