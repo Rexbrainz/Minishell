@@ -85,7 +85,7 @@ static int	cd_minus_case(t_commandlist *cmd, int update, char *pwd)
 
 	found_value = get_env("OLDPWD", cmd->env);
 	if (found_value == NULL)
-		return (no_oldpwd(cmd, update));
+		return (clean_exit(update, cmd), no_oldpwd(cmd, update));
 	else
 	{
 		set_oldpwd(cmd, pwd);
@@ -93,6 +93,7 @@ static int	cd_minus_case(t_commandlist *cmd, int update, char *pwd)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		chdir(found_value);
 		free(found_value);
+		clean_exit(update, cmd);
 		return (0);
 	}
 }
@@ -115,7 +116,7 @@ static int	ft_cd(t_commandlist *cmd, int update)
 			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
 				return (cd_minus_case(cmd, update, pwd));
 			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
-				return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")), 0);
+				return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")), clean_exit(update, cmd), 0);
 			else
 				return (nodir_error(cmd, update));
 		}
@@ -123,9 +124,11 @@ static int	ft_cd(t_commandlist *cmd, int update)
 		{
 			set_oldpwd(cmd, pwd);
 			chdir(getenv("HOME"));
+			return (clean_exit(update, cmd), 0);
 		}
 	}
-	set_oldpwd(cmd, pwd);
+	else
+		set_oldpwd(cmd, pwd);
 	clean_exit(update, cmd);
 	return (0);
 }
