@@ -12,20 +12,24 @@ void	dup_and_or_close(int *prev_in_out, int *new_in_out)
 	{
 		dup2(prev_in_out[0], STDIN_FILENO);
 		close(prev_in_out[0]);
+		prev_in_out[0] = NO_REDIRECTION;
 	}
 	if (new_in_out[1] != NO_REDIRECTION)
 	{
 		dup2(new_in_out[1], STDOUT_FILENO);
 		close(new_in_out[1]);
+		new_in_out[1] = NO_REDIRECTION;
 	}
-	if (prev_in_out[0] != NO_REDIRECTION)
-		close(prev_in_out[0]);
 	if (prev_in_out[1] != NO_REDIRECTION)
+	{
 		close(prev_in_out[1]);
+		prev_in_out[1] = NO_REDIRECTION;
+	}
 	if (new_in_out[0] != NO_REDIRECTION)
+	{
 		close(new_in_out[0]);
-	if (new_in_out[1] != NO_REDIRECTION)
-		close(new_in_out[1]);
+		new_in_out[0] = NO_REDIRECTION;
+	}
 }
 
 /*
@@ -77,7 +81,30 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 }
 
 /*
-	Reworked pipex to run single command
+	safety measures not to double close
+	closing whats not needed in the parent
+*/
+static void	close_and_reset(int *prev_in_out, int *new_in_out, int *reset)
+{
+	if (prev_in_out[0] != NO_REDIRECTION)
+	{
+		close(prev_in_out[0]);
+		prev_in_out[0] = NO_REDIRECTION;
+	}
+	if (new_in_out[1] != NO_REDIRECTION)
+	{
+		close(new_in_out[1]);
+		new_in_out[1] = NO_REDIRECTION;
+	}
+	dup2(reset[0], STDIN_FILENO);
+	dup2(reset[1], STDOUT_FILENO);
+	close(reset[0]);
+	close(reset[1]);
+}
+
+/*
+		Execution one per command
+	depending on the flag with or without forking
 */
 pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 	int *prev_in_out, int *new_in_out)
@@ -99,12 +126,7 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 			if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
 				standard_error(NO_REDIRECTION, cmd);
 		}
-	}	
-	if (prev_in_out[0] != NO_REDIRECTION)
-		close(prev_in_out[0]);
-	if (new_in_out[1] != NO_REDIRECTION)
-		close(new_in_out[1]);
-	dup2(reset[0], STDIN_FILENO);
-	dup2(reset[1], STDOUT_FILENO);
-	return (close(reset[0]), close(reset[1]), child);
+	}
+	close_and_reset(prev_in_out, new_in_out, reset);
+	return (child);
 }

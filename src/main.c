@@ -53,6 +53,19 @@ static void	tokens_print(t_tokens *tokens)
  }
 */
 
+/* for test minishell
+	if (isatty(fileno(stdin)))
+		tokens->t_input = readline("minishell$ ");
+	else
+	{
+		char *line;
+		line = get_next_line(fileno(stdin));
+		if (line == NULL)
+			return ;
+		tokens->t_input = ft_strtrim(line, "\n");
+		free(line);
+	}
+*/
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {
 	init_tokens(tokens);

@@ -72,9 +72,9 @@ int	nodir_error(t_commandlist *cmd, int update)
 	{
 		free_env_list(cmd->env);
 		bin_malloc(-1);
-		exit(errno);
+		exit(1);
 	}
-	return (errno);
+	return (1);
 }
 
 /*
