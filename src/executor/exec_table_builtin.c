@@ -67,7 +67,7 @@ static int	cd_minus_case(t_commandlist *cmd, int update, char *pwd)
 
 	found_value = get_env("OLDPWD", cmd->env);
 	if (found_value == NULL)
-		return (clean_exit(update, cmd), no_oldpwd(cmd, update, pwd));
+		return (no_oldpwd(cmd, update, pwd));
 	else
 	{
 		set_oldpwd(cmd, pwd);
