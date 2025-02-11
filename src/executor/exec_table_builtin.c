@@ -1,24 +1,6 @@
 #include "../../Includes/minishell.h"
 
 /*
-	No comment needed for that one
-	TBD: change in linked list env
-*/
-static void	ft_env(char **env, int update, t_commandlist *cmd)
-{
-	int	cc;
-
-	cc = 0;
-	while (env[cc] != NULL)
-	{
-		ft_putstr_fd(env[cc], STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		cc++;
-	}
-	clean_exit(update, cmd);
-}
-
-/*
 	Echo, with option for the flag
 	skip all the -n -n and -nnn
 	add space between arguments
@@ -85,7 +67,7 @@ static int	cd_minus_case(t_commandlist *cmd, int update, char *pwd)
 
 	found_value = get_env("OLDPWD", cmd->env);
 	if (found_value == NULL)
-		return (clean_exit(update, cmd), no_oldpwd(cmd, update));
+		return (clean_exit(update, cmd), no_oldpwd(cmd, update, pwd));
 	else
 	{
 		set_oldpwd(cmd, pwd);
@@ -109,7 +91,9 @@ static int	ft_cd(t_commandlist *cmd, int update)
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (chdir(cmd->cmd[1]) != 0)
+	if (cmd->cmd[1] == NULL)
+		return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")), clean_exit(update, cmd), 0);
+	else if (chdir(cmd->cmd[1]) != 0)
 	{
 		if (cmd->cmd[1] != NULL)
 		{
@@ -118,13 +102,7 @@ static int	ft_cd(t_commandlist *cmd, int update)
 			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
 				return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")), clean_exit(update, cmd), 0);
 			else
-				return (nodir_error(cmd, update));
-		}
-		else
-		{
-			set_oldpwd(cmd, pwd);
-			chdir(getenv("HOME"));
-			return (clean_exit(update, cmd), 0);
+				return (free(pwd), pwd = NULL, nodir_error(cmd, update));
 		}
 	}
 	else

@@ -152,8 +152,9 @@ int		set_output(t_commandlist *cmd, int *redirect, int update);
 void	dup_and_or_close(int *prev_in_out, int *new_in_out);
 char	*find_path(char *av, char **en);
 /*
-	Builtins main caller is a table
+	Builtins main caller is a bulit in table
 	the rest are non static fts being called
+	and their helper functions that are related
 */
 int		built_in_table(t_commandlist *cmd, char **env, int update);
 void	ft_pwd(int update, t_commandlist *cmd);
@@ -162,6 +163,7 @@ bool	ft_export(t_commandlist *cmd, int update);
 void	report_export_syntax_error(t_commandlist *cmd, char *env, int update);
 char	**find_key(t_env *env, char *key);
 void	print_vars(t_commandlist *cmd, int update);
+void	ft_env(char **env, int update, t_commandlist *cmd);
 /*
 	Handling errors for different cases
 	- general case
@@ -173,6 +175,6 @@ int		standard_error(int update, t_commandlist *cmd);
 int		path_error(t_commandlist *cmd, int update);
 int		nofile_error(t_filelist *current, int update, t_commandlist *cmd);
 int		nodir_error(t_commandlist *cmd, int update);
-int		no_oldpwd(t_commandlist *cmd, int update);
+int		no_oldpwd(t_commandlist *cmd, int update, char *pwd);
 
 #endif

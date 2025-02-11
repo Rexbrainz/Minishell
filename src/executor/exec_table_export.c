@@ -9,7 +9,12 @@ static void	enter_var(t_env *env, char *key, char *value)
 	if (!existing_value)
 		add_env_var(env, key, value);
 	else if (value)
+	{
+		free(key);
+		if ((*existing_value))
+			free(*existing_value);
 		*existing_value = value;
+	}
 }
 
 /*
@@ -34,15 +39,19 @@ static void	concatenate_var(t_env *env, char *key, char *value)
 	if (!existing_value)
 		add_env_var(env, key, value);
 	else if (!*existing_value && value)
+	{
 		*existing_value = value;
+		free(key);
+	}
 	else
 	{
 		if (!value)
-			return ;
+			return (free(key));
 		temp = *existing_value;
 		*existing_value = ft_strjoin(temp, value + 1);
 		free(temp);
 		free(value);
+		free(key);
 	}
 }
 

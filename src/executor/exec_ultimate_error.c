@@ -80,9 +80,14 @@ int	nodir_error(t_commandlist *cmd, int update)
 /*
 	OLDPWD is not set
 */
-int	no_oldpwd(t_commandlist *cmd, int update)
+int	no_oldpwd(t_commandlist *cmd, int update, char *pwd)
 {
 	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+	if (pwd != NULL)
+	{
+		free(pwd);
+		pwd = NULL;
+	}
 	if (update == NO_REDIRECTION)
 	{
 		free_env_list(cmd->env);
