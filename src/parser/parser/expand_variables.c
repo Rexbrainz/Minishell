@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/08 13:27:04 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:10:12 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 		return (chars);
 	temp = ft_strjoin(new_lexeme, chars);
 	if (!temp)
-		return (free(new_lexeme), NULL);
+		return (free(chars), free(new_lexeme), NULL);
+	free(chars);
 	free(new_lexeme);
 	return (temp);
 }
