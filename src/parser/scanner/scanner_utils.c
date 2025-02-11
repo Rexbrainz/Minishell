@@ -121,7 +121,7 @@ void	find_eot(t_tokens *tokens, char **c, char **s, t_type type)
 	else if (type == DOLLAR)
 	{
 		(*s)++;
-		while (**s && !is_delim(**s) && ft_isalnum(**s))
+		while (**s && !is_delim(**s) && (ft_isalnum(**s) || **s == '_'))
 			(*s)++;
 	}
 	else if (type == WORD)

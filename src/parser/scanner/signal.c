@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 06:44:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/10 14:15:01 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:21:59 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ static void	handle_sigint(int signum)
 {
 	(void)signum;
 	g_sigint_detected = 1;
+}
+
+void	reset_prompt(void)
+{
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -42,7 +46,7 @@ void	install_signals(void)
 	sig_int.sa_handler = handle_sigint;
 	sigemptyset(&sig_int.sa_mask);
 	sigaddset(&sig_int.sa_mask, SIGINT);
-	sig_int.sa_flags = SA_RESTART;
+	sig_int.sa_flags = 0;
 	sigaction(SIGQUIT, &sig_quit, NULL);
 	sigaction(SIGINT, &sig_int, NULL);
 	disable_ctrlc_print();

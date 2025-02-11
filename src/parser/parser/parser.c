@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 14:19:52 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:03:30 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ static int	check_tokens(t_toklist *current, t_type l_t, t_env *env)
 			|| c_t == HEREDOC) && !*current->lexeme)
 		return (2);
 	else if (c_t == HEREDOC)
+	{
 		current->lexeme = get_heredoc_input(current->lexeme, env);
+		if (!current->lexeme)
+			return (130);
+	}
 	else if (c_t == S_QUOTE || c_t == D_QUOTE)
 		current->lexeme = rm_newline(&current->lexeme);
 	return (0);
@@ -72,15 +76,14 @@ static int	process_tokens(t_tokens *tokens, char **s, t_env *env)
 		status = check_tokens(current, l_t, env);
 		if (status)
 		{
-			syntax_error(status, current, current->next);
+			if (status != 130)
+				syntax_error(status, current, current->next);
 			return (status);
 		}
 		check_for_more_prompt(tokens, current, s);
 		l_t = current->type;
 		current = current->next;
 	}
-	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
-		return (-1);
 	return (status);
 }
 
@@ -92,6 +95,8 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	s = tokens->t_input;
 	tokens->head = scan_line(tokens, &s);
 	status = process_tokens(tokens, &s, env);
+	if (status == 130)
+		return (status);
 	if (status)
 	{
 		env->exit_status = 258;
@@ -99,6 +104,8 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	}
 	remove_escape_char(tokens);
 	expand_variables(tokens, env);
+	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
+	 	return (-1);
 	merge_adjacent_tokens(tokens);
 	join_cmd_and_args(cmd, tokens->head, env);
 	enter_filelist(cmd, tokens->head);

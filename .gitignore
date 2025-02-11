@@ -1,3 +1,4 @@
 *.o
 libft/*.o
 minishell
+*.swp

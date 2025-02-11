@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 08:25:34 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:26:51 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ static char	*the_prompt(char *delim)
 			line = NULL;
 			break ;
 		}
+		if (g_sigint_detected)
+		{
+			free(lexeme);
+			rl_replace_line("", 0);
+			return ("g_sigint_detected");
+		}
 		if (!lexeme)
 			lexeme = ft_strdup(line);
 		else
@@ -95,6 +101,11 @@ char	*get_heredoc_input(char *delim, t_env *env)
 	lexeme = the_prompt(delim);
 	if (!lexeme)
 		return (free(delim), delim = NULL, ft_strdup(""));
+	if (!ft_strncmp(lexeme, "g_sigint_detected", ft_strlen(lexeme)))
+	{
+		ft_printf("We returned NULL\n");
+		return (NULL);
+	}
 	if (!quote)
 		lexeme = expand(lexeme, env);
 	free(delim);
