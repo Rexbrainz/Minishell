@@ -90,6 +90,8 @@ static int	run_one(t_commandlist *one)
 	- running checks for special case
 	- going to actual execution
 echo "hello world" | tr '[:lower:]' '[:upper:]' > out.txt && cat out.txt
+	- check for the null and ommit it
+	through the execution parts when it appers
 */
 int	execute_commands(t_command *cmds)
 {

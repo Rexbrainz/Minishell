@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 06:44:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 08:20:14 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:02:01 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ void	main_sigint_handler(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	child_sigint_handler(int signum)
+{
+	(void)signum;
+	ft_putstr_fd("We got here\n", 2);
+	exit(130);
 }
 
 void	heredoc_sigint_handler(int signum)

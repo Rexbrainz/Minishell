@@ -48,6 +48,7 @@ int	wait_for_last(t_commandlist *cmd, pid_t last_pid)
 				standard_error(NO_REDIRECTION, cmd);
 		}
 	}
+	signal(SIGINT, main_sigint_handler);
 	return (saving);
 }
 

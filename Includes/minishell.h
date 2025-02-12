@@ -97,6 +97,7 @@ typedef struct s_command
 void	install_signals(void);
 void	main_sigint_handler(int signum);
 void	heredoc_sigint_handler(int signum);
+void	child_sigint_handler(int signum);
 //void	reset_prompt(void);
 bool	init_env(t_env *en, char **env);
 void	init_commands(t_command *cmd);

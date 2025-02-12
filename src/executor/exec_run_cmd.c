@@ -76,7 +76,7 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 			path_error(cmd, NO_REDIRECTION);
 	}
 	if (execve(path, cmd->cmd, env) < 0)
-		standard_error(NO_REDIRECTION, cmd);
+		path_error(cmd, NO_REDIRECTION);
 	return (EXIT_FAILURE);
 }
 
@@ -121,8 +121,10 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 		child = fork();
 		if (child == -1)
 			standard_error(0, cmd);
-		else if (child == 0)
+		signal(SIGINT, SIG_IGN);
+		if (child == 0)
 		{
+			signal(SIGINT, child_sigint_handler);
 			if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
 				standard_error(NO_REDIRECTION, cmd);
 		}
