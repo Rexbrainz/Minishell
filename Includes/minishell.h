@@ -8,6 +8,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <errno.h>
 # include <stdbool.h>
 # include <termios.h>
@@ -94,7 +95,9 @@ typedef struct s_command
 }	t_command;
 
 void	install_signals(void);
-void	reset_prompt(void);
+void	main_sigint_handler(int signum);
+void	heredoc_sigint_handler(int signum);
+//void	reset_prompt(void);
 bool	init_env(t_env *en, char **env);
 void	init_commands(t_command *cmd);
 int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);

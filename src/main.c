@@ -120,7 +120,6 @@ int	main(int argc, char **argv, char **env)
 			if (cmd.head)
 				bin_malloc(-1);
 			en.exit_status = 130;
-			reset_prompt();
 			g_sigint_detected = 0;
 		}
 		prompt(&tokens, &cmd);

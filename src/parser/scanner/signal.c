@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 06:44:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/11 08:21:59 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 08:20:14 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,22 @@ static void	disable_ctrlc_print(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_setting);
 }
 
-static void	handle_sigint(int signum)
+void	main_sigint_handler(int signum)
 {
 	(void)signum;
 	g_sigint_detected = 1;
-}
-
-void	reset_prompt(void)
-{
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	heredoc_sigint_handler(int signum)
+{
+	(void)signum;
+	g_sigint_detected = 2;
+	rl_done = 1;
+	ioctl(STDIN_FILENO, TIOCSTI, "\t");
 }
 
 void	install_signals(void)
@@ -43,7 +47,7 @@ void	install_signals(void)
 	struct sigaction	sig_quit;
 
 	sig_quit.sa_handler = SIG_IGN;
-	sig_int.sa_handler = handle_sigint;
+	sig_int.sa_handler = main_sigint_handler;
 	sigemptyset(&sig_int.sa_mask);
 	sigaddset(&sig_int.sa_mask, SIGINT);
 	sig_int.sa_flags = 0;
