@@ -6,13 +6,11 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/11 20:10:12 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:42:24 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "scanner.h"
-//#include "parser.h"
 
 char	*get_env(char *lexeme, t_env *env)
 {
@@ -84,14 +82,14 @@ static char	*extract_var(char *lexeme, char **s, char *new_lexeme,
 	var = get_env(temp, env);
 	free(temp);
 	if (!var && !new_lexeme)
-		return (ft_strdup(""));
+		return (free(var), ft_strdup(""));
 	if (!var && new_lexeme)
-		return (new_lexeme);
+		return (free(var), new_lexeme);
 	if (!new_lexeme)
-		return (ft_strdup(var));
+		return (var);
 	temp = ft_strjoin(new_lexeme, var);
 	free(new_lexeme);
-	return (temp);
+	return (free(var), temp);
 }
 
 char	*expand(char *lexeme, t_env *env)
