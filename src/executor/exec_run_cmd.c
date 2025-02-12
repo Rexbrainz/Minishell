@@ -116,7 +116,7 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 
 	reset[0] = dup(STDIN_FILENO);
 	reset[1] = dup(STDOUT_FILENO);
-	if (cmd->logic_flag == NO_REDIRECTION)
+	if (cmd != NULL && cmd->logic_flag == NO_REDIRECTION)
 		child = run_parent(cmd, redirect, prev_in_out, new_in_out);
 	else
 	{

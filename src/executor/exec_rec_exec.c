@@ -16,13 +16,13 @@ static int	keep_going(t_command *cmds, pid_t last_pid, int end, int *exit_code)
 		co++;
 		current = current->next;
 	}
-	if (current->type == AND && last_pid != 0)
+	if (current != NULL && current->type == AND && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(current, last_pid);
 		if ((*exit_code) != 0)
 			return (AND);
 	}
-	else if (current->type == OR && last_pid != 0)
+	else if (current != NULL && current->type == OR && last_pid != 0)
 	{
 		(*exit_code) = wait_for_last(current, last_pid);
 		if ((*exit_code) == 0)
@@ -57,8 +57,8 @@ static int	check_execute(t_command *cmds, int start,
 			prev = current;
 		current = current->next;
 	}
-	check_for_flag(current, prev);
-	if (current->files != NULL)
+	check_for_flag(&current, &prev);
+	if (current != NULL && current->files != NULL)
 	{
 		redirect[0] = check_redirection(current, 0);
 		redirect[1] = check_redirection(current, 1);
