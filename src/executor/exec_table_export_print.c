@@ -70,3 +70,13 @@ void	ft_env(char **env, int update, t_commandlist *cmd)
 	}
 	clean_exit(update, cmd);
 }
+
+/*
+	We are adding over here a check for exit
+	just when we should print the message
+*/
+void	should_we_print(int update)
+{
+	if (update != NO_REDIRECTION)
+		ft_printf("exit\n");
+}
