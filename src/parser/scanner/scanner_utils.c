@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/08 12:48:10 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:44:08 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	s = NULL;
 	if (type == INFILE || type == HEREDOC)
 	{
-		while (**c && (**c == '<' || ft_isspace(**c)))
+		while (**c && ft_isspace(**c))
 			(*c)++;
 		s = *c;
 		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'

@@ -113,13 +113,13 @@ int	main(int argc, char **argv, char **env)
 	install_signals();
 	while (1)
 	{
-		if (g_sigint_detected)
+		if (g_sigint_detected == 1)
 		{
 			if (tokens.head)
 				free_tokens_list(&tokens);
 			if (cmd.head)
 				bin_malloc(-1);
-			en.exit_status = 130;
+			en.exit_status = 1;
 			g_sigint_detected = 0;
 		}
 		prompt(&tokens, &cmd);
