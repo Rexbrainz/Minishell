@@ -168,6 +168,7 @@ void	report_export_syntax_error(t_commandlist *cmd, char *env, int update);
 char	**find_key(t_env *env, char *key);
 void	print_vars(t_commandlist *cmd, int update);
 void	ft_env(char **env, int update, t_commandlist *cmd);
+void	should_we_print(int update);
 /*
 	Handling errors for different cases
 	- general case
