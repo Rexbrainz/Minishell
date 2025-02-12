@@ -6,13 +6,13 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 10:55:45 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:18:02 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "../scanner.h"
 #include "../../../Includes/minishell.h"
-
+/*
 int	get_rest_of_lexeme(char **c, t_type type)
 {
 	char	*s;
@@ -20,7 +20,8 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	s = NULL;
 	if (type == INFILE || type == HEREDOC)
 	{
-		while (**c && (**c == '<' || ft_isspace(**c)))
+		(*c)++;
+		while (**c && ft_isspace(**c))
 			(*c)++;
 		s = *c;
 		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
@@ -38,6 +39,7 @@ int	get_rest_of_lexeme(char **c, t_type type)
 	}
 	return (s - *c);
 }
+*/
 
 void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 {

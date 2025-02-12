@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 10:54:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:38:03 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 
 	if (*(*c + 1) == '<')
 	{
-		len = get_rest_of_lexeme(c, HEREDOC);
+		len = get_filelen(c, HEREDOC);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme
 			|| !add_token(tokens, HEREDOC, lexeme, *c - tokens->t_input))
@@ -53,9 +53,8 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 	}
 	else
 	{
-		len = get_rest_of_lexeme(c, INFILE);
+		len = get_filelen(c, INFILE);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
-//		ft_printf("%s\n", lexeme);
 		if (!lexeme)
 			return (false);
 		if (!add_token(tokens, INFILE, lexeme, *c - tokens->t_input))
@@ -72,7 +71,7 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 
 	if (*(*c + 1) == '>')
 	{
-		len = get_rest_of_lexeme(c, APPEND);
+		len = get_filelen(c, APPEND);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);
@@ -81,7 +80,7 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 	}
 	else
 	{
-		len = get_rest_of_lexeme(c, OUTFILE);
+		len = get_filelen(c, OUTFILE);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme)
 			return (false);

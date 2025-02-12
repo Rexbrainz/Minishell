@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:53:24 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:12:06 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:17:43 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		init_tokens(t_tokens *tokens);
 bool		add_pipe_or_op(t_tokens *tokens, char **c);
 bool		add_infile_or_heredoc(t_tokens *tokens, char **c);
 bool		add_outfile_or_append(t_tokens *tokens, char **c);
-int			get_rest_of_lexeme(char **c, t_type type);
+int			get_filelen(char **c, t_type type);
 bool		add_variable(t_tokens *tokens, char **c);
 t_type		get_type(char *c);
 void		find_eot(t_tokens *tokens, char **c, char **s, t_type type);
@@ -92,7 +92,7 @@ bool		add_word_or_builtin(t_tokens *tokens, char **c);
 bool		is_builtin(char *lexeme);
 bool		add_options(t_tokens *tokens, char **c);
 bool		add_backslash(t_tokens *tokens, char **c);
-void		prompt_for_more(t_tokens *tokens, char **c, char **s);
+char		*prompt_for_more(t_tokens *tokens, char **c, char **s);
 bool		is_delim(char c);
 void		expand_variables(t_tokens *tokens, t_env *env);
 char		*expand(char *lexeme, t_env *env);

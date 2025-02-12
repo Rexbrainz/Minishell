@@ -52,7 +52,6 @@ static void	tokens_print(t_tokens *tokens)
  	}
  }
 */
-
 /* for test minishell
 	if (isatty(fileno(stdin)))
 		tokens->t_input = readline("minishell$ ");
@@ -66,6 +65,7 @@ static void	tokens_print(t_tokens *tokens)
 		free(line);
 	}
 */
+
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {
 	init_tokens(tokens);
@@ -82,8 +82,8 @@ char	*prompt1(t_tokens *tokens)
 	int		len;
 
 	more_input = readline("> ");
-	if (!more_input)
-		return (NULL);
+	if (!more_input || g_sigint_detected)
+		return (g_sigint_detected = 0, NULL);
 	len = ft_strlen(tokens->t_input);
 	temp = (char *)malloc (len + 1);
 	if (!temp)
@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **env)
 		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
-//		 parse_tokens(&cmd, &tokens, &en);
+		// parse_tokens(&cmd, &tokens, &en);
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
@@ -134,7 +134,7 @@ int	main(int argc, char **argv, char **env)
 		else
 			free_tokens_list(&tokens);
 		add_history(tokens.t_input);
-		//tokens_print(&tokens);
+//		tokens_print(&tokens);
 //		free_tokens_list(&tokens);
 //		commands_print(&cmd);
 	//	 free_cmds_list(&cmd);

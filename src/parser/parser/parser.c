@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/11 08:03:30 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:02:48 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //#include "scanner.h"
 //#include "parser.h"
 
-static void	check_for_more_prompt(t_tokens *tokens,
+static void	*check_for_more_prompt(t_tokens *tokens,
 	t_toklist *current, char **s)
 {
 	t_type	t;
@@ -23,9 +23,11 @@ static void	check_for_more_prompt(t_tokens *tokens,
 	if ((t == PIPE || t == AND || t == OR || t == BACK_SLASH)
 		&& !current->next)
 	{
-		prompt_for_more(tokens, s, NULL);
+		if (!prompt_for_more(tokens, s, NULL))
+			return (NULL);
 		scan_line(tokens, s);
 	}
+	return (tokens->t_input);
 }
 
 static void	syntax_error(int status, t_toklist *current, t_toklist *next_t)
@@ -80,7 +82,8 @@ static int	process_tokens(t_tokens *tokens, char **s, t_env *env)
 				syntax_error(status, current, current->next);
 			return (status);
 		}
-		check_for_more_prompt(tokens, current, s);
+		if (!check_for_more_prompt(tokens, current, s))
+			return (130);
 		l_t = current->type;
 		current = current->next;
 	}
@@ -94,6 +97,11 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 
 	s = tokens->t_input;
 	tokens->head = scan_line(tokens, &s);
+	if (!tokens->head)
+		return (130);
+	remove_escape_char(tokens);
+	merge_adjacent_tokens(tokens);
+	expand_variables(tokens, env);
 	status = process_tokens(tokens, &s, env);
 	if (status == 130)
 		return (status);
@@ -102,11 +110,8 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 		env->exit_status = 258;
 		return (status);
 	}
-	remove_escape_char(tokens);
-	expand_variables(tokens, env);
 	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
-	 	return (-1);
-	merge_adjacent_tokens(tokens);
+		return (-1);
 	join_cmd_and_args(cmd, tokens->head, env);
 	enter_filelist(cmd, tokens->head);
 	return (status);

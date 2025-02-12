@@ -6,7 +6,7 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/05 16:20:18 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:38:12 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static int
 	while (**c != '"')
 	{
 		if (!**c)
-			prompt_for_more(tokens, c, s);
+			if (!prompt_for_more(tokens, c, s))
+				return (-1);
 		if (**c == '\\' && *(*c + 1) == '"')
 		{
 			(*c)++;
@@ -83,10 +84,10 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 
 	s = *c;
 	len = get_strlen_without_escaped_newlines(tokens, c, &s);
+	if (len == -1)
+		return (false);
 	*c = s + 1;
 	lexeme = (char *)malloc(len + 1);
-	if (!lexeme)
-		return (false);
 	j = 0;
 	while (**c && j < len)
 	{
@@ -119,7 +120,8 @@ bool	add_literal(t_tokens *tokens, char **c)
 		(*c)++;
 		while (**c != *s)
 			if (!*(*c)++)
-				prompt_for_more(tokens, c, &s);
+				if (!prompt_for_more(tokens, c, &s))
+					return (false);
 		lexeme = ft_substr(tokens->t_input,
 				s + 1 - tokens->t_input, *c - (s + 1));
 		if (!lexeme || !add_token(tokens, S_QUOTE, lexeme, s - tokens->t_input))

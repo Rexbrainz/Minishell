@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 10:42:24 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:51:36 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,12 @@ void	expand_variables(t_tokens *tokens, t_env *env)
 	while (current)
 	{
 		t = current->type;
+		if (t == D_QUOTE
+			&& !ft_strncmp(current->lexeme, "$?", ft_strlen(current->lexeme)))
+		{
+			t = EXIT_STAT;
+			current->type = EXIT_STAT;
+		}
 		if (t == DOLLAR || t == D_QUOTE)
 			current->lexeme = expand(current->lexeme, env);
 		else if (t == PID || t == EXIT_STAT)
