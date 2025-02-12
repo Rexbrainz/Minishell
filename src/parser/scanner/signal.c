@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 06:44:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 10:02:01 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:18:29 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	main_sigint_handler(int signum)
 void	child_sigint_handler(int signum)
 {
 	(void)signum;
-	ft_putstr_fd("We got here\n", 2);
 	exit(130);
 }
 

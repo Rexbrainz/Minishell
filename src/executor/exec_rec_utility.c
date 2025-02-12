@@ -115,6 +115,6 @@ void	check_for_flag(t_commandlist *current, t_commandlist *prev)
 		if (current->next != NULL && current->next->type != PIPE)
 			current->logic_flag = NO_REDIRECTION;
 		else if (prev != NULL && prev->type != PIPE)
-			current->logic_flag = NO_REDIRECTION;
+			current->logic_flag = 0;
 	}
 }
