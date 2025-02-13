@@ -102,6 +102,6 @@ bool	init_env(t_env *env, char **en, char **argv, int argc)
 		i++;
 	}
 	if (!env->shlvl)
-		add_env_var(env, "SHLVL", "=1");
+		add_env_var(env, ft_strdup("SHLVL"), ft_strdup("=1"));
 	return (true);
 }
