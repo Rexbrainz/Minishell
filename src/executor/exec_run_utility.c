@@ -71,7 +71,8 @@ int	set_input(t_commandlist *cmd, int *redirect, int update)
 /*
 	norminette fix, both cases in one helper function
 */
-static int	helper_output(t_filelist *current, int update, int fd, t_commandlist *cmd)
+static int	helper_output(t_filelist *current, int update,
+	int fd, t_commandlist *cmd)
 {
 	if (current->type == OUTFILE)
 		fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -107,7 +108,7 @@ int	set_output(t_commandlist *cmd, int *redirect, int update)
 		else if (current->type == APPEND)
 		{
 			fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			close(fd);	
+			close(fd);
 		}
 		lc++;
 		current = current->next;

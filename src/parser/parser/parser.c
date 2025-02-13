@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 14:02:48 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:43:15 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 		env->exit_status = 258;
 		return (status);
 	}
-	if (!tokens->head || (tokens->lexeme_count == 1 && !*tokens->head->lexeme))
-		return (-1);
 	join_cmd_and_args(cmd, tokens->head, env);
 	enter_filelist(cmd, tokens->head);
 	return (status);

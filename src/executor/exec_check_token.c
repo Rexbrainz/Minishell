@@ -100,13 +100,16 @@ int	execute_commands(t_command *cmds)
 	int				error_or_not;
 
 	current = cmds->head;
-	error_or_not = current->env->exit_status;
+	error_or_not = 0;
+	if (current != NULL)
+		error_or_not = current->env->exit_status;
 	starting_in_out[0] = NO_REDIRECTION;
 	starting_in_out[1] = NO_REDIRECTION;
 	if (lonely_builtin(cmds) == 0)
 		error_or_not = run_one(current);
 	else
 		error_or_not = rec_exec(cmds, 0, starting_in_out, 0);
-	current->env->exit_status = error_or_not;
+	if (current != NULL)
+		current->env->exit_status = error_or_not;
 	return (error_or_not);
 }

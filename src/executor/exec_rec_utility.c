@@ -15,7 +15,7 @@ void	looking_for_pipes(t_command *cmds, int start, int *new_in_out)
 		find_start++;
 		current = current->next;
 	}
-	if (current->next != NULL)
+	if (current != NULL && current->next != NULL)
 	{
 		if (current->next->type == PIPE)
 			pipe(new_in_out);
@@ -108,18 +108,22 @@ int	double_check(t_command *cmds, int start, int run_or_not)
 		setting a flag if we should execute in parent
 	case for builtin before or after the logic operator
 */
-void	check_for_flag(t_commandlist *current, t_commandlist *prev)
+void	check_for_flag(t_commandlist **current, t_commandlist **prev)
 {
-	if (current->type == BUILTIN)
+	if ((*current) != NULL && (*current)->next != NULL
+		&& ((*current)->type == PIPE || (*current)->type == AND
+			|| (*current)->type == OR))
+		(*current) = (*current)->next;
+	if ((*current) != NULL && (*current)->type == BUILTIN)
 	{
-		if (current->next != NULL && current->next->type != PIPE)
-			current->logic_flag = NO_REDIRECTION;
-		else if (prev != NULL && prev->type != PIPE)
+		if ((*current)->next != NULL && (*current)->next->type != PIPE)
+			(*current)->logic_flag = NO_REDIRECTION;
+		else if ((*prev) != NULL && (*prev)->type != PIPE)
 		{
-			if (ft_strncmp("exit", current->cmd[0], ft_strlen(current->cmd[0])) == 0)
-				current->logic_flag = NO_REDIRECTION;
+			if (ft_strncmp("exit", (*current)->cmd[0], 4) == 0)
+				(*current)->logic_flag = NO_REDIRECTION;
 			else
-				current->logic_flag = 0;
+				(*current)->logic_flag = 0;
 		}
 	}
 }

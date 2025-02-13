@@ -126,7 +126,7 @@ void	clean_exit(int update, t_commandlist *cmd);
 	helper to check edge case
 */
 int		rec_exec(t_command *cmds, int start, int *prev_in_out, pid_t last_pid);
-void	check_for_flag(t_commandlist *current, t_commandlist *prev);
+void	check_for_flag(t_commandlist **current, t_commandlist **prev);
 /*
 	All of its not static helper functions
 	before actually running the command
