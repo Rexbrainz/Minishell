@@ -114,26 +114,27 @@ void	expand_variables(t_tokens *tokens, t_env *env)
 {
 	t_type		t;
 	char		*temp;
-	t_toklist	*current;
+	t_toklist	*cur;
 
-	current = tokens->head;
-	while (current)
+	cur = tokens->head;
+	while (cur)
 	{
-		t = current->type;
-		if (t == D_QUOTE
-			&& !ft_strcmp(current->lexeme, "$?"))
+		t = cur->type;
+		if (t == D_QUOTE && !ft_strcmp(cur->lexeme, "$?"))
 		{
 			t = EXIT_STAT;
-			current->type = EXIT_STAT;
+			cur->type = EXIT_STAT;
 		}
-		if (t == DOLLAR || t == D_QUOTE)
-			current->lexeme = expand(current->lexeme, env);
+		if (t == D_QUOTE)
+			cur->lexeme = expand(cur->lexeme, env);
+		else if (t == DOLLAR)
+			cur->lexeme = expand_dollar(cur->lexeme, cur, tokens, env);
 		else if (t == PID || t == EXIT_STAT)
 		{
-			temp = current->lexeme;
-			current->lexeme = get_env(current->lexeme, env);
+			temp = cur->lexeme;
+			cur->lexeme = get_env(cur->lexeme, env);
 			free(temp);
 		}
-		current = current->next;
+		cur = cur->next;
 	}
 }

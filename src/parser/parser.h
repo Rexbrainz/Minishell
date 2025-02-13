@@ -97,6 +97,8 @@ char		*prompt_for_more(t_tokens *tokens, char **c, char **s);
 bool		is_delim(char c);
 void		expand_variables(t_tokens *tokens, t_env *env);
 char		*expand(char *lexeme, t_env *env);
+char		*expand_dollar(char *lexeme, t_toklist	*current,
+				t_tokens *tokens, t_env *env);
 char		*get_var_and_expand(char *lexeme, char **s, t_env *env);
 char		*remove_space_after_expansion(char *retval);
 char		*get_heredoc_input(char *delim, t_env *env);
