@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:58:33 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/01/17 08:12:34 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:12:40 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,12 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 //				Null terminates dst unless dstsize is 0 or dst capacity is 
 //				greater than dstsize. Returns sum of length of src and dst.
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+
+/*
+	ft_strcmp:	Compares all the characters of both strings and returns int
+				just like the strncmp but checks them always fully
+*/
+int		ft_strcmp(const char *s1, const char *s2);
 
 //	ft_strncmp:	Compares n characters between s1 and s2, it returns an int
 //				value based on if s1 is greater than, equal or less than s2.

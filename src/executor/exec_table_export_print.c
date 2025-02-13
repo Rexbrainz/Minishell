@@ -37,7 +37,7 @@ char	**find_key(t_env *env, char *key)
 	curr = env->head;
 	while (curr)
 	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(curr->key)))
+		if (!ft_strcmp(curr->key, key))
 		{
 			return (&curr->value);
 		}
@@ -51,7 +51,13 @@ void	report_export_syntax_error(t_commandlist *cmd, char *env, int update)
 	ft_putstr_fd("bash: export: `", STDERR_FILENO);
 	ft_putstr_fd(env, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-	clean_exit(update, cmd);
+	if (update == NO_REDIRECTION)
+	{
+		free_env_list(cmd->env);
+		rl_clear_history();
+		bin_malloc(-1);
+		exit(1);
+	}
 }
 
 /*

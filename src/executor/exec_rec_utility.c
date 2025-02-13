@@ -122,7 +122,7 @@ void	check_for_flag(t_commandlist **current, t_commandlist **prev)
 			(*current)->logic_flag = NO_REDIRECTION;
 		else if ((*prev) != NULL && (*prev)->type != PIPE)
 		{
-			if (ft_strncmp("exit", (*current)->cmd[0], 4) == 0)
+			if (ft_strcmp("exit", (*current)->cmd[0]) == 0)
 				(*current)->logic_flag = NO_REDIRECTION;
 			else
 				(*current)->logic_flag = 0;
