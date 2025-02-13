@@ -95,7 +95,7 @@ static char	*the_prompt(char *delim)
 			g_sigint_detected = 0;
 			return ("g_sigint_detected");
 		}
-		if (*line && !ft_strncmp(delim, line, ft_strlen(line)))
+		if (*line && !ft_strcmp(delim, line))
 		{
 			free(line);
 			line = NULL;

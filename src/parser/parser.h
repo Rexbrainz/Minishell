@@ -77,7 +77,7 @@ void		init_tokens(t_tokens *tokens);
 bool		add_pipe_or_op(t_tokens *tokens, char **c);
 bool		add_infile_or_heredoc(t_tokens *tokens, char **c);
 bool		add_outfile_or_append(t_tokens *tokens, char **c);
-int			get_heredoc_delim(char **c);
+int			get_heredoc_delim_len(char **c);
 int			get_filelen(char **c, t_type type);
 bool		add_variable(t_tokens *tokens, char **c);
 t_type		get_type(char *c);

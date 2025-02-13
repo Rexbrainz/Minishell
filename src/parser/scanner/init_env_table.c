@@ -65,7 +65,7 @@ static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 	{
 		*key = ft_substr(en, 0, s - en);
 		*value = ft_strdup(s);
-		if (!strncmp(*key, "SHLVL", ft_strlen(*key)))
+		if (!ft_strcmp(*key, "SHLVL"))
 		{
 			env->shlvl = ft_atoi(*value + 1);
 			env->shlvl++;
@@ -90,7 +90,7 @@ bool	init_env(t_env *env, char **en, char **argv, int argc)
 	value = NULL;
 	while (en[i])
 	{
-		if (!ft_strncmp(en[i], "OLDPWD", 6))
+		if (!ft_strcmp(en[i], "OLDPWD"))
 		{
 			i++;
 			continue ;

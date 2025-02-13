@@ -16,14 +16,14 @@ char	*get_env(char *lexeme, t_env *env)
 {
 	t_envlist	*curr;
 
-	if (!ft_strncmp(lexeme, "$$", ft_strlen(lexeme)))
+	if (!ft_strcmp(lexeme, "$$"))
 		return (ft_itoa(env->pid));
-	else if (!ft_strncmp(lexeme, "$?", ft_strlen(lexeme)))
+	else if (!ft_strcmp(lexeme, "$?"))
 		return (ft_itoa(env->exit_status));
 	curr = env->head;
 	while (curr)
 	{
-		if (!ft_strncmp(lexeme, curr->key, ft_strlen(lexeme)))
+		if (!ft_strcmp(lexeme, curr->key))
 		{
 			if (!curr->value)
 				break ;
@@ -121,7 +121,7 @@ void	expand_variables(t_tokens *tokens, t_env *env)
 	{
 		t = current->type;
 		if (t == D_QUOTE
-			&& !ft_strncmp(current->lexeme, "$?", ft_strlen(current->lexeme)))
+			&& !ft_strcmp(current->lexeme, "$?"))
 		{
 			t = EXIT_STAT;
 			current->type = EXIT_STAT;

@@ -13,7 +13,7 @@
 //#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
-int	get_heredoc_delim(char **c)
+int	get_heredoc_delim_len(char **c)
 {
 	char	ch;
 	char	*s;

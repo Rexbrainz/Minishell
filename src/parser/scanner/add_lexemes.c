@@ -45,7 +45,7 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 
 	if (*(*c + 1) == '<')
 	{
-		len = get_heredoc_delim(c);
+		len = get_heredoc_delim_len(c);
 		lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, len);
 		if (!lexeme
 			|| !add_token(tokens, HEREDOC, lexeme, *c - tokens->t_input))
