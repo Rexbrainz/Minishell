@@ -67,8 +67,11 @@ static int	child_proc(t_commandlist *cmd, int *redirect,
 	env = generate_env(cmd->env);
 	if (cmd->type == BUILTIN)
 		built_in_table(cmd, env, NO_REDIRECTION);
-	if (ft_strchr(cmd->cmd[0], ' ') != NULL)
-		cmd->cmd = bin_split(cmd->cmd[0], ' ');
+	if (cmd->type == DOLLAR)
+	{
+		if (ft_strchr(cmd->cmd[0], ' ') != NULL)
+			cmd->cmd = bin_split(cmd->cmd[0], ' ');
+	}
 	if (ft_strchr(cmd->cmd[0], '/') != NULL)
 		path = bin_strdup(cmd->cmd[0]);
 	else
