@@ -16,18 +16,29 @@
 
 static char	*check_for_quote(char *delim, bool *quote)
 {
+	int		i;
+	char	c;
 	int		len;
 	char	*new_delim;
 
 	len = ft_strlen(delim);
-	if ((*delim == '"' && delim[len - 1] == '"')
-		|| (*delim == '\'' && delim[len - 1] == '\''))
+	new_delim = ft_calloc(len + 1, 1);
+	i = 0;
+	len = 0;
+	while (delim[i])
 	{
-		*quote = true;
-		new_delim = ft_substr(delim, 1, len - 2);
+		if (delim[i] == '"' || delim[i] == '\'')
+		{
+			*quote = true;
+			c = delim[i++];
+			while (delim[i] && delim[i] != c)
+				new_delim[len++] = delim[i++];
+			if (delim[i])
+				i++;
+			continue ;
+		}
+		new_delim[len++] = delim[i++];
 	}
-	else
-		new_delim = ft_strdup(delim);
 	free(delim);
 	return (new_delim);
 }

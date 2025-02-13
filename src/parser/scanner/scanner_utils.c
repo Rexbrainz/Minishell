@@ -12,34 +12,30 @@
 
 //#include "../scanner.h"
 #include "../../../Includes/minishell.h"
-/*
-int	get_rest_of_lexeme(char **c, t_type type)
+
+int	get_heredoc_delim(char **c)
 {
+	char	ch;
 	char	*s;
 
 	s = NULL;
-	if (type == INFILE || type == HEREDOC)
-	{
+	(*c) += 2;
+	while (**c && ft_isspace(**c))
 		(*c)++;
-		while (**c && ft_isspace(**c))
-			(*c)++;
-		s = *c;
-		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
-			&& *s != '&')
-			s++;
-	}
-	else if (type == OUTFILE || type == APPEND)
+	s = *c;
+	while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
+		&& *s != '&')
 	{
-		while (**c == '>' || ft_isspace(**c))
-			(*c)++;
-		s = *c;
-		while (*s && !ft_isspace(*s) && *s != '<' && *s != '>' && *s != '|'
-			&& *s != '&')
-			s++;
+		if (*s == '\'' || *s == '"')
+		{
+			ch = *s;
+			while (*s && *s != ch)
+				s++;
+		}
+		s++;
 	}
 	return (s - *c);
 }
-*/
 
 void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 {

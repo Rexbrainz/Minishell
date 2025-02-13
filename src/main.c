@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **env)
 		prompt(&tokens, &cmd);
 		if (!tokens.t_input)
 			break ;
-		// parse_tokens(&cmd, &tokens, &en);
+	//	 parse_tokens(&cmd, &tokens, &en);
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
@@ -134,7 +134,7 @@ int	main(int argc, char **argv, char **env)
 		else
 			free_tokens_list(&tokens);
 		add_history(tokens.t_input);
-//		tokens_print(&tokens);
+	//	tokens_print(&tokens);
 //		free_tokens_list(&tokens);
 //		commands_print(&cmd);
 	//	 free_cmds_list(&cmd);

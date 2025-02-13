@@ -17,7 +17,7 @@ static bool	is_mergeable(t_type t)
 	if (t == WORD || t == OPTIONS || t == BUILTIN || t == DOLLAR
 		|| t == CMD_SUB || t == D_QUOTE || t == S_QUOTE || t == STAR
 		|| t == PID || t == EXIT_STAT || t == INFILE || t == OUTFILE
-		|| t == APPEND || t == HEREDOC)
+		|| t == APPEND)
 		return (true);
 	return (false);
 }

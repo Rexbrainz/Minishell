@@ -100,8 +100,8 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	if (!tokens->head)
 		return (130);
 	remove_escape_char(tokens);
-	merge_adjacent_tokens(tokens);
 	expand_variables(tokens, env);
+	merge_adjacent_tokens(tokens);
 	status = process_tokens(tokens, &s, env);
 	if (status == 130)
 		return (status);
