@@ -102,6 +102,7 @@ char		*remove_space_after_expansion(char *retval);
 char		*get_heredoc_input(char *delim, t_env *env);
 void		remove_escape_char(t_tokens *tokens);
 char		*rm_newline(char **lexeme);
+char		*check_for_more_back_slash_prompt(t_tokens *tokens, char **s);
 void		merge_adjacent_tokens(t_tokens *tokens);
 
 #endif

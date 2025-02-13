@@ -32,6 +32,7 @@ static void	backslash_in_word(t_tokens *tokens, t_toklist *prev,
 	curr->next = NULL;
 	free(curr->next);
 	free(curr);
+	
 	tokens->lexeme_count -= 2;
 }
 
@@ -77,7 +78,7 @@ static void	join_lexemes(t_tokens *tokens)
 	curr = tokens->head;
 	while (curr)
 	{
-		if (curr->type == BACK_SLASH && curr->next)
+		if (curr->type == BACK_SLASH && curr->next && curr->next->type != L_BACK_SLASH)
 		{
 			s = ft_strjoin(curr->lexeme + 1, curr->next->lexeme);
 			if (!s)

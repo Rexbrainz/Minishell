@@ -12,6 +12,24 @@
 
 #include "../../../Includes/minishell.h"
 
+char	*check_for_more_back_slash_prompt(t_tokens *tokens, char **s)
+{
+	t_toklist	*curr;
+
+	curr = tokens->head;
+	while (curr)
+	{
+		if (curr->type == L_BACK_SLASH)
+		{
+			if (!prompt_for_more(tokens, s, NULL))
+				return (NULL);
+			scan_line(tokens, s);
+		}
+		curr = curr->next;
+	}
+	return (tokens->t_input);
+}
+
 char	*get_new_lexeme(char *lexeme)
 {
 	int		i;

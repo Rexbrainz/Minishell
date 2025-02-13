@@ -38,6 +38,7 @@ typedef enum e_types
 	EXIT_STAT,
 	PID,
 	BACK_SLASH,
+	L_BACK_SLASH,
 	NOTHING
 }	t_type;
 

@@ -20,7 +20,7 @@ static void	*check_for_more_prompt(t_tokens *tokens,
 	t_type	t;
 
 	t = current->type;
-	if ((t == PIPE || t == AND || t == OR || t == BACK_SLASH)
+	if ((t == PIPE || t == AND || t == OR || t == L_BACK_SLASH)
 		&& !current->next)
 	{
 		if (!prompt_for_more(tokens, s, NULL))
@@ -99,6 +99,7 @@ int	parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env)
 	tokens->head = scan_line(tokens, &s);
 	if (!tokens->head)
 		return (130);
+	check_for_more_back_slash_prompt(tokens, &s);
 	remove_escape_char(tokens);
 	expand_variables(tokens, env);
 	merge_adjacent_tokens(tokens);
