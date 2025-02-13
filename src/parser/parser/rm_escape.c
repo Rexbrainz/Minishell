@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rm_escape.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 07:39:09 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 18:49:03 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:01:19 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

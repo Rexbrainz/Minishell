@@ -119,7 +119,7 @@ int	main(int argc, char **argv, char **env)
 			en.exit_status = 1;
 			g_sigint_detected = 0;
 		}
-	//	 parse_tokens(&cmd, &tokens, &en);
+		// parse_tokens(&cmd, &tokens, &en);
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
@@ -128,7 +128,7 @@ int	main(int argc, char **argv, char **env)
 		else
 			free_tokens_list(&tokens);
 		add_history(tokens.t_input);
-	//	tokens_print(&tokens);
+		// tokens_print(&tokens);
 //		free_tokens_list(&tokens);
 //		commands_print(&cmd);
 	//	 free_cmds_list(&cmd);
