@@ -105,6 +105,8 @@ int	double_check(t_command *cmds, int start, int run_or_not)
 }
 
 /*
+		extra case for the case  of $EXPAND_TO_NOTHING
+	in that case if its not the executable we move it to next
 		setting a flag if we should execute in parent
 	case for builtin before or after the logic operator
 */

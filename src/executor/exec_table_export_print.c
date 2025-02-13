@@ -37,7 +37,7 @@ char	**find_key(t_env *env, char *key)
 	curr = env->head;
 	while (curr)
 	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
+		if (!ft_strncmp(curr->key, key, ft_strlen(curr->key)))
 		{
 			return (&curr->value);
 		}
