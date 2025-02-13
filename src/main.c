@@ -1,6 +1,5 @@
 
 #include "../Includes/minishell.h"
-//#include "scanner.h"
 /*
  static void	commands_print(t_command *cmd)
  {
@@ -51,8 +50,8 @@ static void	tokens_print(t_tokens *tokens)
   		tokens->head = tokens->head->next;
  	}
  }
-*/
-/* for test minishell
+ */
+/* for test minishell with mstest
 	if (isatty(fileno(stdin)))
 		tokens->t_input = readline("minishell$ ");
 	else
@@ -64,6 +63,14 @@ static void	tokens_print(t_tokens *tokens)
 		tokens->t_input = ft_strtrim(line, "\n");
 		free(line);
 	}
+*/
+/*
+	Generaly what we used to see whats going on:
+	parse_tokens(&cmd, &tokens, &en);
+	tokens_print(&tokens);
+	free_tokens_list(&tokens);
+	commands_print(&cmd);
+	free_cmds_list(&cmd);
 */
 
 static void	prompt(t_tokens *tokens, t_command *cmd)
@@ -119,7 +126,6 @@ int	main(int argc, char **argv, char **env)
 			en.exit_status = 1;
 			g_sigint_detected = 0;
 		}
-		// parse_tokens(&cmd, &tokens, &en);
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
@@ -128,10 +134,6 @@ int	main(int argc, char **argv, char **env)
 		else
 			free_tokens_list(&tokens);
 		add_history(tokens.t_input);
-		// tokens_print(&tokens);
-//		free_tokens_list(&tokens);
-//		commands_print(&cmd);
-	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
 	if (en.head != NULL)
