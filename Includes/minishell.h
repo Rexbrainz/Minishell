@@ -99,7 +99,7 @@ void	main_sigint_handler(int signum);
 void	heredoc_sigint_handler(int signum);
 void	child_sigint_handler(int signum);
 //void	reset_prompt(void);
-bool	init_env(t_env *en, char **env);
+bool	init_env(t_env *en, char **env, char **argv, int arg);
 void	init_commands(t_command *cmd);
 int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);
 void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);

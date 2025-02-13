@@ -13,8 +13,10 @@
 //#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
-static void	init_environment(t_env *env)
+static void	init_environment(t_env *env, char **argv, int argc)
 {
+	(void)argv;
+	(void)argc;
 	env->size = 0;
 	env->shlvl = 0;
 	env->head = NULL;
@@ -76,13 +78,13 @@ static void	get_key_and_value(t_env *env, char **key, char **value, char *en)
 	}
 }
 
-bool	init_env(t_env *env, char **en)
+bool	init_env(t_env *env, char **en, char **argv, int argc)
 {
 	int		i;
 	char	*key;
 	char	*value;
 
-	init_environment(env);
+	init_environment(env, argv, argc);
 	i = 0;
 	key = NULL;
 	value = NULL;
@@ -99,5 +101,7 @@ bool	init_env(t_env *env, char **en)
 			return (false);
 		i++;
 	}
+	if (!env->shlvl)
+		add_env_var(env, "SHLVL", "=1");
 	return (true);
 }
