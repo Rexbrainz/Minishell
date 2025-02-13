@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 18:22:48 by ndziadzi          #+#    #+#             */
+/*   Updated: 2025/02/13 18:22:50 by ndziadzi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 /*
@@ -46,7 +57,8 @@ static void	tokens_print(t_tokens *tokens)
   	while (tokens->head)
   	{
   		ft_printf("lexeme-> [%s]\ttype-> [%d]\tS_Pos-> [%d]\tE_Pos-> [%d]\n",
-  			tokens->head->lexeme, tokens->head->type, tokens->head->start_pos, tokens->head->end_pos);
+  			tokens->head->lexeme, tokens->head->type, 
+			 tokens->head->start_pos, tokens->head->end_pos);
   		tokens->head = tokens->head->next;
  	}
  }
@@ -108,6 +120,28 @@ char	*prompt1(t_tokens *tokens)
 	return (tokens->t_input);
 }
 
+static void	closing_state(int *exit_code, t_env *en)
+{
+	if (en->head != NULL)
+	{
+		(*exit_code) = en->exit_status;
+		free_env_list(en);
+	}
+	rl_clear_history();
+}
+
+static void	execution_body(t_command *cmd, t_tokens *tokens,
+	t_env *en, int *exit_code)
+{
+	if (!parse_tokens(cmd, tokens, en))
+	{
+		free_tokens_list(tokens);
+		(*exit_code) = execute_commands(cmd);
+	}
+	else
+		free_tokens_list(tokens);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_env		en;
@@ -128,21 +162,9 @@ int	main(int argc, char **argv, char **env)
 			en.exit_status = 1;
 			g_sigint_detected = 0;
 		}
-		if (!parse_tokens(&cmd, &tokens, &en))
-		{
-			free_tokens_list(&tokens);
-			exit_code = execute_commands(&cmd);
-		}
-		else
-			free_tokens_list(&tokens);
+		execution_body(&cmd, &tokens, &en, &exit_code);
 		add_history(tokens.t_input);
 		bin_malloc(-1);
 	}
-	if (en.head != NULL)
-	{
-		exit_code = en.exit_status;
-		free_env_list(&en);
-	}
-	rl_clear_history();
-	return (exit_code);
+	return (closing_state(&exit_code, &en), exit_code);
 }
