@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:52:23 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 14:52:24 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:40:30 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@
 */
 void	clean_exit(int update, t_commandlist *cmd)
 {
+	int	exit_status;
+
+	exit_status = 0;
 	if (update == NO_REDIRECTION)
 	{
+		exit_status = cmd->env->exit_status;
 		free_env_list(cmd->env);
 		rl_clear_history();
 		bin_malloc(-1);
-		exit(EXIT_SUCCESS);
+		exit(exit_status);
 	}
 }
 

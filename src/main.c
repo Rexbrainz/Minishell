@@ -110,10 +110,12 @@ char	*prompt1(t_tokens *tokens)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_env			en;
-	t_command		cmd;
-	t_tokens		tokens;
+	t_env		en;
+	t_command	cmd;
+	t_tokens	tokens;
+	int			exit_code;
 
+	exit_code = 0;
 	init_env(&en, env, argv, argc);
 	install_signals();
 	while (1)
@@ -129,7 +131,7 @@ int	main(int argc, char **argv, char **env)
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
 			free_tokens_list(&tokens);
-			execute_commands(&cmd);
+			exit_code = execute_commands(&cmd);
 		}
 		else
 			free_tokens_list(&tokens);
@@ -137,7 +139,10 @@ int	main(int argc, char **argv, char **env)
 		bin_malloc(-1);
 	}
 	if (en.head != NULL)
+	{
+		exit_code = en.exit_status;
 		free_env_list(&en);
+	}
 	rl_clear_history();
-	return (0);
+	return (exit_code);
 }
