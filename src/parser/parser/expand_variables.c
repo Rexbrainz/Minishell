@@ -67,29 +67,18 @@ static char	*extract_var(char *lexeme, char **s, char *new_lexeme,
 {
 	char	*var;
 	char	*temp;
-	char	*start;
 
-	start = *s;
-	while (**s && **s != '$' && ft_isalnum(**s))
-	{
-		(*s)++;
-		if (**s == '_')
-			(*s)++;
-	}
-	temp = ft_substr(lexeme, start - lexeme, *s - start);
-	if (!temp)
-		return (NULL);
-	var = get_env(temp, env);
-	free(temp);
+	var = get_var_and_expand(lexeme, s, env);
 	if (!var && !new_lexeme)
 		return (free(var), ft_strdup(""));
 	if (!var && new_lexeme)
-		return (free(var), new_lexeme);
+		return (new_lexeme);
+	temp = remove_space_after_expansion(var);
 	if (!new_lexeme)
-		return (var);
-	temp = ft_strjoin(new_lexeme, var);
+		return (temp);
+	var = ft_strjoin(new_lexeme, temp);
 	free(new_lexeme);
-	return (free(var), temp);
+	return (free(temp), var);
 }
 
 char	*expand(char *lexeme, t_env *env)
