@@ -98,9 +98,9 @@ static int	ft_cd(t_commandlist *cmd, int update)
 	{
 		if (cmd->cmd[1] != NULL)
 		{
-			if (ft_strncmp("-", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
+			if (ft_strcmp("-", cmd->cmd[1]) == 0)
 				return (cd_minus_case(cmd, update, pwd));
-			else if (ft_strncmp("~", cmd->cmd[1], ft_strlen(cmd->cmd[1])) == 0)
+			else if (ft_strcmp("~", cmd->cmd[1]) == 0)
 				return (set_oldpwd(cmd, pwd), chdir(getenv("HOME")),
 					clean_exit(update, cmd), 0);
 			else
@@ -120,24 +120,24 @@ static int	ft_cd(t_commandlist *cmd, int update)
 */
 int	built_in_table(t_commandlist *cmd, char **env, int update)
 {
-	if (ft_strncmp("echo", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	if (ft_strcmp("echo", cmd->cmd[0]) == 0)
 		return (ft_echo(cmd, update), 0);
-	else if (ft_strncmp("cd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("cd", cmd->cmd[0]) == 0)
 		return (ft_cd(cmd, update));
-	else if (ft_strncmp("pwd", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("pwd", cmd->cmd[0]) == 0)
 		return (ft_pwd(update, cmd), 0);
-	else if (ft_strncmp("export", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("export", cmd->cmd[0]) == 0)
 	{
 		if (ft_export(cmd, update) == false)
 			return (1);
 		else
 			return (0);
 	}
-	else if (ft_strncmp("unset", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("unset", cmd->cmd[0]) == 0)
 		return (ft_unset(cmd, update), 0);
-	else if (ft_strncmp("env", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("env", cmd->cmd[0]) == 0)
 		return (ft_env(env, update, cmd), 0);
-	else if (ft_strncmp("exit", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp("exit", cmd->cmd[0]) == 0)
 		return (should_we_print(update), clean_exit(NO_REDIRECTION, cmd), 0);
 	else
 		return (path_error(cmd, update));
