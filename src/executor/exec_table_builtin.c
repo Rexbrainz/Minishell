@@ -135,8 +135,6 @@ int	built_in_table(t_commandlist *cmd, char **env, int update)
 	}
 	else if (ft_strncmp("unset", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		return (ft_unset(cmd, update), 0);
-	else if (ft_strncmp("minishell", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
-		return (printf("Executing built-in: %s\n", cmd->cmd[0]), 0);
 	else if (ft_strncmp("env", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)
 		return (ft_env(env, update, cmd), 0);
 	else if (ft_strncmp("exit", cmd->cmd[0], ft_strlen(cmd->cmd[0])) == 0)

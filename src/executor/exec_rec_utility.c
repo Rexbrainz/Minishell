@@ -105,6 +105,8 @@ int	double_check(t_command *cmds, int start, int run_or_not)
 }
 
 /*
+		extra case for the case  of $EXPAND_TO_NOTHING
+	in that case if its not the executable we move it to next
 		setting a flag if we should execute in parent
 	case for builtin before or after the logic operator
 */
@@ -120,7 +122,7 @@ void	check_for_flag(t_commandlist **current, t_commandlist **prev)
 			(*current)->logic_flag = NO_REDIRECTION;
 		else if ((*prev) != NULL && (*prev)->type != PIPE)
 		{
-			if (ft_strncmp("exit", (*current)->cmd[0], 4) == 0)
+			if (ft_strcmp("exit", (*current)->cmd[0]) == 0)
 				(*current)->logic_flag = NO_REDIRECTION;
 			else
 				(*current)->logic_flag = 0;

@@ -111,14 +111,14 @@ int	main(int argc, char **argv, char **env)
 	install_signals();
 	while (1)
 	{
+		prompt(&tokens, &cmd);
+		if (!tokens.t_input)
+			break ;
 		if (g_sigint_detected == 1)
 		{
 			en.exit_status = 1;
 			g_sigint_detected = 0;
 		}
-		prompt(&tokens, &cmd);
-		if (!tokens.t_input)
-			break ;
 	//	 parse_tokens(&cmd, &tokens, &en);
 		if (!parse_tokens(&cmd, &tokens, &en))
 		{
@@ -134,7 +134,8 @@ int	main(int argc, char **argv, char **env)
 	//	 free_cmds_list(&cmd);
 		bin_malloc(-1);
 	}
-	free_env_list(&en);
+	if (en.head != NULL)
+		free_env_list(&en);
 	rl_clear_history();
 	return (0);
 }
