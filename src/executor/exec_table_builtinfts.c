@@ -31,7 +31,7 @@ static int	compare_to_list(t_commandlist *cmd, char *str)
 	place_in_list = 0;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->key, str, ft_strlen(str)) == 0)
+		if (ft_strcmp(current->key, str) == 0)
 			return (place_in_list);
 		place_in_list++;
 		current = current->next;
