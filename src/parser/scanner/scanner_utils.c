@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   scanner_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 12:18:02 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:44 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 int	get_heredoc_delim_len(char **c)

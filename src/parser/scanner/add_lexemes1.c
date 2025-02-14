@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   add_lexemes1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:38:12 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:28 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 bool	add_and(t_tokens *tokens, char **c)

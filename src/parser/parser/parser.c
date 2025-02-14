@@ -6,13 +6,11 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:19:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/13 13:54:54 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:42:57 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "scanner.h"
-//#include "parser.h"
 
 static void	*check_for_more_prompt(t_tokens *tokens,
 	t_toklist *current, char **s)

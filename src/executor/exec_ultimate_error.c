@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:53:53 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 16:22:57 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:32:00 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	standard_error(int update, t_commandlist *cmd)
 	{
 		free_env_list(cmd->env);
 		bin_malloc(-1);
-		exit(errno);
+		exit(1);
 	}
-	return (errno);
+	return (1);
 }
 
 /*

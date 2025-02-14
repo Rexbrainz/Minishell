@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   scanner_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:03:03 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:49 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 /*

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:55:19 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 08:32:50 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:02 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "scanner.h"
-//#include "parser.h"
 
 static char	*check_for_quote(char *delim, bool *quote)
 {

@@ -6,11 +6,10 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 17:44:45 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:40 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 static void	init_environment(t_env *env, char **argv, int argc)

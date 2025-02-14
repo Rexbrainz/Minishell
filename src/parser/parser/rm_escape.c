@@ -6,13 +6,11 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 07:39:09 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/13 16:33:57 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:08 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "scanner.h"
-//#include "parser.h"
 
 static void	backslash_in_word(t_tokens *tokens, t_toklist *prev,
 	t_toklist *curr, char **s)

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_lexemes2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:32 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/13 18:59:34 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:33 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
-//#include "../scanner.h"
 
 bool	add_word_or_builtin(t_tokens *tokens, char **c)
 {

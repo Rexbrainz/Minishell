@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmd_and_tokens.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
+/*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/07 12:11:48 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:43:37 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../scanner.h"
 #include "../../../Includes/minishell.h"
 
 void	init_tokens(t_tokens *tokens)
