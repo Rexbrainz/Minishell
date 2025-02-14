@@ -6,11 +6,12 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 18:22:48 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 21:38:14 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:52:37 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
+
 /*
  static void	commands_print(t_command *cmd)
  {

@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:48:47 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 14:48:48 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/14 10:49:51 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include "../new_libft/libft.h"
 # include "../garbage_collector/bin_malloc.h"
 # include "types.h"
-# include "../src/parser/parser.h"
+# include "parser.h"
 
 typedef struct s_filelist
 {
@@ -69,7 +69,6 @@ bool	init_env(t_env *en, char **env, char **argv, int arg);
 void	init_commands(t_command *cmd);
 int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);
 void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);
-//bool	add_cmd(t_command *cmd, char **cmd_args, t_type type, t_file *file);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
 void	free_env_list(t_env *envc);
