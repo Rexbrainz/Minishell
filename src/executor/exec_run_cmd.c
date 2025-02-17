@@ -142,6 +142,7 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 		if (child == 0)
 		{
 			signal(SIGINT, child_sigint_handler);
+			
 			if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
 				standard_error(NO_REDIRECTION, cmd);
 		}
