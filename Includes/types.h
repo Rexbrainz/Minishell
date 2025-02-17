@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:48:40 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 14:52:07 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/17 08:39:00 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define TYPES_H
 
 extern volatile sig_atomic_t	g_sigint_detected;
-// Infile <, Outfile >, Append >>, Heredoc <<.
+
 typedef enum e_types
 {
 	NO_REDIRECTION = -1,

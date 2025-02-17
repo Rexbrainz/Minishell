@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 18:22:48 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/14 10:56:22 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/17 09:07:24 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,27 @@ static void	tokens_print(t_tokens *tokens)
 	free_cmds_list(&cmd);
 */
 
+/**********************************************
+ * 	Takes the tokens and command strucs.      *
+ * 	Initializes the tokens and cmd structs.   *
+ *	Prompts the user for input to process.    *
+ *	Returns nothing.						  *
+ *********************************************/
 static void	prompt(t_tokens *tokens, t_command *cmd)
 {
 	init_tokens(tokens);
 	init_commands(cmd);
 	tokens->t_input = readline("minishell$ ");
-	if (!tokens->t_input)
-		return ;
 }
 
+/*****************************************************************
+ * Takes the tokens struct, to access the existin current input  *
+ * Asks the user for more prompts in conditions such as:         *
+ * Unclosed quotes, \, |, && or || operator at the end of the    *
+ * input entered. Adds a newline character to the existing input *
+ * buffer before joining it with the newly entered input.        *
+ * Returns the joined input strings.                             *
+ *****************************************************************/
 char	*prompt1(t_tokens *tokens)
 {
 	char	*more_input;
@@ -121,16 +133,29 @@ char	*prompt1(t_tokens *tokens)
 	return (tokens->t_input);
 }
 
+/*********************************************************
+ * Called before exiting the program when ^D is entered. *
+ * Takes the address of the exit_code to be returned and *
+ * the environment symbol table struct. Frees the est    *
+ * Sets the exit status. Clears history buffer.          *
+ * The function returns nothing.                         *
+ * *******************************************************/
 static void	closing_state(int *exit_code, t_env *en)
 {
 	if (en->head != NULL)
-	{
-		(*exit_code) = en->exit_status;
 		free_env_list(en);
-	}
+	(*exit_code) = en->exit_status;
 	rl_clear_history();
 }
 
+/************************************************************************
+ * Takes the addresses of the cmd, tokens, env structs and exit code    *
+ * The parser is called, and depending on it's return status            *
+ * the executor is called. The exit status is colleceted                *
+ * from the execute command which needs to be returned in case of       *
+ * termination. Tokens list is freed after parsing or execution returns *
+ * The function returns nothing.										*	
+ * **********************************************************************/
 static void	execution_body(t_command *cmd, t_tokens *tokens,
 	t_env *en, int *exit_code)
 {
@@ -143,6 +168,12 @@ static void	execution_body(t_command *cmd, t_tokens *tokens,
 		free_tokens_list(tokens);
 }
 
+/*************************************************************
+ * Initializes data structs, installs the main signal        *
+ * and enters an infinite while loop, where it prompts for   *
+ * input, processes and executes it.                         *
+ * Returns an exit code upon termination.                    *
+ * ***********************************************************/
 int	main(int argc, char **argv, char **env)
 {
 	t_env		en;
@@ -167,5 +198,6 @@ int	main(int argc, char **argv, char **env)
 		add_history(tokens.t_input);
 		bin_malloc(-1);
 	}
-	return (closing_state(&exit_code, &en), exit_code);
+	closing_state(&exit_code, &en);
+	return (exit_code);
 }
