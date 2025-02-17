@@ -50,10 +50,8 @@ int	wait_for_last(t_commandlist *cmd, pid_t last_pid)
 	if (WIFEXITED(status))
 		saving = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-	{
 		if (WTERMSIG(status) == SIGINT)
 			saving = 130;
-	}
 	while (errno != ECHILD)
 	{
 		waiting_for_each = waitpid(-1, &status, 0);
