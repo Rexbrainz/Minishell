@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:53:25 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/13 15:38:21 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:44:48 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	built_in_table(t_commandlist *cmd, char **env, int update)
 	else if (ft_strcmp("env", cmd->cmd[0]) == 0)
 		return (ft_env(env, update, cmd), 0);
 	else if (ft_strcmp("exit", cmd->cmd[0]) == 0)
-		return (should_we_print(update), clean_exit(NO_REDIRECTION, cmd), 0);
+		return (ft_exit(cmd, update));
 	else
 		return (path_error(cmd, update));
 }

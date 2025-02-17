@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:52:51 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/14 10:30:00 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:15:26 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ pid_t	run_cmd(t_commandlist *cmd, int *redirect,
 		if (child == 0)
 		{
 			signal(SIGINT, child_sigint_handler);
-			
 			if (child_proc(cmd, redirect, prev_in_out, new_in_out) < 0)
 				standard_error(NO_REDIRECTION, cmd);
 		}

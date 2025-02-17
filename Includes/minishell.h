@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:48:47 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/14 10:49:51 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:35:08 by ndziadzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	report_export_syntax_error(t_commandlist *cmd, char *env, int update);
 char	**find_key(t_env *env, char *key);
 void	print_vars(t_commandlist *cmd, int update);
 void	ft_env(char **env, int update, t_commandlist *cmd);
+int		ft_exit(t_commandlist *cmd, int update);
 void	should_we_print(int update);
 /*
 	Handling errors for different cases
