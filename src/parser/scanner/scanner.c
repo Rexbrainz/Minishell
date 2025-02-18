@@ -6,12 +6,19 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:02:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/14 10:43:53 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/17 13:17:50 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
+/*****************************************************************************
+ * Takes the tokens list, tokens type, lexeme and position of the lexeme     *
+ * int the input. With these parameters, it creates a node and adds them to  *
+ * the tokens list.                                                          *
+ * With the start position we calculate the end pos of the lexeme.           *
+ * The function returns true on success and false if malloc fails.           *
+ * ***************************************************************************/
 bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 {
 	t_toklist	*new_node;
@@ -41,6 +48,15 @@ bool	add_token(t_tokens *tokens, t_type types, char *lexeme, int s_pos)
 	return (true);
 }
 
+/****************************************************************
+ * Takes the addresses of the iterator in scanline in order to  *
+ * modify it, and the tokens list to add the token to the list. *
+ * Identifies tokens based on the current character and adds    *
+ * them to the list of tokens.                                  *
+ * It returns true if tokens addition is a success and false    *
+ * when malloc fails, or perhaps in some cases failure due to   *
+ * arrival of a sigint signal.                                  *
+ * **************************************************************/
 static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 {
 	if ((**c == '-') && !add_options(tokens, c))
@@ -68,6 +84,14 @@ static bool	id_and_add_tokens(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/**********************************************************************
+ * Takes the tokens data struct to access the entered input, and      *
+ * a pointer to a pointer to strings, which is used to iterate        *
+ * the user input.                                                    *
+ * It scans the input, get rid of white spaces and identifying tokens *
+ * The function returns a pointer to the head of the list of tokens   *
+ * created.                                                           *
+ **********************************************************************/
 t_toklist	*scan_line(t_tokens *tokens, char **s)
 {
 	while (**s)

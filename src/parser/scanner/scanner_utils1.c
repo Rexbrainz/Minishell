@@ -6,16 +6,23 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/14 10:43:49 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/18 07:21:46 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
-/*
- 	Prompts for more input, when the input entered
-	ends in a pipe |, or ||, or and && operator.
-*/
+/* ************************************************************************
+ * A utility function for cases when more input is needed from the user.  *
+ * It takes the tokens data struct, two addresses of pointers.            *
+ * c points to the user_input in tokens->t_input, s can be NULL,          *
+ * when not NULL it is used as an iterator from c which points to the     *
+ * null terminator signifying incompleteness of the current lexeme.       *
+ * The function prompts for more input, and reassigs c and s to the index *
+ * they were previously pointing in the newly modified input.        	  *
+ * In addition a handler for SIGINT is installed, returning NULL helps    *
+ * us handle SIGINT, otherwise, the newly modified input is returned.     *
+ * ************************************************************************/
 char	*prompt_for_more(t_tokens *tokens, char **c, char **s)
 {
 	int	c_len;
@@ -36,12 +43,20 @@ char	*prompt_for_more(t_tokens *tokens, char **c, char **s)
 	return (tokens->t_input);
 }
 
+/* ********************************************************************
+ * A utility function for handling redirection tokens in add_lexeme.c *
+ * Takes the address of a pointer to the user_input, and the token    *
+ * type. If the type is APPEND the pointer is shifted an index ahead. *
+ * It ignores all spaces when there is one after the redirection      *
+ * character. From there it finds the end of the lexeme (filename).   *
+ * The function returns the length of the filename.                   *
+ * ********************************************************************/
 int	get_filelen(char **c, t_type type)
 {
 	char	*s;
 
 	(*c)++;
-	if (type == APPEND || type == HEREDOC)
+	if (type == APPEND)
 		(*c)++;
 	while (**c && ft_isspace(**c))
 		(*c)++;
@@ -51,6 +66,9 @@ int	get_filelen(char **c, t_type type)
 	return (s - *c);
 }
 
+/*
+ * Returns true if the char c is identified as a delimeter, else false.
+ */
 bool	is_delim(char c)
 {
 	if (ft_isspace(c) || c == ')' || c == '(' || c == '"'

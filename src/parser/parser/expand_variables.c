@@ -6,12 +6,16 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 06:49:20 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 15:51:36 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:54:50 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/* **************************************************************************
+ * Searches the env list for the lexeme, and returns the duplicated value   *
+ * when found. Returns NULL if the lexeme is not found or its value is NULL.*
+ * **************************************************************************/
 char	*get_env(char *lexeme, t_env *env)
 {
 	t_envlist	*curr;
@@ -34,6 +38,11 @@ char	*get_env(char *lexeme, t_env *env)
 	return (NULL);
 }
 
+/* **************************************************************
+ * Extracts every charcter before an unescaped $ character.     *
+ * And joins them with the new_lexeme argument when not NULL    *
+ * The extracted string or the newly joined string is returned  *
+ * **************************************************************/
 static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 {
 	char	*temp;
@@ -62,6 +71,13 @@ static char	*get_chars(char *lexeme, char **s, char *new_lexeme)
 	return (temp);
 }
 
+/* *********************************************************************
+ * The lexeme which is basically a variable is searched in the         *
+ * env list and expanded. If there are multiple consecutive            *
+ * spaces in the returned value they are removed and replaced with     *
+ * one space except for leading and trailing spaces. Afterwards        *
+ * the the value is joined with new_lexeme when not NULL and returned  *
+ * *********************************************************************/
 static char	*extract_var(char *lexeme, char **s, char *new_lexeme,
 	t_env *env)
 {
@@ -81,6 +97,10 @@ static char	*extract_var(char *lexeme, char **s, char *new_lexeme,
 	return (free(temp), var);
 }
 
+/* *******************************************************************
+ * Takes a tokens's list to expand, expands them, puts them together *
+ * and returns the newly expanded string.                            *
+ * *******************************************************************/
 char	*expand(char *lexeme, t_env *env)
 {
 	char	*s;
@@ -110,6 +130,11 @@ char	*expand(char *lexeme, t_env *env)
 	return (free(lexeme), new_lexeme);
 }
 
+/* **************************************************************
+ * Goes through the tokens list, identifies tokens' lexemes     *
+ * that can be expanded, expands them and updates the tokens'   *
+ * lexeme with the newly expnaded lexeme.                       *
+ * **************************************************************/
 void	expand_variables(t_tokens *tokens, t_env *env)
 {
 	t_type		t;

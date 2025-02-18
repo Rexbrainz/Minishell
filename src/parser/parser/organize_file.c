@@ -6,12 +6,15 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:10:15 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/04 13:24:17 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:45:54 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/*
+ * It creates and initializes a file list which it returns.
+ */
 static t_file	*init_files(void)
 {
 	t_file	*file;
@@ -25,6 +28,12 @@ static t_file	*init_files(void)
 	return (file);
 }
 
+/* **********************************************************************
+ * Takes a file list, filename (lexeme) and token type.                 *
+ * Creates a node and initializes it with the above arguments and adds  *
+ * the node to the list.                                                *
+ * It returns true is successful else false if malloc fails.            *
+ * **********************************************************************/
 static bool	add_file(t_file *file, char *filename, t_type type)
 {
 	t_filelist	*new_node;
@@ -49,6 +58,12 @@ static bool	add_file(t_file *file, char *filename, t_type type)
 	return (true);
 }
 
+/* ******************************************************************
+ * Takes the tokens list, and makes a file list for every           *
+ * redirection token type found in a simple command (i.e commmands  *
+ * separated by a pipeline or logical operators)                    *
+ * It returns the file list created.                                *
+ * ******************************************************************/
 static t_file	*get_filelist(t_toklist **tokens)
 {
 	t_file	*file;
@@ -73,6 +88,10 @@ static t_file	*get_filelist(t_toklist **tokens)
 	return (file);
 }
 
+/* ***********************************************************
+ * Adds every files list created to the file list member of  *
+ * the command list.                                         *
+ * ***********************************************************/
 void	enter_filelist(t_command *cmd, t_toklist *tokens)
 {
 	t_commandlist	*cmdlist;

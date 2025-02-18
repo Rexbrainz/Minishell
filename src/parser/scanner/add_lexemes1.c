@@ -6,12 +6,18 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:23:54 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/14 10:43:28 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:25:19 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/* ************************************************************************
+ * Takes the tokens list and the address of a pointer to the user_input.  *
+ * The && lexeme is extracted and entered into the list.                  *
+ * The pointer is updated to point to the next char after the lexeme      *
+ * The function returns true if successful and false if malloc fails.     *
+ * ************************************************************************/
 bool	add_and(t_tokens *tokens, char **c)
 {
 	char	*lexeme;	
@@ -25,6 +31,12 @@ bool	add_and(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* ************************************************************************
+ * Takes the tokens list and the address of a pointer to the user_input.  *
+ * The ( or ) lexeme is extracted and entered into the list.              *
+ * The pointer is updated to point to the next char after the lexeme      *
+ * The function returns true if successful and false if malloc fails.     *
+ * ************************************************************************/
 bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 {
 	char	*lexeme;
@@ -46,6 +58,12 @@ bool	add_l_or_r_paren(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* **********************************************************************
+ * Used by the process d_quote function to get the length of            *
+ * the dquote lexeme without consecutive \ and \n chars.                *
+ * If it does not find the matching closing dquote, it prompts for more *
+ * The functon returns the length of the dquote lexeme.                 *
+ * **********************************************************************/
 static int
 	get_strlen_without_escaped_newlines(t_tokens *tokens, char **c, char **s)
 {
@@ -74,6 +92,13 @@ static int
 	return (len);
 }
 
+/* *********************************************************************
+ * Used by the add_literal function to extract double quote lexeme     *
+ * and adds it to the tokens list. If there are consecutive \ and \n   * 
+ * characters in the double quote, they are ignored and not included   *
+ * in the double quote lexeme.                                         *
+ * The function returns true if successful and false when malloc fails *
+ * *********************************************************************/
 static bool	process_dquote(t_tokens *tokens, char **c)
 {
 	int		j;
@@ -103,6 +128,15 @@ static bool	process_dquote(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* ************************************************************************
+ * Takes the tokens list and the address of a pointer to the user_input.  *
+ * First it identifies the type of quote and extracts the lexeme until    *
+ * the matching closing quote, which it adds to the tokens list.          *
+ * It prompts for more if the closing matching quote is not found at end  *
+ * of input.    														  *
+ * The pointer is updated to point to the next char after the lexeme.     *
+ * The function returns true if successful and false if malloc fails.     *
+ * ************************************************************************/
 bool	add_literal(t_tokens *tokens, char **c)
 {
 	char	*s;

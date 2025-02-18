@@ -6,12 +6,17 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:38:27 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/13 12:09:45 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:06:05 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
+/* *******************************************************************
+ * Searches for the variable in the lexeme, extracts, it, and        *
+ * searcehes for it in the env list, the value returned by get_env   *
+ * is returned.                                                      *
+ * *******************************************************************/
 char	*get_var_and_expand(char *lexeme, char **s, t_env *env)
 {
 	char	*var;
@@ -31,6 +36,10 @@ char	*get_var_and_expand(char *lexeme, char **s, t_env *env)
 	return (value);
 }
 
+/* ********************************************************
+ * Removes multiple consecutive spaces from the value and *
+ * replaces them with single space and returns the string *
+ * ********************************************************/
 char	*remove_space_after_expansion(char *retval)
 {
 	int		i;
@@ -58,6 +67,11 @@ char	*remove_space_after_expansion(char *retval)
 	return (removed_spaces);
 }
 
+/* **************************************************************
+ * A special function written to handle cases when the variable *
+ * is found directly between other tokens with leading and      *
+ * trailing white spaces.                                       *
+ * **************************************************************/
 static char	*remove_space_for_dollar(char *retval,
 	t_toklist *prev, t_toklist *next)
 {
@@ -88,6 +102,11 @@ static char	*remove_space_for_dollar(char *retval,
 	return (free(retval), removed_spaces);
 }
 
+/* *********************************************************
+ * Tries to identify variables directly between or close   *
+ * to other tokens. Returns the modified string with a     *
+ * leading and trailing space.                             *
+ * *********************************************************/
 char	*expand_dollar(char *lexeme, t_toklist	*current,
 	t_tokens *tokens, t_env *env)
 {

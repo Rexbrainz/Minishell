@@ -6,12 +6,19 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 12:26:44 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/14 10:43:23 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:14:39 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/* ***************************************************************************
+ * Takes the tokens list and an address to a pointer to the user_input.      *
+ * If the next character is |, the lexeme is extracted as an OR operator     *
+ * and added into the tokens list, else the lexeme is extracted as a pipe    *
+ * and added into the tokens list.                                           *
+ * The function returns true when successful and false if malloc fails.      *
+ * ***************************************************************************/
 bool	add_pipe_or_op(t_tokens *tokens, char **c)
 {
 	char	*lexeme;
@@ -37,6 +44,14 @@ bool	add_pipe_or_op(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* ***************************************************************************
+ * Takes the tokens list and an address to a pointer to the user_input.      *
+ * If the next character is <, the heredoc delimeter (lexeme) is extracted   *
+ * and added into the tokens list, else the INFILE filename (lexeme) is      *
+ * extracted and added into the tokens list.                                 *
+ * The pointer is updated to point to the character after the lexeme end_pos *
+ * The function returns true when successful and false if malloc fails.      *
+ * ***************************************************************************/
 bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 {
 	char	*lexeme;
@@ -63,6 +78,14 @@ bool	add_infile_or_heredoc(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* ***************************************************************************
+ * Takes the tokens list and an address to a pointer to the user_input.      *
+ * If the next character is >, the APPEND filename (lexeme) is extracted     *
+ * and added into the tokens list, else the OUTFILE filename (lexeme) is     *
+ * extracted and added into the tokens list.                                 *
+ * The pointer is updated to point to the character after the lexeme end_pos *
+ * The function returns true when successful and false if malloc fails.      *
+ * ***************************************************************************/
 bool	add_outfile_or_append(t_tokens *tokens, char **c)
 {
 	int		len;
@@ -90,6 +113,13 @@ bool	add_outfile_or_append(t_tokens *tokens, char **c)
 	return (true);
 }
 
+/* *********************************************************************
+ * Takes the tokens list and address to a pointer to the user_input.   *
+ * the next character tells us what token type it is and depending     *
+ * on what token type it is we extract the lexeme and add it to the    *
+ * tokens list. The pointer is updated to point to the char after the  *
+ * lexeme end_pos. The function returns false if malloc fails else true *
+ * ******************************************************************** */
 bool	add_variable(t_tokens *tokens, char **c)
 {
 	char	*s;
@@ -111,9 +141,17 @@ bool	add_variable(t_tokens *tokens, char **c)
 	lexeme = ft_substr(tokens->t_input, *c - tokens->t_input, s - *c);
 	if (!lexeme || !add_token(tokens, type, lexeme, *c - tokens->t_input))
 		return (false);
-	return (*c = s, true);
+	*c = s;
+	return (true);
 }
 
+/* *********************************************************************
+ * Takes the tokens list and address to a pointer to the user_input.   *
+ * The pointer is used to find the end of the lexeme, another pointer  *
+ * is used to track back to find the lexeme start before the * char.   *
+ * The lexeme is extracted and entered into the token list.            *
+ * The function returns false if malloc fails and true when successful *
+ * *********************************************************************/
 bool	wild_state(t_tokens *tokens, char **c)
 {
 	char	*s;

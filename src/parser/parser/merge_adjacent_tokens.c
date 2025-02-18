@@ -6,12 +6,16 @@
 /*   By: sudaniel <sudaniel@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:04:51 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/12 13:48:08 by sudaniel         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:30:31 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/* **************************************************************
+ * Returns true if a token type is mergeable or not.            *
+ * tokens type like PIPE, OR, AND or HEREDOC are not mergeable. *
+ * **************************************************************/
 static bool	is_mergeable(t_type t)
 {
 	if (t == WORD || t == OPTIONS || t == BUILTIN || t == DOLLAR
@@ -22,6 +26,9 @@ static bool	is_mergeable(t_type t)
 	return (false);
 }
 
+/*
+ * Merges two lexemes together and deletes the current node
+ */
 static void	merge(t_toklist *curr)
 {
 	t_toklist	*temp;
@@ -37,6 +44,12 @@ static void	merge(t_toklist *curr)
 	free(temp);
 }
 
+/* ***********************************************************************
+ * Takes the tokens list, interates through it, joins tokens             *
+ * whose lexemes were previously not separated by a white space,         *
+ * To do that it checks if the current token and the next are mergeable  *
+ * or not. The function returns nothing.                                 *
+ * ***********************************************************************/
 void	merge_adjacent_tokens(t_tokens *tokens)
 {
 	int			diff;

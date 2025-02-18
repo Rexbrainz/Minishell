@@ -6,12 +6,21 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:04:37 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/14 10:43:44 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:29:04 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/************************************************************************
+ * A utility function for heredoc in the add_infile_or_heredoc function *
+ * in add_lexeme.c file                                                 *
+ * Takes the address of a pointer pointing to the user input,           *
+ * The pointer is shifted two places ahead to skip the heredoc token    *
+ * From there it searches for the end of the heredoc delimeter,         *
+ * keeping track of quotes.                                             *
+ * The fuction returns the length of the heredoc delimeter.             *
+ * **********************************************************************/
 int	get_heredoc_delim_len(char **c)
 {
 	char	ch;
@@ -36,6 +45,16 @@ int	get_heredoc_delim_len(char **c)
 	return (s - *c);
 }
 
+/**********************************************************************
+ * A utility function for the find_eot function in this file.         *
+ * Takes the addresses of two pointers and the tokens list.           *
+ * c points to the user input, while s points to the current          *
+ * position of c and is used to iterate the user input from c.        *
+ * c is needed here for cases when we need to prompt the user for     *
+ * more input.                                                        *
+ * s, used as the iterator searches for the matching right            *
+ * parenthesis which marks the end of the token.                      *
+ * ********************************************************************/
 void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 {
 	int	i;
@@ -65,6 +84,14 @@ void	find_last_r_paren(char **c, char **s, t_tokens *tokens)
 	}
 }
 
+/* ************************************************************
+ * A utility function for the add_word_or_bultin function in  *
+ * add_lexeme2.c file.                                        *
+ * Converts the lexeme taken as argument to lower case and    *
+ * compares it against the builtins commands, it returns      *
+ * true if the lexeme matches any of the builtins command     *
+ * and false when not.                                        *
+ * ************************************************************/
 bool	is_builtin(char *lexeme)
 {
 	int		i;
@@ -91,6 +118,14 @@ bool	is_builtin(char *lexeme)
 	return (false);
 }
 
+/* ********************************************************
+ * A utility function to the add variable function in     *
+ * add_lexeme.c file.                                     *
+ * Takes a pointer to the char an index ahead of the      *
+ * current token ($) to identify.                         *
+ * Depending on what this character is, a token type is   *
+ * returned.											  *
+ * ********************************************************/
 t_type	get_type(char *c)
 {
 	t_type	type;
@@ -108,6 +143,14 @@ t_type	get_type(char *c)
 	return (type);
 }
 
+/* *********************************************************************
+ * A utility function to the add variable function in                  *
+ * add_lexeme.c file.												   *
+ * Takes the tokens list, addresses of two pointers and a token type.  *
+ * Depending on the token type the function searches for the end       *
+ * of the lexeme.                                                      *
+ * It returns nothing.                                                 *
+ * *********************************************************************/
 void	find_eot(t_tokens *tokens, char **c, char **s, t_type type)
 {
 	if (type == CMD_SUB)

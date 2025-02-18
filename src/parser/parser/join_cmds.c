@@ -6,12 +6,16 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:08:29 by sudaniel          #+#    #+#             */
-/*   Updated: 2025/02/10 14:31:14 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:50:46 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
+/* **********************************************************************
+ * Creates a new commadlist type node, adds the argumenst to the node   *
+ * and enters it to the command list.                                   *
+ * **********************************************************************/
 static void	add_cmds(t_command *cmd, char **cmds, t_type type, t_env *env)
 {
 	t_commandlist	*new_node;
@@ -38,6 +42,10 @@ static void	add_cmds(t_command *cmd, char **cmds, t_type type, t_env *env)
 	cmd->size++;
 }
 
+/* *****************************************************************
+ * For every simple command, the command options and arguments     *
+ * are put together in a 2d array to be added to the command list. *
+ * *****************************************************************/
 static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 		, t_type *type)
 {
@@ -66,6 +74,13 @@ static char	**enter_cmd(t_toklist *start, t_toklist **end, char **cmd
 	return (cmd);
 }
 
+/* ***********************************************************************
+ * Finds the command options and arguments in a simple command           *
+ * ofcourse exception of redirections, and tokens like pipe, OR, AND     *
+ * which are pipelines delimeters.                                       *
+ * The function builds the command option and arguments into a 2d array  *
+ * and return it.                                                        *
+ * ***********************************************************************/
 static char	**find_lexemes(t_toklist **curr, t_type *type, int *redirection)
 {
 	int			i;
@@ -94,6 +109,13 @@ static char	**find_lexemes(t_toklist **curr, t_type *type, int *redirection)
 	return (enter_cmd(start, curr, cmd, type));
 }
 
+/* ******************************************************************
+ * It creates a command list, and for every simple command          *
+ * A node is created, when there is no command but redirections a   *
+ * node is created as well. However just the commands are entered   *
+ * In the absence of any command, the 2d array is NULL.             *
+ * The function returns nothing.                                    *
+ * ******************************************************************/
 void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env)
 {
 	t_type		type;
