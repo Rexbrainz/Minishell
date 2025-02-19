@@ -21,8 +21,6 @@ void	init_tokens(t_tokens *tokens)
 	tokens->tail = NULL;
 	tokens->t_input = NULL;
 	tokens->lexeme_count = 0;
-	tokens->is_inside_squote = false;
-	tokens->is_inside_dquote = false;
 	tokens->backslash_inside_word = false;
 }
 

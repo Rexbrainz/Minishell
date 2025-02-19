@@ -6,7 +6,7 @@
 /*   By: ndziadzi <ndziadzi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:48:47 by ndziadzi          #+#    #+#             */
-/*   Updated: 2025/02/17 12:35:08 by ndziadzi         ###   ########.fr       */
+/*   Updated: 2025/02/19 07:24:15 by sudaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@
 # include "types.h"
 # include "parser.h"
 
+// List for redirections
 typedef struct s_filelist
 {
-	char				*filename;
-	t_type				type;
-	struct s_filelist	*next;
+	char				*filename; // filename
+	t_type				type; // type of redirection
+	struct s_filelist	*next; // pointer to the next node
 }	t_filelist;
 
+// Info and access to the filelist
 typedef struct s_file
 {
 	t_filelist	*head;
@@ -44,36 +46,43 @@ typedef struct s_file
 	int			size;
 }	t_file;
 
+// Command list
 typedef struct s_commandlist
 {
-	char					**cmd;
-	t_type					type;
-	t_env					*env;
-	t_file					*files;
-	int						logic_flag;
-	struct s_commandlist	*next;
+	char					**cmd; // Command option and args. or NULL
+	t_type					type; // type of token
+	t_env					*env; // env list
+	t_file					*files; // pointer to the file data struct
+	int						logic_flag; // logical operator flag
+	struct s_commandlist	*next; //pointer to the next command
 }	t_commandlist;
 
+// Info and access to the commandlist
 typedef struct s_command
 {
-	int				size;
-	t_commandlist	*head;
-	t_commandlist	*tail;
+	int				size; // size of commandlist
+	t_commandlist	*head; // pointer to the first node in the commandlist
+	t_commandlist	*tail; // pointer to the last node in the commandlist
 }	t_command;
 
+// Signal
 void	install_signals(void);
 void	main_sigint_handler(int signum);
 void	heredoc_sigint_handler(int signum);
 void	child_sigint_handler(int signum);
+
+// Env data struct 
 bool	init_env(t_env *en, char **env, char **argv, int arg);
+void	free_env_list(t_env *envc);
+char	*get_env(char *lexeme, t_env *env);
+bool	add_env_var(t_env *env, char *key, char *value);
+
+// Parser
 void	init_commands(t_command *cmd);
 int		parse_tokens(t_command *cmd, t_tokens *tokens, t_env *env);
 void	join_cmd_and_args(t_command *cmd, t_toklist *tokens, t_env *env);
 void	enter_filelist(t_command *cmd, t_toklist *tokens);
 void	free_tokens_list(t_tokens *tokens);
-void	free_env_list(t_env *envc);
-char	*get_env(char *lexeme, t_env *env);
-bool	add_env_var(t_env *env, char *key, char *value);
 /*
 	Connection point between parsing and execution
 	place to check for edge cases and conversion
