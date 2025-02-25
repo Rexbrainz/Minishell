@@ -27,7 +27,7 @@ static void	should_exit(int update, t_commandlist *cmd)
 	}
 }
 
-static int	handling_number_or_not(t_commandlist *cmd, int update)
+static int	handling_number_or_not(t_commandlist *cmd)
 {
 	int	cc;
 
@@ -45,12 +45,11 @@ static int	handling_number_or_not(t_commandlist *cmd, int update)
 		cc++;
 	}
 	cmd->env->exit_status = ft_atoi(cmd->cmd[1]);
-	return (should_exit(update, cmd), cmd->env->exit_status);
+	return (should_exit(NO_REDIRECTION, cmd), cmd->env->exit_status);
 }
 
 int	ft_exit(t_commandlist *cmd, int update)
 {
-	should_we_print(update);
 	if (cmd->cmd[1] != NULL)
 	{
 		if (cmd->cmd[2] != NULL)
@@ -62,7 +61,7 @@ int	ft_exit(t_commandlist *cmd, int update)
 			return (cmd->env->exit_status);
 		}
 		else
-			return (handling_number_or_not(cmd, update));
+			return (handling_number_or_not(cmd));
 	}
 	else
 	{
