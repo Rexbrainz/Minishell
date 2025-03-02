@@ -31,3 +31,9 @@ As always everything starts in main, but here you should go first over the heade
 Project was written in accordance with 42 NORM but handles some of the things outside of minishell project:
 - unclosed single and double quotes, plus delimiters ('|', '&&', '||') at the end
 - input with the '\\' sign asking for more input
+
+To run the project:
+- git clone [repo link]
+- cd [into cloned folder]
+- make
+- ./minishell
