@@ -15,6 +15,10 @@
 
 extern volatile sig_atomic_t	g_sigint_detected;
 
+/*
+		All the types of input to be identified
+	a way to communicate between parsing & execution
+*/
 typedef enum e_types
 {
 	NO_REDIRECTION = -1,
@@ -42,21 +46,21 @@ typedef enum e_types
 	NOTHING
 }	t_type;
 
-typedef struct s_envlist
+typedef struct s_envlist // char **env into a list
 {
 	char				*key;
 	char				*value;
-	struct s_envlist	*next;	
+	struct s_envlist	*next;
 }	t_envlist;
 
-typedef struct s_env
+typedef struct s_env // Controling struct for env
 {
-	pid_t		pid;
+	pid_t		pid; // extra information put here for easy access
 	int			size;
-	int			shlvl;
+	int			shlvl; // help to handle an edge case
 	t_envlist	*head;
 	t_envlist	*tail;
-	int			exit_status;
+	int			exit_status; // same as for pid above
 }	t_env;
 
 #endif
