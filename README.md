@@ -1,5 +1,4 @@
-#MINISHELL
-Simple shell, built after bash, a group project by: @Rexbrainz and @Thopterek
+#Simple shell, built after bash, a group project by: @Rexbrainz and @Thopterek
 -
 
 
