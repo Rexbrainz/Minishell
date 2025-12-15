@@ -1,10 +1,10 @@
 # MINISHELL
-A simple shell, built after bash, a group project by: @Rexbrainz and @Thopterek
+A simple shell, built after bash, a group project by: <strong>[@Rexbrainz](https://github.com/Rexbrainz)</strong> and <strong>[@Thopterek](https://github.com/Thopterek)</strong>
 
 
 Work was divided into two main parts and you can see it also by style in which code was written:
-- Parsing and signals by @Rexbrainz
-- Execution and builtins by @Thopterek
+- Parsing and signals by [@Rexbrainz](https://github.com/Rexbrainz)
+- Execution and builtins by [@Thopterek](https://github.com/Thopterek)
 - Of course in some points its interconnected
 
 <img width="375" alt="Structure" src="https://github.com/user-attachments/assets/2fd65da9-fa1f-4d82-9a9a-b4258dd8b9ab" />
